@@ -3,7 +3,7 @@ package com.abb.e7
 import groovy.json.JsonBuilder
 
 
-class MWHeatRatePairs {
+class MWHeatRatePair {
 
   def mwHRPoints
   def mw1 = 75

@@ -8,7 +8,7 @@ class E7TemplateJSON {
   def unitCharacteristic = new UnitCharacteristic()
   def inputData
   def PeriodsData = new PeriodsData()
-  def mwHRPoints = new MWHeatRatePairs()
+//  def mwHRPoints = new MWHeatRatePair()
 
   private def builder = new JsonBuilder()
 
@@ -24,7 +24,7 @@ class E7TemplateJSON {
 
 
              def firstPeriod = PeriodsData.buildInputJSON()
-             'PeriodsData' (firstPeriod, "null") //should find how have [] without null value
+             'PeriodsData' ([firstPeriod]) //should find how have [] without null value
 
 
            }]

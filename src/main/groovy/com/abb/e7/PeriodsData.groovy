@@ -4,15 +4,9 @@ import groovy.json.JsonBuilder
 
 class PeriodsData {
 
-  def mwHRPoints = new MWHeatRatePairs()
-  def mw1 = 75
-  def mw2 = 150
-  def mw3 = 225
-  def mw4 = 300
-  def hr1 = 8000
-  def hr2 = 8300
-  def hr3 = 8600
-  def hr4 = 9200
+  def mwHRPoint
+  def mw = [75, 150, 225, 300]
+  def hr = [8000, 8300, 8600, 9200]
   def data = "2016-03-07T08:00:00.000Z"
   def incMinCap = 75
   def incMaxCap = 300
@@ -36,28 +30,28 @@ class PeriodsData {
       'Period' data
       'MinCapacity' incMinCap
       'MaxCapacity' incMaxCap
+//
+//      def HRP = mwHRPoints.buildInputJSON()
+//      'MWHeatRatePair' HRP
 
-      def HRP = mwHRPoints.buildInputJSON()
-      'MWHeatRatePairs' HRP
-
-//      'MWHeatRatePairs' mwHRPoints = [
-//          {
-//            'MWPoint' mw1
-//            'HeatRate' hr1
-//          },
-//          {
-//            'MWPoint' mw2
-//            'HeatRate' hr2
-//          },
-//          {
-//            'MWPoint' mw3
-//            'HeatRate' hr3
-//          },
-//          {
-//            'MWPoint' mw4
-//            'HeatRate' hr4
-//          }
-//      ]
+      'MWHeatRatePairs' mwHRPoint = [
+          {
+            'MWPoint' mw[0]
+            'HeatRate' hr[0]
+          },
+          {
+            'MWPoint' mw[1]
+            'HeatRate' hr[1]
+          },
+          {
+            'MWPoint' mw[2]
+            'HeatRate' hr[2]
+          },
+          {
+            'MWPoint' mw[3]
+            'HeatRate' hr[3]
+          }
+      ]
       'IsAverageHeatRate' isAverageHeatRate
       'StartupCost' startUpCost
       'StartFuels' {

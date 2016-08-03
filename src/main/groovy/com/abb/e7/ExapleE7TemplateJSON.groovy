@@ -83,7 +83,7 @@ class ExapleE7TemplateJSON {
                   PeriodsData period
                   'MinCapacity' incMinCap
                   'MaxCapacity' incMaxCap
-                  'MWHeatRatePairs' mWHeatRatePairs = [
+                  MWHeatRatePair mWHeatRatePairs = [
                       {
                         'MWPoint' mw1
                         'HeatRate' hr1
