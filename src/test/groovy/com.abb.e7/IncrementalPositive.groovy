@@ -12,9 +12,6 @@ class IncrementalPositive {
     def unitCharacteristic = new UnitCharacteristic(
         minUpTime: 12
     )
-//    def heatRatePairs = new MWHeatRatePair(
-//
-//    )
     def periodsData = new PeriodsData(
 //        dvom: 2
     )
@@ -27,13 +24,6 @@ class IncrementalPositive {
 //        mwHRPoints: heatRatePairs
     )
     println json.buildInputJSON().toPrettyString()
-  }
-
-  @Test
-  public void HP() {
-    def json = new MWHeatRatePair()
-
-    println json.buildInputJSON()
   }
 
   @Test

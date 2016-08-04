@@ -8,7 +8,6 @@ class E7TemplateJSON {
   def unitCharacteristic = new UnitCharacteristic()
   def inputData
   def PeriodsData = new PeriodsData()
-//  def mwHRPoints = new MWHeatRatePair()
 
   private def builder = new JsonBuilder()
 

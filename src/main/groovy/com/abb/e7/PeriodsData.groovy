@@ -30,10 +30,6 @@ class PeriodsData {
       'Period' data
       'MinCapacity' incMinCap
       'MaxCapacity' incMaxCap
-//
-//      def HRP = mwHRPoints.buildInputJSON()
-//      'MWHeatRatePair' HRP
-
       'MWHeatRatePairs' mwHRPoint = [
           {
             'MWPoint' mw[0]
