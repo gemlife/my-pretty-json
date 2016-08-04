@@ -2,7 +2,7 @@ package com.abb.e7
 
 import groovy.json.JsonBuilder
 
-class E7GroovyJson {
+class StartingPoint {
 
     def firstName = 'Guillame'
     def lastName = 'Surname'
