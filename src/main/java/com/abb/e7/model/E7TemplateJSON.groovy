@@ -1,4 +1,4 @@
-package com.abb.e7
+package com.abb.e7.model
 
 import groovy.json.JsonBuilder
 
