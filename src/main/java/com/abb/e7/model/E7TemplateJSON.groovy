@@ -7,11 +7,12 @@ class E7TemplateJSON {
   def calculationsParameters = new CalculationsParameters()
   def unitCharacteristic = new UnitCharacteristic()
   def inputData
-  def PeriodsData = new PeriodsData()
+  def periodsData = new PeriodsData()
 
   private def builder = new JsonBuilder()
 
   def buildInputJSON() {
+//      println periodsData.startFuels.startFuelIDs
     return builder {
       def flags = calculationsParameters.buildInputJSON()
       'CalculationsParameters' flags
@@ -20,8 +21,8 @@ class E7TemplateJSON {
           [{
              def units = unitCharacteristic.buildInputJSON()
              'UnitCharacteristic' units
-             def firstPeriod = PeriodsData.buildInputJSON()
-             'PeriodsData' ([firstPeriod])
+             def firstPeriod = periodsData.buildInputJSON()
+             periodsData ([firstPeriod])
            }]
     } as JsonBuilder
   }

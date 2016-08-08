@@ -11,6 +11,7 @@ class SupplyCurveCalculationService {
             .populate(ApplicationProperties.class)
 
     static def post(JsonBuilder builder) {
+        println builder.toPrettyString()
         println config.getBaseUrl()
         Response response = RestAssured.given()
                 .contentType("application/json")
