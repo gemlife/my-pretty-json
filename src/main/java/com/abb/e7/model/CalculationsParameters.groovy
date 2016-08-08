@@ -14,6 +14,7 @@ class CalculationsParameters {
   def selfScheduledMW = false
   def priceZero = false
   def shiftPrices = true
+  def bidTacticSelfScheduledMW = false
 
   private def builder = new JsonBuilder()
 
@@ -28,6 +29,7 @@ class CalculationsParameters {
       'FirstBidHeatRate' firstBidHeatRate
       'SelfScheduledMW' selfScheduledMW
       'PriceZero' priceZero
+      'BidTacticSelfScheduledMW' bidTacticSelfScheduledMW
       'ShiftPrices' shiftPrices
     }
   }

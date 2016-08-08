@@ -10,24 +10,21 @@ import org.junit.Test
 
 class IncrementalPositiveTest {
 
-//  @Test
-//  public void Incremental() {
-//    def calculationsParams = new CalculationsParameters(
-//        includeStartupShutdownCost: true
-//    )
-//    def unitCharacteristic = new UnitCharacteristic(
-////        minUpTime: 12
-//    )
-//    def periodsData = new PeriodsData(
-//        dvom: 2
-//    )
-//    def json = new E7TemplateJSON(
-//        calculationsParameters: calculationsParams,
-//        unitCharacteristic: unitCharacteristic,
-//        PeriodsData: periodsData,
-//    )
-//    println json.buildInputJSON().toPrettyString()
-//  }
+  @Test
+  public void Incremental() {
+    def calculationsParams = new CalculationsParameters(
+    )
+    def unitCharacteristic = new UnitCharacteristic(
+    )
+    def periodsData = new PeriodsData(
+    )
+    def json = new E7TemplateJSON(
+        calculationsParameters: calculationsParams,
+        unitCharacteristic: unitCharacteristic,
+        PeriodsData: periodsData,
+    )
+    println json.buildInputJSON().toPrettyString()
+  }
 
   def e7TemplateJSON = new E7TemplateJSON()
   def inputJson = e7TemplateJSON.buildInputJSON()
