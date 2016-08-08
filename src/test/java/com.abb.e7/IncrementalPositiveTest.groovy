@@ -61,7 +61,7 @@ class IncrementalPositiveTest {
         def pricePatterns = [/^5[1-2]\.(\d+)/, /^53\.(\d+)/, /^5[6-7]\.(\d+)/, /^5[6-7]\.(\d+)/]
         def quantities = [/75\.0/, /150\.0/, /225\.0/, /300\.0/]
 
-        String body = SupplyCurveCalculationService.post(inputJson)
+        String body = SupplyCurveCalculationService.postWithLogging(inputJson)
         def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
         def quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
         println priceArray
