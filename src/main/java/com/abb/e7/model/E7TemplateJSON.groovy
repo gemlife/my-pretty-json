@@ -20,12 +20,8 @@ class E7TemplateJSON {
           [{
              def units = unitCharacteristic.buildInputJSON()
              'UnitCharacteristic' units
-
-
              def firstPeriod = PeriodsData.buildInputJSON()
-             'PeriodsData' ([firstPeriod]) //should find how have [] without null value
-
-
+             'PeriodsData' ([firstPeriod])
            }]
     } as JsonBuilder
   }
