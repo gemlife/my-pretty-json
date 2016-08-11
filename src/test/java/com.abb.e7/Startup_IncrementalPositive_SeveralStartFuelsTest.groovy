@@ -5,30 +5,29 @@ import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class IncrementalPositive_DecimalValuesWithDFCMAndHandlingCostTest {
-// with Handling cost and DFCM, using decimal values
+class Startup_IncrementalPositive_SeveralStartFuelsTest {
+// 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
+      includeStartupShutdownCost: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1"]
+      startFuelIDs: ["Fuel N1", "Fuel N2"],
+      startRatio: [0.6,0.4]
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
       regularRatio: [0.5,0.3,0.2],
       useMinCostFuel: false,
-      handlingCost: 2.005,
-      dfcm: 1.103,
+      dfcm: 1.0,
   )
   def periodsData = new PeriodsData(
       startFuels: startFuels,
       fuels: fuels,
-      incMaxCap: 299.001,
-      incMinCap: 73.999,
   )
   def json = new E7TemplateJSON(
       calculationsParameters: calculationsParams,
@@ -40,8 +39,8 @@ class IncrementalPositive_DecimalValuesWithDFCMAndHandlingCostTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[2-3]\.(\d+)/, /^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^5[7-8]\.(\d+)/]
-    def quantities = [/73\.(\d+)/, /150\.0/, /225\.0/, /299\.(\d+)/]
+    def pricePatterns = [/^4[6-7]\.(\d+)/, /^4[7-8]\.(\d+)/, /^5[0-1]\.(\d+)/, /^5[0-1]\.(\d+)/]
+    def quantities = [/75\.0/, /150\.0/, /225\.0/, /300\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

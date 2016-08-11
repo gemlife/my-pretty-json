@@ -3,7 +3,7 @@ package com.abb.e7
 import com.abb.e7.model.*
 import org.junit.Test
 
-class BidLibraryTest {
+class _BidLibraryTest {
 
   @Test
   public void BidLibrary() {
