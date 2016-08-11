@@ -3,7 +3,7 @@ package com.abb.e7.model
 import groovy.json.JsonBuilder
 
 class FuelsInputData {
-    def fuelIDs = ["Fuel NG1", "Fuel NG2", "Fuel NG3"]
+    def fuelIDs = ["Fuel N1", "Fuel N2", "Fuel N3"]
     def regularRatio = null
     def useMinCostFuel = true
     def handlingCost = 0.0
