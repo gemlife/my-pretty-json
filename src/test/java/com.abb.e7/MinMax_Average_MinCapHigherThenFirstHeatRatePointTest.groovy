@@ -5,8 +5,8 @@ import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
-// with Handling cost and DFCM, using decimal values
+class MinMax_Average_MinCapHigherThenFirstHeatRatePointTest {
+// 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
@@ -21,14 +21,14 @@ class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
       fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
       regularRatio: [0.5,0.3,0.2],
       useMinCostFuel: false,
-      handlingCost: 2.005,
-      dfcm: 1.103,
+      dfcm: 1.1,
+      handlingCost: 2.0,
+
   )
   def periodsData = new PeriodsData(
       startFuels: startFuels,
       fuels: fuels,
-      incMaxCap: 299.001,
-      incMinCap: 73.999,
+      incMinCap: 100,
       isAverageHeatRate: true,
   )
   def json = new E7TemplateJSON(
@@ -42,7 +42,7 @@ class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
   @Test
   public void post() {
     def pricePatterns = [/^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^6[8-9]\.(\d+)/, /^6[8-9]\.(\d+)/]
-    def quantities = [/73\.(\d+)/, /150\.0/, /225\.0/, /299\.(\d+)/]
+    def quantities = [/100\.0/, /150\.0/, /225\.0/, /300\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

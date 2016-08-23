@@ -12,7 +12,7 @@ class AveragePositive_SeveralRegularFuelsWithRatioTest {
       includeDVOM: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]

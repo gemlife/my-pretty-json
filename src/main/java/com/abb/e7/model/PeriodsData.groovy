@@ -17,6 +17,8 @@ class PeriodsData {
   def bidAdder = 0.0
   def bidMultiplier = 1.0
   def startUpCost = 5000.0
+  def startupCostAdder = 0.0
+  def startupCostMultiplier = 1.0
   def shutDownCost = 300.0
   def startFuels = new StartFuelsIDs()
   def vomCost = 3.0
@@ -41,6 +43,8 @@ class PeriodsData {
       'BidAdder' bidAdder
       'BidMultiplier' bidMultiplier
       'StartupCost' startUpCost
+      'StartupCostAdder' startupCostAdder
+      'StartupCostMultiplier' startupCostMultiplier
       'ShutDownCost' shutDownCost
       'StartFuels' startFuels.buildInputJSON()
       'VomCost' vomCost

@@ -5,31 +5,35 @@ import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
-// with Handling cost and DFCM, using decimal values
+class AveragePositive_WithAllPosibleParametersTest {
+// 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: true,
-      includeDVOM: true,
+      includeStartupShutdownCost: true,
+      shiftPrices: false,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1"]
+      startFuelIDs: ["Fuel N1","Fuel N2"],
+      startRatio: [0.5,0.3],
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
       regularRatio: [0.5,0.3,0.2],
       useMinCostFuel: false,
-      handlingCost: 2.005,
-      dfcm: 1.103,
+      handlingCost: 2.0,
+      dfcm: 1.1,
   )
   def periodsData = new PeriodsData(
       startFuels: startFuels,
       fuels: fuels,
-      incMaxCap: 299.001,
-      incMinCap: 73.999,
       isAverageHeatRate: true,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostMultiplier: 1.4,
+      startupCostAdder: 100,
+      shutDownCost: 300,
   )
   def json = new E7TemplateJSON(
       calculationsParameters: calculationsParams,
@@ -41,8 +45,8 @@ class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^6[8-9]\.(\d+)/, /^6[8-9]\.(\d+)/]
-    def quantities = [/73\.(\d+)/, /150\.0/, /225\.0/, /299\.(\d+)/]
+    def pricePatterns = [/^11[8-9]\.(\d+)/, /^12[2-3]\.(\d+)/, /^12[7-8]\.(\d+)/, /^14[0-1]\.(\d+)/]
+    def quantities = [/75\.0/, /150\.0/, /225\.0/, /300\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

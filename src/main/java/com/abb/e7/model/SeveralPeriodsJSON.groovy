@@ -1,0 +1,29 @@
+package com.abb.e7.model
+
+import groovy.json.JsonBuilder
+
+class SeveralPeriodsJSON {
+
+  def calculationsParameters = new CalculationsParameters()
+  def unitCharacteristic = new UnitCharacteristic()
+  def inputData
+  def periodsData = new PeriodsData()
+
+  private def builder = new JsonBuilder()
+
+  def buildInputJSON() {
+    return builder {
+      def flags = calculationsParameters.buildInputJSON()
+      'CalculationsParameters' flags
+
+      "InputData" inputData =
+          [{
+             def units = unitCharacteristic.buildInputJSON()
+             'UnitCharacteristic' units
+             def firstPeriod = periodsData.buildInputJSON()
+             def secondPeriod = periodsData.buildInputJSON()
+             'PeriodsData'([firstPeriod, secondPeriod])
+k           }]
+    } as JsonBuilder
+  }
+}

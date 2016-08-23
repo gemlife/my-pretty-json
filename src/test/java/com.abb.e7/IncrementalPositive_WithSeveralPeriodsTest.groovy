@@ -5,44 +5,52 @@ import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
-// with Handling cost and DFCM, using decimal values
+class IncrementalPositive_WithSeveralPeriodsTest {
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: true,
-      includeDVOM: true,
+      includeStartupShutdownCost: true,
+      shiftPrices: false,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1"]
+      startFuelIDs: ["Fuel N1", "Fuel N2"],
+      startRatio: [0.5, 0.3],
   )
   def fuels = new FuelsInputData(
-      fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
-      regularRatio: [0.5,0.3,0.2],
+      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      regularRatio: [0.5, 0.3, 0.2],
       useMinCostFuel: false,
-      handlingCost: 2.005,
-      dfcm: 1.103,
+      handlingCost: 2.0,
+      dfcm: 1.1,
   )
+  def firstPeriod
+  def secondPeriod
   def periodsData = new PeriodsData(
+//      firstPeriod.dateOfPeriod = "Olya",
+//      secondPeriod.dateOfPeriod = "Tolya",
       startFuels: startFuels,
       fuels: fuels,
-      incMaxCap: 299.001,
-      incMinCap: 73.999,
-      isAverageHeatRate: true,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostMultiplier: 1.4,
+      startupCostAdder: 100,
+      shutDownCost: 300,
+//      dateOfPeriod: ,
+
   )
-  def json = new E7TemplateJSON(
+  def json = new SeveralPeriodsJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsData: periodsData,
+      periodsData: periodsData
   )
 
   def inputJson = json.buildInputJSON()
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^6[8-9]\.(\d+)/, /^6[8-9]\.(\d+)/]
-    def quantities = [/73\.(\d+)/, /150\.0/, /225\.0/, /299\.(\d+)/]
+    def pricePatterns = [/^11[8-9]\.(\d+)/, /^12[0-1]\.(\d+)/, /^12[2-3]\.(\d+)/, /^12[7-8]\.(\d+)/]
+    def quantities = [/75\.0/, /150\.0/, /225\.0/, /300\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
