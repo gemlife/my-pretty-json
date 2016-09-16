@@ -2,9 +2,9 @@ package com.abb.e7
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationsParameters
-import com.abb.e7.model.E7TemplateJSON
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData
+import com.abb.e7.model.InputJSONWithSinglePeriods
+import com.abb.e7.model.PeriodsDataFirst
 import com.abb.e7.model.StartFuelsIDs
 import com.abb.e7.model.UnitCharacteristic
 import io.restassured.path.json.JsonPath
@@ -28,11 +28,11 @@ class IncrementalPositive_SeveralRegularFuelsWithRatioTest {
       useMinCostFuel: false,
       dfcm: 1.0,
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

@@ -5,6 +5,7 @@ import groovy.json.JsonBuilder
 class UnitCharacteristic {
 
   def incName = "Copernicus GT"
+  def marketID = '03245443124542523'
   def incID = 1
   def minUpTime = 24
   def sCRuntimeFactor = 1
@@ -14,9 +15,10 @@ class UnitCharacteristic {
 
   private def builder = new JsonBuilder()
 
-  def buildInputJSON() {
+  def buildUCInputJSON() {
     return builder {
       'Name' incName
+      'MarketId' marketID
       'Id' incID
       'MinUpTime' minUpTime
       'SCRuntimeFactor' sCRuntimeFactor

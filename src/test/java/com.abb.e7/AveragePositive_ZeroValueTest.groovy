@@ -23,13 +23,13 @@ class AveragePositive_ZeroValueTest {
       useMinCostFuel: false,
       dfcm: 1.0,
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
       incMinCap: 0,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

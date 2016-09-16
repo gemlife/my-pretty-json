@@ -26,12 +26,12 @@ class _ud_it_IncrementalPositive_OneRegularFuelWithoutRatioTest {
 //      fuelNameArray: "Fuel N1",
 //      priceArray: 4.5,
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
       fuelsData: regularFuelsData,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

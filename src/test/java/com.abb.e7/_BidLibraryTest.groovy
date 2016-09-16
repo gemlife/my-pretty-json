@@ -14,7 +14,7 @@ class _BidLibraryTest {
     def startFuels = new StartFuelsIDs(
         startFuelIDs: ["Fuel N2"]
     )
-    def periodsData = new PeriodsData(
+    def periodsData = new PeriodsDataFirst(
         startFuels: startFuels,
     )
     def bidLibrary = new BidLibraryPeriodsData(
@@ -40,17 +40,17 @@ class _BidLibraryTest {
 //  def startFuels = new StartFuelsIDs(
 //      startFuelIDs: ["Fuel N2"]
 //  )
-//  def periodsData = new PeriodsData(
+//  def periodsData = new PeriodsDataFirst(
 //      startFuels: startFuels
 //
 //  )
-//  def json = new E7TemplateJSON(
+//  def json = new InputJSONWithSinglePeriods(
 //      calculationsParameters: calculationsParams,
 //      unitCharacteristic: unitCharacteristic,
 //      periodsData: periodsData,
 //  )
 //
-//  def inputJson = json.buildInputJSON()
+//  def inputJson = json.buildSPInputJSON()
 
 //  @Test
 //  public void BidLibraryPost() {

@@ -21,11 +21,11 @@ class IncrementalPositive_WithoutRegularRatioTest {
       fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
       regularRatio: null,
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

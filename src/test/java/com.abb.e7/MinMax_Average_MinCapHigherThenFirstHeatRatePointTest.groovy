@@ -25,13 +25,13 @@ class MinMax_Average_MinCapHigherThenFirstHeatRatePointTest {
       handlingCost: 2.0,
 
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
       incMinCap: 100,
       isAverageHeatRate: true,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

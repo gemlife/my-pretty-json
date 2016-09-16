@@ -2,9 +2,9 @@ package com.abb.e7.model
 
 import groovy.json.JsonBuilder
 
-class PeriodsData {
+class PeriodsDataSecond {
 
-  def dateOfPeriod = "2016-07-28T01:00:00"
+  def dateOfPeriod = "2016-03-07T09:00:00.000Z"
   def fixedCommitmentType = 'Economic'
   def incMinCap = 75.0
   def incMaxCap = 300.0
@@ -28,7 +28,7 @@ class PeriodsData {
 
   private def builder = new JsonBuilder()
 
-  def buildInputJSON() {
+  def buildPRInputJSON() {
     return builder {
       'Period' dateOfPeriod
       'FixedCommitmentType' fixedCommitmentType

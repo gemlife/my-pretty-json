@@ -24,14 +24,14 @@ class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
       handlingCost: 2.005,
       dfcm: 1.103,
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
       incMaxCap: 299.001,
       incMinCap: 73.999,
       isAverageHeatRate: true,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

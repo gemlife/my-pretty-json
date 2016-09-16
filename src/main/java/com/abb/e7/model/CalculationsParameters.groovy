@@ -18,7 +18,7 @@ class CalculationsParameters {
 
   private def builder = new JsonBuilder()
 
-  def buildInputJSON() {
+  def buildCPInputJSON() {
     return builder {
       'IncludeStartupShutdownCost' includeStartupShutdownCost
       'IncludeDVOM' includeDVOM

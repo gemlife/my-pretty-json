@@ -25,14 +25,14 @@ class MinMax_Average_MaxCapAndMinCapChangedTest {
       handlingCost: 2.0,
 
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
       incMaxCap: 450,
       incMinCap: 50,
       isAverageHeatRate: true,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

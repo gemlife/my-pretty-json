@@ -25,7 +25,7 @@ class IncrementalPositive_WithAllPosibleParametersTest {
       handlingCost: 2.0,
       dfcm: 1.1,
   )
-  def periodsData = new PeriodsData(
+  def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
       bidAdder: 0.5,
@@ -34,7 +34,7 @@ class IncrementalPositive_WithAllPosibleParametersTest {
       startupCostAdder: 100,
       shutDownCost: 300,
   )
-  def json = new E7TemplateJSON(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: periodsData,

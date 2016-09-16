@@ -7,22 +7,22 @@ class E7TemplateJSONBidLibrary {
   def calculationsParameters = new CalculationsParameters()
   def unitCharacteristic = new UnitCharacteristic()
   def inputData
-  def periodsData = new PeriodsData()
+  def periodsData = new PeriodsDataFirst()
   def bidLibrary = new BidLibraryPeriodsData()
 
   private def builder = new JsonBuilder()
 
   def buildInputJSON() {
     return builder {
-      def flags = calculationsParameters.buildInputJSON()
+      def flags = calculationsParameters.buildCPInputJSON()
       'CalculationsParameters' flags
 
       "InputData" inputData =
           [{
-             def units = unitCharacteristic.buildInputJSON()
+             def units = unitCharacteristic.buildUCInputJSON()
              'UnitCharacteristic' units
-             def firstPeriod = periodsData.buildInputJSON()
-             'PeriodsData'([firstPeriod])
+             def firstPeriod = periodsData.buildPRInputJSON()
+             PeriodsDataFirst([firstPeriod])
              def bidLibraryPeriod = bidLibrary.buildInputJSON()
              'BidLibraryPeriodsData' bidLibraryPeriod
            }]

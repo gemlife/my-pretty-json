@@ -7,26 +7,29 @@ class _InputJsonTest {
 
   @Test
   public void InputJson() {
-    def calculationsParams = new CalculationsParameters(
+
+
+        def calculationsParams = new CalculationsParameters(
     )
-    def unitCharacteristic = new UnitCharacteristic(
+        def unitCharacteristic = new UnitCharacteristic(
     )
     def startFuels = new StartFuelsIDs(
         startFuelIDs: ["Fuel N2"]
     )
-    def periodsData = new PeriodsData(
+    def periodsData = new PeriodsDataFirst(
         startFuels: startFuels,
     )
-    def bidLibrary = new BidLibraryPeriodsData(
-        bidLibraryPeriod: "2016-07-28T00:00:00",
-        bidLibraryPrice: 25,
-        bidLibraryVolume: 150
-    )
-    def json = new E7TemplateJSON(
+//    def bidLibrary = new BidLibraryPeriodsData(
+//        bidLibraryPeriod: "2016-07-28T00:00:00",
+//        bidLibraryPrice: 25,
+//        bidLibraryVolume: 150
+//    )
+    def json = new InputJSONWithSinglePeriods(
+//        marketProduct: marketProduct,
         calculationsParameters: calculationsParams,
         unitCharacteristic: unitCharacteristic,
         periodsData: periodsData,
-        bidLibrary: bidLibrary
+//        bidLibrary: bidLibrary
     )
     println json.buildInputJSON().toPrettyString()
   }
