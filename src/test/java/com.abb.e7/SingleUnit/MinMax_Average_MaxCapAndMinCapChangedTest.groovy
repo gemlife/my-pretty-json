@@ -1,11 +1,11 @@
-package com.abb.e7
+package com.abb.e7.SingleUnit
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class AveragePositive_WithoutRegularRatioTest {
+class MinMax_Average_MaxCapAndMinCapChangedTest {
 // 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
@@ -19,10 +19,17 @@ class AveragePositive_WithoutRegularRatioTest {
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
+      regularRatio: [0.5,0.3,0.2],
+      useMinCostFuel: false,
+      dfcm: 1.1,
+      handlingCost: 2.0,
+
   )
   def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
+      incMaxCap: 450,
+      incMinCap: 50,
       isAverageHeatRate: true,
   )
   def json = new InputJSONWithSinglePeriods(
@@ -35,8 +42,8 @@ class AveragePositive_WithoutRegularRatioTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^4[1-2]\.(\d+)/, /^4[4-5]\.(\d+)/, /^5[2-3]\.(\d+)/, /^5[2-3]\.(\d+)/]
-    def quantities = [/75\.0/, /150\.0/, /225\.0/, /300\.0/]
+    def pricePatterns = [/^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^8[8-9]\.(\d+)/, /^8[8-9]\.(\d+)/]
+    def quantities = [/50\.0/, /150\.0/, /225\.0/, /450\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

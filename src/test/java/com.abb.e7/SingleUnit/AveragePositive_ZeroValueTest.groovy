@@ -1,4 +1,4 @@
-package com.abb.e7
+package com.abb.e7.SingleUnit
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*

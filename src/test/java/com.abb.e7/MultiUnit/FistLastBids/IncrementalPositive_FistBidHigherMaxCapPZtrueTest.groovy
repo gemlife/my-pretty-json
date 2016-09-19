@@ -1,4 +1,4 @@
-package com.abb.e7
+package com.abb.e7.MultiUnit.FistLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,7 +7,7 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_Test {
+class IncrementalPositive_FistBidHigherMaxCapPZtrueTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
@@ -57,7 +57,7 @@ class IncrementalPositive_Test {
   @Test
   public void post() {
 
-    def pricePatterns = [/^52\.6(\d+)/, /^54\.3(\d+)/, /^57\.8(\d+)/, /^57\.8(\d+)/]
+    List<Pattern> pricePatterns = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
     List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
@@ -74,6 +74,14 @@ class IncrementalPositive_Test {
         def appropriateQuantity = quantityPatterns.get(j)
         def currentQuantity = currentQuantityBlock.get(j).toString()
         assert currentQuantity.matches(appropriateQuantity)
+      }
+    }
+    for (def i = 0; i < pricePatterns.size() - 1; i++) {
+      List<String> currentPriceBlock = priceArray.get(i)
+      for (def j = 0; j < currentPriceBlock.size(); j++) {
+        def appropriatePrice = pricePatterns.get(j)
+        def currentPrice = currentPriceBlock.get(j).toString()
+        assert currentPrice.matches(appropriatePrice)
       }
     }
   }

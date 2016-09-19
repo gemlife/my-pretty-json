@@ -1,11 +1,11 @@
-package com.abb.e7
+package com.abb.e7.SingleUnit
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class MinMax_Average_MinCapBetweenThirdAndSecondHeatRatePointsTest {
+class MinMax_Average_MaxCapHigherThenLastHeatRatePointTest {
 // 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
@@ -28,7 +28,7 @@ class MinMax_Average_MinCapBetweenThirdAndSecondHeatRatePointsTest {
   def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
-      incMinCap: 175,
+      incMaxCap: 350,
       isAverageHeatRate: true,
   )
   def json = new InputJSONWithSinglePeriods(
@@ -41,8 +41,8 @@ class MinMax_Average_MinCapBetweenThirdAndSecondHeatRatePointsTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[7-8]\.(\d+)/, /^6[8-9]\.(\d+)/, /^6[8-9]\.(\d+)/]
-    def quantities = [/175\.0/, /225\.0/, /300\.0/]
+    def pricePatterns = [/^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^7[4-5]\.(\d+)/, /^7[4-5]\.(\d+)/]
+    def quantities = [/75\.0/, /150\.0/, /225\.0/, /350\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

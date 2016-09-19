@@ -1,18 +1,18 @@
-package com.abb.e7
+package com.abb.e7.SingleUnit
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class IncrementalPositive_DecimalValuesWithDFCMAndHandlingCostTest {
+class AveragePositive_DecimalValuesWithDFCMAndHandlingCostTest {
 // with Handling cost and DFCM, using decimal values
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]
@@ -29,6 +29,7 @@ class IncrementalPositive_DecimalValuesWithDFCMAndHandlingCostTest {
       fuels: fuels,
       incMaxCap: 299.001,
       incMinCap: 73.999,
+      isAverageHeatRate: true,
   )
   def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
@@ -40,7 +41,7 @@ class IncrementalPositive_DecimalValuesWithDFCMAndHandlingCostTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[2-3]\.(\d+)/, /^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^5[7-8]\.(\d+)/]
+    def pricePatterns = [/^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^6[8-9]\.(\d+)/, /^6[8-9]\.(\d+)/]
     def quantities = [/73\.(\d+)/, /150\.0/, /225\.0/, /299\.(\d+)/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
