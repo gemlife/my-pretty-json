@@ -11,6 +11,7 @@ class CalculationsParameters {
   def incrementalQuantities = false
   def incrementalPrices = true
   def firstBidHeatRate = false
+  def lastBidHeatRate = false
   def selfScheduledMW = false
   def priceZero = false
   def shiftPrices = true
@@ -27,6 +28,7 @@ class CalculationsParameters {
       'IncrementalQuantities' incrementalQuantities
       'IncrementalPrices' incrementalPrices
       'FirstBidHeatRate' firstBidHeatRate
+      'LastBidHeatRate' lastBidHeatRate
       'SelfScheduledMW' selfScheduledMW
       'PriceZero' priceZero
       'BidTacticSelfScheduledMW' bidTacticSelfScheduledMW

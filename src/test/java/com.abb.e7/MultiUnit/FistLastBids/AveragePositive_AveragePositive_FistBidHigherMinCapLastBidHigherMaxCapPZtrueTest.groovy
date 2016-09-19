@@ -7,13 +7,14 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_FistBidHigherMaxCapPZtrueTest {
+class AveragePositive_AveragePositive_FistBidHigherMinCapLastBidHigherMaxCapPZtrueTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
       firstBidHeatRate: true,
-      priceZero: true
+      priceZero: true,
+      lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
@@ -29,19 +30,22 @@ class IncrementalPositive_FistBidHigherMaxCapPZtrueTest {
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 100,
-      incMaxCap: 300,
-      fuels: fuels
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels,
+      isAverageHeatRate: true
   )
   def secondPariod = new PeriodsDataSecond(
-      incMinCap: 100,
-      incMaxCap: 300,
-      fuels: fuels
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels,
+      isAverageHeatRate: true
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 100,
-      incMaxCap: 300,
-      fuels: fuels
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels,
+      isAverageHeatRate: true
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -57,7 +61,7 @@ class IncrementalPositive_FistBidHigherMaxCapPZtrueTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
+    List<Pattern> pricePatterns = ["^54\\.3(\\d+)","^57\\.8(\\d+)","^68\\.1(\\d+)","^68\\.1(\\d+)"]
     List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
