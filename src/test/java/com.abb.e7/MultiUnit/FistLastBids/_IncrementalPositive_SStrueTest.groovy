@@ -5,6 +5,8 @@ import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
+import java.util.regex.Pattern
+
 class _IncrementalPositive_SStrueTest {
 
   def calculationsParams = new CalculationsParameters(
@@ -59,7 +61,7 @@ class _IncrementalPositive_SStrueTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
+    def pricePatternsFistBlock = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"] as List<Pattern>
     def pricePatternsSecondBlock = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
     def pricePatternsThirdBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
     def quantityPatternsFirstBlock = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
@@ -82,50 +84,46 @@ class _IncrementalPositive_SStrueTest {
 //    quantityArrayThirdBlock = extractUnderlyingList(quantityArrayThirdBlock)
 
     println priceArrayFirstBlock
-    println priceArraySecondBlock
-    println priceArrayThirdBlock
     println quantityArrayFirstBlock
-    println quantityArraySecondBlock
-    println quantityArrayThirdBlock
 
-    for (def i = 0; i < pricePatternsFistBlock.size()-1; i++) {
-      def currentPrice = priceArrayFirstBlock.get(i).toString()
-      def appropriateRegex = pricePatternsFistBlock.get(i)
-      assert currentPrice.matches(appropriateRegex)
+    for (def j = 0; j < quantityPatternsFirstBlock.size(); j++) {
+      def appropriateQuantity = quantityPatternsFirstBlock.get(j)
+      def currentQuantity = quantityArrayFirstBlock.get(j).toString()
+      assert appropriateQuantity.matches(currentQuantity)
     }
 
-//    for (def i = 0; i < pricePatternsSecondBlock.size()-1; i++) {
+//    for (def i = 0; i < pricePatternsSecondBlock.size(); i++) {
 //      def currentPrice = priceArraySecondBlock.get(i).toString()
 //      def appropriateRegex = pricePatternsSecondBlock.get(i)
 //      assert currentPrice.matches(appropriateRegex)
 //    }
 
-//    for (def i = 0; i < priceArrayThirdBlock.size()-1; i++) {
+//    for (def i = 0; i < priceArrayThirdBlock.size(); i++) {
 //      def currentPrice = priceArrayThirdBlock.get(i).toString()
 //      def appropriateRegex = pricePatternsThirdBlock.get(i)
 //      assert currentPrice.matches(appropriateRegex)
 //    }
-//    for (def i = 0; i < quantityPatternsFirstBlock.size()-1; i++) {
+//    for (def i = 0; i < quantityPatternsFirstBlock.size(); i++) {
 //      def currentQuantity = quantityArrayFirstBlock.get(i).toString()
 //      def appropriateQuantity = quantityPatternsFirstBlock.get(i)
 //      assert currentQuantity.matches(appropriateQuantity)
 //    }
-//    for (def i = 0; i < quantityPatternsSecondBlock.size()-1; i++) {
+//    for (def i = 0; i < quantityPatternsSecondBlock.size(); i++) {
 //      def currentQuantity = quantityArraySecondBlock.get(i).toString()
 //      def appropriateQuantity = quantityPatternsSecondBlock.get(i)
 //      assert currentQuantity.matches(appropriateQuantity)
 //    }
-//    for (def i = 0; i < quantityPatternsThirdBlock.size()-1; i++) {
+//    for (def i = 0; i < quantityPatternsThirdBlock.size(); i++) {
 //      def currentQuantity = quantityArrayThirdBlock.get(i).toString()
 //      def appropriateQuantity = quantityPatternsThirdBlock.get(i)
 //      assert currentQuantity.matches(appropriateQuantity)
 //    }
   }
 
-//  private static List<String> extractUnderlyingList(def price) {
-//    while (price.size() == 1) {
-//      price = price.get(0)
-//    }
-//    return price
-//  }
+  private static List<String> extractUnderlyingList(def price) {
+    while (price.size() == 0) {
+      price = price.get(0)
+    }
+    return price
+  }
 }

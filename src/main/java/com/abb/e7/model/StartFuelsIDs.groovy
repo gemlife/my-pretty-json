@@ -3,9 +3,9 @@ package com.abb.e7.model
 import groovy.json.JsonBuilder
 
 class StartFuelsIDs {
-    def startFuelIDs = ["Fuel N1", "Fuel N2", "Fuel N3"]
+    def startFuelIDs = ["Fuel N1"]
     def quantity = 1000.0
-    def startRatio
+    def startRatio = null
 
     private def builder = new JsonBuilder()
 
@@ -13,7 +13,7 @@ class StartFuelsIDs {
         return builder {
             'Ids' startFuelIDs
             'Quantity' quantity
-            'Ratio' startRatio
+            'Ratios' startRatio
         }
 
     }

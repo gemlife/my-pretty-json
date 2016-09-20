@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FistLastBids
+package com.abb.e7.MultiUnit.ShiftingPriceOption
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,52 +7,56 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_StartUpCostTrueTest {
+class IncrementalPositive_WithRatioShiftOptionFalseBidAdderBidMultiplierTest {
 
   def calculationsParams = new CalculationsParameters(
-      includeStartupShutdownCost: true,
-      shiftPrices: true,
+      shiftPrices: false,
       includeDVOM: true,
-      firstBidHeatRate: true,
-      lastBidHeatRate: true,
+      includeStartupShutdownCost: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1"]
+      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      startRatio: [0.5,0.3,0.2],
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      regularRatio: [0.5, 0.3, 0.2],
+      regularRatio: [0.5,0.3,0.2],
       useMinCostFuel: false,
-      handlingCost: 2.0,
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 50,
-      incMaxCap: 250,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
-      shutDownCost: 300.0,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startFuels: startFuels,
   )
-  def secondPariod = new PeriodsDataSecond(
-      incMinCap: 50,
-      incMaxCap: 250,
+  def secondPeriod = new PeriodsDataSecond(
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
-      shutDownCost: 300.0,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startFuels: startFuels,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 50,
-      incMaxCap: 250,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
-      shutDownCost: 300.0,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startFuels: startFuels,
   )
 
   def json = new InputJSONWithThreePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPariod,
+      periodsDataSecond: secondPeriod,
       periodsDataThird: thirdPeriod,
   )
 
@@ -61,19 +65,19 @@ class IncrementalPositive_StartUpCostTrueTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^65\\.7(\\d+)", "^67\\.4(\\d+)", "^70\\.8(\\d+)", "^70\\.8(\\d+)"] as List<Pattern>
-    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^78\\.6(\\d+)", "^80\\.8(\\d+)", "^83\\.0(\\d+)", "^87\\.5(\\d+)"]
+    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    List<String> priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
-    List<String> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
-    priceArray = extractUnderlyingList(priceArray) as List<String>
-    quantityArray = extractUnderlyingList(quantityArray) as List<String>
+    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
+    List<?> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
+    priceArray = extractUnderlyingList(priceArray)
+    quantityArray = extractUnderlyingList(quantityArray)
     println priceArray
     println quantityArray
 
     for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-      List<String> currentQuantityBlock = quantityArray.get(i) as List<String>
+      List<String> currentQuantityBlock = quantityArray.get(i)
       for (def j = 0; j < currentQuantityBlock.size(); j++) {
         def appropriateQuantity = quantityPatterns.get(j)
         def currentQuantity = currentQuantityBlock.get(j).toString()
@@ -81,7 +85,7 @@ class IncrementalPositive_StartUpCostTrueTest {
       }
     }
     for (def i = 0; i < pricePatterns.size() - 1; i++) {
-      List<String> currentPriceBlock = priceArray.get(i) as List<String>
+      List<String> currentPriceBlock = priceArray.get(i)
       for (def j = 0; j < currentPriceBlock.size(); j++) {
         def appropriatePrice = pricePatterns.get(j)
         def currentPrice = currentPriceBlock.get(j).toString()
@@ -91,7 +95,6 @@ class IncrementalPositive_StartUpCostTrueTest {
   }
 
   private static List<String> extractUnderlyingList(def price) {
-    System.out.println(price)
     while (price.size() == 1) {
       price = price.get(0)
     }

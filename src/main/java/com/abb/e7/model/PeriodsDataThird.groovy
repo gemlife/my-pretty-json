@@ -19,7 +19,7 @@ class PeriodsDataThird {
   def startUpCost = 5000.0
   def startupCostAdder = 0.0
   def startupCostMultiplier = 1.0
-  def shutDownCost = 300.0
+  def shutDownCost = 0.0
   def startFuels = new StartFuelsIDs()
   def vomCost = 3.0
   def dvom = 1.0
