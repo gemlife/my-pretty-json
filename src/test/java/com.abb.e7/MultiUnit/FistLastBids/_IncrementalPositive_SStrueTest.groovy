@@ -5,7 +5,7 @@ import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class IncrementalPositive_SStrueTest {
+class _IncrementalPositive_SStrueTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
@@ -122,10 +122,10 @@ class IncrementalPositive_SStrueTest {
 //    }
   }
 
-  private static List<String> extractUnderlyingList(def price) {
-    while (price.size() == 1) {
-      price = price.get(0)
-    }
-    return price
-  }
+//  private static List<String> extractUnderlyingList(def price) {
+//    while (price.size() == 1) {
+//      price = price.get(0)
+//    }
+//    return price
+//  }
 }
