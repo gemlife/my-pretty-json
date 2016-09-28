@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.ShiftingPriceOption
+package com.abb.e7.SingleUnit.ShiftingPriceOption
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*

@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FirstLastBids
+package com.abb.e7.SingleUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,12 +7,13 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_FistBidHigherMinCapLastBidHigherLastMaxCapTest {
+class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
       firstBidHeatRate: true,
+      priceZero: true,
       lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
@@ -29,18 +30,18 @@ class IncrementalPositive_FistBidHigherMinCapLastBidHigherLastMaxCapTest {
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 50,
-      incMaxCap: 250,
+      incMinCap: 100,
+      incMaxCap: 350,
       fuels: fuels
   )
   def secondPariod = new PeriodsDataSecond(
-      incMinCap: 50,
-      incMaxCap: 250,
+      incMinCap: 100,
+      incMaxCap: 350,
       fuels: fuels
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 50,
-      incMaxCap: 250,
+      incMinCap: 100,
+      incMaxCap: 350,
       fuels: fuels
   )
 

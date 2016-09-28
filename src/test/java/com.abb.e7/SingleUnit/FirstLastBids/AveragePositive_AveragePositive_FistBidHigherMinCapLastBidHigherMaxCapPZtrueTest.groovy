@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FirstLastBids
+package com.abb.e7.SingleUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*

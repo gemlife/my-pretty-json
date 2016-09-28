@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.StartupcostAdderStartupcostMultiplier
+package com.abb.e7.SingleUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,12 +7,11 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class AveragePositive_PriceZeroAndShiftOptionTrueTest {
+class AveragePositive_BidAdderBidMultiplierShutdownCostTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: true,
+      shiftPrices: false,
       includeStartupShutdownCost: true,
-      priceZero: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
@@ -77,7 +76,7 @@ class AveragePositive_PriceZeroAndShiftOptionTrueTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^85\\.9(\\d+)",  "^90\\.4(\\d+)", "^112\\.7(\\d+)", "^112\\.7(\\d+)"]
+    List<Pattern> pricePatterns = ["^79\\.9(\\d+)", "^85\\.9(\\d+)", "^90\\.4(\\d+)", "^112\\.7(\\d+)"]
     List<Pattern> quantityPatterns = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

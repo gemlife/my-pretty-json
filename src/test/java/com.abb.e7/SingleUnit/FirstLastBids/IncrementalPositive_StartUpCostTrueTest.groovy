@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.StartupcostAdderStartupcostMultiplier
+package com.abb.e7.SingleUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,67 +7,52 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class AveragePositive_BidAdderBidMultiplierShutdownCostTest {
+class IncrementalPositive_StartUpCostTrueTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: false,
       includeStartupShutdownCost: true,
+      shiftPrices: true,
+      includeDVOM: true,
+      firstBidHeatRate: true,
+      lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
-      minUpTime: 12,
   )
   def startFuels = new StartFuelsIDs(
+      startFuelIDs: ["Fuel N1"]
   )
   def fuels = new FuelsInputData(
+      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       regularRatio: [0.5, 0.3, 0.2],
       useMinCostFuel: false,
-      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      dfcm: 1.1,
       handlingCost: 2.0,
+      dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMaxCap: 350,
       incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
-      isAverageHeatRate: true,
+      incMaxCap: 250,
       fuels: fuels,
-      startFuels: startFuels,
+      shutDownCost: 300.0,
   )
-  def secondPeriod = new PeriodsDataSecond(
-      incMaxCap: 350,
+  def secondPariod = new PeriodsDataSecond(
       incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
-      isAverageHeatRate: true,
+      incMaxCap: 250,
       fuels: fuels,
-      startFuels: startFuels,
+      shutDownCost: 300.0,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMaxCap: 350,
       incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
-      isAverageHeatRate: true,
+      incMaxCap: 250,
       fuels: fuels,
-      startFuels: startFuels,
+      shutDownCost: 300.0,
   )
 
   def json = new InputJSONWithThreePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
+      periodsDataSecond: secondPariod,
       periodsDataThird: thirdPeriod,
   )
 
@@ -76,19 +61,19 @@ class AveragePositive_BidAdderBidMultiplierShutdownCostTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^79\\.9(\\d+)", "^85\\.9(\\d+)", "^90\\.4(\\d+)", "^112\\.7(\\d+)"]
-    List<Pattern> quantityPatterns = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
+    List<Pattern> pricePatterns = ["^65\\.7(\\d+)", "^67\\.4(\\d+)", "^70\\.8(\\d+)", "^70\\.8(\\d+)"] as List<Pattern>
+    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
-    List<?> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
-    priceArray = extractUnderlyingList(priceArray)
-    quantityArray = extractUnderlyingList(quantityArray)
+    List<String> priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
+    List<String> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
+    priceArray = extractUnderlyingList(priceArray) as List<String>
+    quantityArray = extractUnderlyingList(quantityArray) as List<String>
     println priceArray
     println quantityArray
 
     for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-      List<String> currentQuantityBlock = quantityArray.get(i)
+      List<String> currentQuantityBlock = quantityArray.get(i) as List<String>
       for (def j = 0; j < currentQuantityBlock.size(); j++) {
         def appropriateQuantity = quantityPatterns.get(j)
         def currentQuantity = currentQuantityBlock.get(j).toString()
@@ -96,7 +81,7 @@ class AveragePositive_BidAdderBidMultiplierShutdownCostTest {
       }
     }
     for (def i = 0; i < pricePatterns.size() - 1; i++) {
-      List<String> currentPriceBlock = priceArray.get(i)
+      List<String> currentPriceBlock = priceArray.get(i) as List<String>
       for (def j = 0; j < currentPriceBlock.size(); j++) {
         def appropriatePrice = pricePatterns.get(j)
         def currentPrice = currentPriceBlock.get(j).toString()
@@ -106,6 +91,7 @@ class AveragePositive_BidAdderBidMultiplierShutdownCostTest {
   }
 
   private static List<String> extractUnderlyingList(def price) {
+    System.out.println(price)
     while (price.size() == 1) {
       price = price.get(0)
     }

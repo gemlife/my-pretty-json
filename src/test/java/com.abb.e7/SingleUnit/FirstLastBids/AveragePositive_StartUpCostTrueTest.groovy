@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.StartupcostAdderStartupcostMultiplier
+package com.abb.e7.SingleUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,62 +7,49 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class AveragePositive_FirstAndLastBidTest {
+class AveragePositive_StartUpCostTrueTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: false,
-      includeStartupShutdownCost: true,
+      shiftPrices: true,
+      includeDVOM: true,
       firstBidHeatRate: true,
       lastBidHeatRate: true,
+      includeStartupShutdownCost: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
-      minUpTime: 12,
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
+      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      startRatio: [0.5, 0.3, 0.2],
   )
   def fuels = new FuelsInputData(
+      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       regularRatio: [0.5, 0.3, 0.2],
       useMinCostFuel: false,
-      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      handlingCost: 0.0,
       dfcm: 1.1,
-      handlingCost: 2.0,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMaxCap: 350,
-      incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
-      isAverageHeatRate: true,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
       startFuels: startFuels,
+      isAverageHeatRate: true,
   )
   def secondPeriod = new PeriodsDataSecond(
-      incMaxCap: 350,
-      incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
-      isAverageHeatRate: true,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
       startFuels: startFuels,
+      isAverageHeatRate: true
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMaxCap: 350,
-      incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
-      isAverageHeatRate: true,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
       startFuels: startFuels,
+      isAverageHeatRate: true
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -78,8 +65,8 @@ class AveragePositive_FirstAndLastBidTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^81\\.4(\\d+)", "^85\\.9(\\d+)", "^90\\.4(\\d+)", "^103\\.7(\\d+)"]
-    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
+    List<Pattern> pricePatterns = ["^63\\.5(\\d+)", "^66\\.9(\\d+)", "^77\\.2(\\d+)", "^77\\.2(\\d+)"] as List<Pattern>
+    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
@@ -90,7 +77,7 @@ class AveragePositive_FirstAndLastBidTest {
     println quantityArray
 
     for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-      List<String> currentQuantityBlock = quantityArray.get(i)
+      List<String> currentQuantityBlock = quantityArray.get(i) as List<String>
       for (def j = 0; j < currentQuantityBlock.size(); j++) {
         def appropriateQuantity = quantityPatterns.get(j)
         def currentQuantity = currentQuantityBlock.get(j).toString()
@@ -98,7 +85,7 @@ class AveragePositive_FirstAndLastBidTest {
       }
     }
     for (def i = 0; i < pricePatterns.size() - 1; i++) {
-      List<String> currentPriceBlock = priceArray.get(i)
+      List<String> currentPriceBlock = priceArray.get(i) as List<String>
       for (def j = 0; j < currentPriceBlock.size(); j++) {
         def appropriatePrice = pricePatterns.get(j)
         def currentPrice = currentPriceBlock.get(j).toString()

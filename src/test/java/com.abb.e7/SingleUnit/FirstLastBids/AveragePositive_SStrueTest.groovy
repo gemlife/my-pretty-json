@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.StartupcostAdderStartupcostMultiplier
+package com.abb.e7.SingleUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,13 +7,14 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_SStruePZtrueTest {
+class AveragePositive_SStrueTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
-      includeStartupShutdownCost: true,
+      includeDVOM: true,
+      firstBidHeatRate: true,
+      lastBidHeatRate: true,
       selfScheduledMW: true,
-      priceZero: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
@@ -29,40 +30,25 @@ class IncrementalPositive_SStruePZtrueTest {
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMaxCap: 350,
       incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
+      incMaxCap: 350,
       fuels: fuels,
-      startFuels: startFuels,
       generationPoint: 50,
+      isAverageHeatRate: true,
   )
   def secondPeriod = new PeriodsDataSecond(
-      incMaxCap: 350,
       incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
+      incMaxCap: 350,
       fuels: fuels,
-      startFuels: startFuels,
-      generationPoint: 300,
+      generationPoint: 80,
+      isAverageHeatRate: true,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMaxCap: 350,
       incMinCap: 50,
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-      startupCostAdder: 100,
-      startupCostMultiplier: 1.4,
-      shutDownCost: 300,
+      incMaxCap: 350,
       fuels: fuels,
-      startFuels: startFuels,
-      generationPoint: 400,
+      generationPoint: 150,
+      isAverageHeatRate: true,
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -72,18 +58,17 @@ class IncrementalPositive_SStruePZtrueTest {
       periodsDataSecond: secondPeriod,
       periodsDataThird: thirdPeriod,
   )
-
   def inputJson = json.buildSPInputJSON()
 
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["0.0", "^85\\.9(\\d+)", "^93\\.3(\\d+)", "^93\\.3(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["0.0", "^93\\.3(\\d+)"]
-    def pricePatternsThirdBlock = ["^93\\.3(\\d+)"]
-    def quantityPatternsFirstBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
-    def quantityPatternsSecondBlock = ["300\\.0", "350\\.0"]
-    def quantityPatternsThirdBlock = ["350\\.0"]
+    def pricePatternsFistBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"]
+    def pricePatternsThirdBlock = ["^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"]
+    def quantityPatternsFirstBlock = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
+    def quantityPatternsSecondBlock = ["80\\.0", "150\\.0", "225\\.0", "300\\.0"]
+    def quantityPatternsThirdBlock = ["150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")

@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FirstLastBids
+package com.abb.e7.SingleUnit.ShiftingPriceOption
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,48 +7,47 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class AveragePositive_WithRatioShiftOptionFalseTest {
+class AveragePositive_WithoutRatioShiftOptionFalseStartUpTrueTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: false,
       includeDVOM: true,
       includeStartupShutdownCost: true,
-      firstBidHeatRate: true,
-      lastBidHeatRate: true,
+      shiftPrices: false,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
+      minUpTime: 12,
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      startRatio: [0.5,0.3,0.2],
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      regularRatio: [0.5,0.3,0.2],
-      useMinCostFuel: false,
+      regularRatio: null,
+      useMinCostFuel: true,
       dfcm: 1.1,
+
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 50,
-      incMaxCap: 350,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
-      startFuels: startFuels,
       isAverageHeatRate: true,
+      shutDownCost: 300,
+
   )
   def secondPeriod = new PeriodsDataSecond(
-      incMinCap: 50,
-      incMaxCap: 350,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
-      startFuels: startFuels,
       isAverageHeatRate: true,
+      shutDownCost: 300,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 50,
-      incMaxCap: 350,
+      incMinCap: 75,
+      incMaxCap: 300,
       fuels: fuels,
-      startFuels: startFuels,
       isAverageHeatRate: true,
+      shutDownCost: 300,
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -64,7 +63,7 @@ class AveragePositive_WithRatioShiftOptionFalseTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^58\\.4(\\d+)", "^61\\.9(\\d+)", "^65\\.3(\\d+)", "^75\\.6(\\d+)"]
+    List<Pattern> pricePatterns = ["^53\\.4(\\d+)","^56\\.4(\\d+)","^59\\.4(\\d+)","^68\\.3(\\d+)"]
     List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

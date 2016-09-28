@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.StartupcostAdderStartupcostMultiplier
+package com.abb.e7.SingleUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,7 +7,7 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class AveragePositive_SStruePZtrueTest {
+class AveragePositive_SStruePZFalseTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,

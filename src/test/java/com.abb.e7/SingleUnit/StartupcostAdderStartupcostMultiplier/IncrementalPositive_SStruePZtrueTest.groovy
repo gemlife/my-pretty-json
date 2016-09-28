@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FirstLastBids
+package com.abb.e7.SingleUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,14 +7,13 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class _IncrementalPositive_SStrueTest {
+class IncrementalPositive_SStruePZtrueTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
-      includeDVOM: true,
-      firstBidHeatRate: true,
-      lastBidHeatRate: true,
+      includeStartupShutdownCost: true,
       selfScheduledMW: true,
+      priceZero: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
@@ -30,22 +29,40 @@ class _IncrementalPositive_SStrueTest {
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 50,
       incMaxCap: 350,
+      incMinCap: 50,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostAdder: 100,
+      startupCostMultiplier: 1.4,
+      shutDownCost: 300,
       fuels: fuels,
+      startFuels: startFuels,
       generationPoint: 50,
   )
   def secondPeriod = new PeriodsDataSecond(
-      incMinCap: 50,
       incMaxCap: 350,
+      incMinCap: 50,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostAdder: 100,
+      startupCostMultiplier: 1.4,
+      shutDownCost: 300,
       fuels: fuels,
-      generationPoint: 80,
+      startFuels: startFuels,
+      generationPoint: 300,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 50,
       incMaxCap: 350,
+      incMinCap: 50,
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostAdder: 100,
+      startupCostMultiplier: 1.4,
+      shutDownCost: 300,
       fuels: fuels,
-      generationPoint: 150,
+      startFuels: startFuels,
+      generationPoint: 400,
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -61,12 +78,12 @@ class _IncrementalPositive_SStrueTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
-    def pricePatternsThirdBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
-    def quantityPatternsFirstBlock = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
-    def quantityPatternsSecondBlock = ["80\\.0", "150\\.0", "225\\.0", "300\\.0"]
-    def quantityPatternsThirdBlock = ["150\\.0", "225\\.0", "300\\.0"]
+    def pricePatternsFistBlock = ["0.0", "^85\\.9(\\d+)", "^93\\.3(\\d+)", "^93\\.3(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["0.0", "^93\\.3(\\d+)"]
+    def pricePatternsThirdBlock = ["^93\\.3(\\d+)"]
+    def quantityPatternsFirstBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
+    def quantityPatternsSecondBlock = ["300\\.0", "350\\.0"]
+    def quantityPatternsThirdBlock = ["350\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")

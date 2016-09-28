@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.BidLibrary
+package com.abb.e7.SingleUnit.BidLibrary
 
 import com.abb.e7.model.*
 import org.junit.Test

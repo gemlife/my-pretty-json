@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.StartupcostAdderStartupcostMultiplier
+package com.abb.e7.SingleUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,7 +7,7 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_FirstAndLastBidTest {
+class AveragePositive_FirstAndLastBidTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: false,
@@ -36,6 +36,7 @@ class IncrementalPositive_FirstAndLastBidTest {
       startupCostAdder: 100,
       startupCostMultiplier: 1.4,
       shutDownCost: 300,
+      isAverageHeatRate: true,
       fuels: fuels,
       startFuels: startFuels,
   )
@@ -47,6 +48,7 @@ class IncrementalPositive_FirstAndLastBidTest {
       startupCostAdder: 100,
       startupCostMultiplier: 1.4,
       shutDownCost: 300,
+      isAverageHeatRate: true,
       fuels: fuels,
       startFuels: startFuels,
   )
@@ -58,6 +60,7 @@ class IncrementalPositive_FirstAndLastBidTest {
       startupCostAdder: 100,
       startupCostMultiplier: 1.4,
       shutDownCost: 300,
+      isAverageHeatRate: true,
       fuels: fuels,
       startFuels: startFuels,
   )
@@ -75,7 +78,7 @@ class IncrementalPositive_FirstAndLastBidTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^81\\.4(\\d+)", "^83\\.7(\\d+)", "^85\\.9(\\d+)", "^90\\.4(\\d+)"]
+    List<Pattern> pricePatterns = ["^81\\.4(\\d+)", "^85\\.9(\\d+)", "^90\\.4(\\d+)", "^103\\.7(\\d+)"]
     List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
