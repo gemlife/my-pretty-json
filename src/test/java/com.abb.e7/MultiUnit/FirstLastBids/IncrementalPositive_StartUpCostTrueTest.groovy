@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FistLastBids
+package com.abb.e7.MultiUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,13 +7,13 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
+class IncrementalPositive_StartUpCostTrueTest {
 
   def calculationsParams = new CalculationsParameters(
+      includeStartupShutdownCost: true,
       shiftPrices: true,
       includeDVOM: true,
       firstBidHeatRate: true,
-      priceZero: true,
       lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
@@ -30,19 +30,22 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels,
+      shutDownCost: 300.0,
   )
   def secondPariod = new PeriodsDataSecond(
-      incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels,
+      shutDownCost: 300.0,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels,
+      shutDownCost: 300.0,
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -58,19 +61,19 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
-    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
+    List<Pattern> pricePatterns = ["^65\\.7(\\d+)", "^67\\.4(\\d+)", "^70\\.8(\\d+)", "^70\\.8(\\d+)"] as List<Pattern>
+    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
-    List<?> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
-    priceArray = extractUnderlyingList(priceArray)
-    quantityArray = extractUnderlyingList(quantityArray)
+    List<String> priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
+    List<String> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
+    priceArray = extractUnderlyingList(priceArray) as List<String>
+    quantityArray = extractUnderlyingList(quantityArray) as List<String>
     println priceArray
     println quantityArray
 
     for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-      List<String> currentQuantityBlock = quantityArray.get(i)
+      List<String> currentQuantityBlock = quantityArray.get(i) as List<String>
       for (def j = 0; j < currentQuantityBlock.size(); j++) {
         def appropriateQuantity = quantityPatterns.get(j)
         def currentQuantity = currentQuantityBlock.get(j).toString()
@@ -78,7 +81,7 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
       }
     }
     for (def i = 0; i < pricePatterns.size() - 1; i++) {
-      List<String> currentPriceBlock = priceArray.get(i)
+      List<String> currentPriceBlock = priceArray.get(i) as List<String>
       for (def j = 0; j < currentPriceBlock.size(); j++) {
         def appropriatePrice = pricePatterns.get(j)
         def currentPrice = currentPriceBlock.get(j).toString()
@@ -88,6 +91,7 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
   }
 
   private static List<String> extractUnderlyingList(def price) {
+    System.out.println(price)
     while (price.size() == 1) {
       price = price.get(0)
     }

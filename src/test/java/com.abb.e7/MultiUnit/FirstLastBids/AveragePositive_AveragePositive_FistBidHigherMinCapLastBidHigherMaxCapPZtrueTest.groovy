@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FistLastBids
+package com.abb.e7.MultiUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,52 +7,52 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_WithRatioShiftOptionFalseTest {
+class AveragePositive_AveragePositive_FistBidHigherMinCapLastBidHigherMaxCapPZtrueTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: false,
+      shiftPrices: true,
       includeDVOM: true,
-      includeStartupShutdownCost: true,
       firstBidHeatRate: true,
+      priceZero: true,
       lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      startRatio: [0.5,0.3,0.2],
+      startFuelIDs: ["Fuel N1"]
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      regularRatio: [0.5,0.3,0.2],
+      regularRatio: [0.5, 0.3, 0.2],
       useMinCostFuel: false,
+      handlingCost: 2.0,
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
       incMinCap: 50,
-      incMaxCap: 350,
+      incMaxCap: 250,
       fuels: fuels,
-      startFuels: startFuels,
+      isAverageHeatRate: true
   )
-  def secondPeriod = new PeriodsDataSecond(
+  def secondPariod = new PeriodsDataSecond(
       incMinCap: 50,
-      incMaxCap: 350,
+      incMaxCap: 250,
       fuels: fuels,
-      startFuels: startFuels,
+      isAverageHeatRate: true
   )
   def thirdPeriod = new PeriodsDataThird(
       incMinCap: 50,
-      incMaxCap: 350,
+      incMaxCap: 250,
       fuels: fuels,
-      startFuels: startFuels,
+      isAverageHeatRate: true
   )
 
   def json = new InputJSONWithThreePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
+      periodsDataSecond: secondPariod,
       periodsDataThird: thirdPeriod,
   )
 
@@ -61,7 +61,7 @@ class IncrementalPositive_WithRatioShiftOptionFalseTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^58\\.4(\\d+)", "^60\\.1(\\d+)", "^61\\.9(\\d+)", "^65\\.3(\\d+)"]
+    List<Pattern> pricePatterns = ["^54\\.3(\\d+)","^57\\.8(\\d+)","^68\\.1(\\d+)","^68\\.1(\\d+)"]
     List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

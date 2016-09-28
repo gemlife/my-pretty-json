@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FistLastBids
+package com.abb.e7.MultiUnit.FirstLastBids
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,56 +7,48 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class AveragePositive_StartUpCostTrueTest {
+class IncrementalPositive_FistBidHigherMinCapLastBidHigherLastMaxCapTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
       firstBidHeatRate: true,
       lastBidHeatRate: true,
-      includeStartupShutdownCost: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      startRatio: [0.5, 0.3, 0.2],
+      startFuelIDs: ["Fuel N1"]
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       regularRatio: [0.5, 0.3, 0.2],
       useMinCostFuel: false,
-      handlingCost: 0.0,
+      handlingCost: 2.0,
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 75,
-      incMaxCap: 300,
-      fuels: fuels,
-      startFuels: startFuels,
-      isAverageHeatRate: true,
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels
   )
-  def secondPeriod = new PeriodsDataSecond(
-      incMinCap: 75,
-      incMaxCap: 300,
-      fuels: fuels,
-      startFuels: startFuels,
-      isAverageHeatRate: true
+  def secondPariod = new PeriodsDataSecond(
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 75,
-      incMaxCap: 300,
-      fuels: fuels,
-      startFuels: startFuels,
-      isAverageHeatRate: true
+      incMinCap: 50,
+      incMaxCap: 250,
+      fuels: fuels
   )
 
   def json = new InputJSONWithThreePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
+      periodsDataSecond: secondPariod,
       periodsDataThird: thirdPeriod,
   )
 
@@ -65,8 +57,8 @@ class AveragePositive_StartUpCostTrueTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^63\\.5(\\d+)", "^66\\.9(\\d+)", "^77\\.2(\\d+)", "^77\\.2(\\d+)"] as List<Pattern>
-    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
+    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
@@ -77,7 +69,7 @@ class AveragePositive_StartUpCostTrueTest {
     println quantityArray
 
     for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-      List<String> currentQuantityBlock = quantityArray.get(i) as List<String>
+      List<String> currentQuantityBlock = quantityArray.get(i)
       for (def j = 0; j < currentQuantityBlock.size(); j++) {
         def appropriateQuantity = quantityPatterns.get(j)
         def currentQuantity = currentQuantityBlock.get(j).toString()
@@ -85,7 +77,7 @@ class AveragePositive_StartUpCostTrueTest {
       }
     }
     for (def i = 0; i < pricePatterns.size() - 1; i++) {
-      List<String> currentPriceBlock = priceArray.get(i) as List<String>
+      List<String> currentPriceBlock = priceArray.get(i)
       for (def j = 0; j < currentPriceBlock.size(); j++) {
         def appropriatePrice = pricePatterns.get(j)
         def currentPrice = currentPriceBlock.get(j).toString()

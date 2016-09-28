@@ -1,4 +1,4 @@
-package com.abb.e7.MultiUnit.FistLastBids
+package com.abb.e7.MultiUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,48 +7,65 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_FistBidHigherMinCapLastBidHigherLastMaxCapTest {
+class IncrementalPositive_PriceZeroAndShiftOptionTrueTest {
 
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
-      includeDVOM: true,
-      firstBidHeatRate: true,
-      lastBidHeatRate: true,
+      includeStartupShutdownCost: true,
+      priceZero: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
       incName: "Incremental",
+      minUpTime: 12,
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1"]
   )
   def fuels = new FuelsInputData(
-      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       regularRatio: [0.5, 0.3, 0.2],
       useMinCostFuel: false,
-      handlingCost: 2.0,
+      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       dfcm: 1.1,
+      handlingCost: 2.0,
   )
   def firstPeriod = new PeriodsDataFirst(
+      incMaxCap: 350,
       incMinCap: 50,
-      incMaxCap: 250,
-      fuels: fuels
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostAdder: 100,
+      startupCostMultiplier: 1.4,
+      shutDownCost: 300,
+      fuels: fuels,
+      startFuels: startFuels,
   )
-  def secondPariod = new PeriodsDataSecond(
+  def secondPeriod = new PeriodsDataSecond(
+      incMaxCap: 350,
       incMinCap: 50,
-      incMaxCap: 250,
-      fuels: fuels
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostAdder: 100,
+      startupCostMultiplier: 1.4,
+      shutDownCost: 300,
+      fuels: fuels,
+      startFuels: startFuels,
   )
   def thirdPeriod = new PeriodsDataThird(
+      incMaxCap: 350,
       incMinCap: 50,
-      incMaxCap: 250,
-      fuels: fuels
+      bidAdder: 0.5,
+      bidMultiplier: 1.3,
+      startupCostAdder: 100,
+      startupCostMultiplier: 1.4,
+      shutDownCost: 300,
+      fuels: fuels,
+      startFuels: startFuels,
   )
 
   def json = new InputJSONWithThreePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPariod,
+      periodsDataSecond: secondPeriod,
       periodsDataThird: thirdPeriod,
   )
 
@@ -57,8 +74,8 @@ class IncrementalPositive_FistBidHigherMinCapLastBidHigherLastMaxCapTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
-    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
+    List<Pattern> pricePatterns = ["^83\\.7(\\d+)", "^85\\.9(\\d+)", "^93\\.3(\\d+)", "^93\\.3(\\d+)"]
+    List<Pattern> quantityPatterns = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
