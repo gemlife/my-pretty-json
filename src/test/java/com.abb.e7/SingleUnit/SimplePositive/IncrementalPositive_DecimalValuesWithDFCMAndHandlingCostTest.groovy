@@ -1,4 +1,4 @@
-package com.abb.e7.SingleUnit.Incremental
+package com.abb.e7.SingleUnit.SimplePositive
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*

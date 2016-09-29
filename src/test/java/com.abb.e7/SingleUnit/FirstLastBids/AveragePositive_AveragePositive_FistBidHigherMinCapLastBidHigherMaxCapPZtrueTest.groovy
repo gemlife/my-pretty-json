@@ -17,7 +17,7 @@ class AveragePositive_AveragePositive_FistBidHigherMinCapLastBidHigherMaxCapPZtr
       lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "SimplePositive",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]

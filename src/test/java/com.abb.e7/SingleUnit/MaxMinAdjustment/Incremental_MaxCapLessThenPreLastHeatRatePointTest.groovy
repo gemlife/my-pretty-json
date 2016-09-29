@@ -1,18 +1,18 @@
-package com.abb.e7.SingleUnit.Average
+package com.abb.e7.SingleUnit.MaxMinAdjustment
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class MinMax_Average_MaxCapLessThenLastHeatRatePointTest {
+class Incremental_MaxCapLessThenPreLastHeatRatePointTest {
 // 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]
@@ -28,8 +28,7 @@ class MinMax_Average_MaxCapLessThenLastHeatRatePointTest {
   def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
-      incMaxCap: 280,
-      isAverageHeatRate: true,
+      incMaxCap: 200,
   )
   def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
@@ -41,8 +40,8 @@ class MinMax_Average_MaxCapLessThenLastHeatRatePointTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^6[5-6]\.(\d+)/, /^6[5-6]\.(\d+)/]
-    def quantities = [/75\.0/, /150\.0/, /225\.0/, /280\.0/]
+    def pricePatterns = [/^5[2-3]\.(\d+)/, /^5[3-4]\.(\d+)/, /^5[3-4]\.(\d+)/]
+    def quantities = [/75\.0/, /150\.0/, /200\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

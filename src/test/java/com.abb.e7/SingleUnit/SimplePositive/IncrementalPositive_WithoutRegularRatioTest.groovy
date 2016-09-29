@@ -1,29 +1,29 @@
-package com.abb.e7.SingleUnit.Average
+package com.abb.e7.SingleUnit.SimplePositive
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class AveragePositive_WithoutRegularRatioTest {
+class IncrementalPositive_WithoutRegularRatioTest {
 // 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
       includeDVOM: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]
   )
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
+      regularRatio: null,
   )
   def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
-      isAverageHeatRate: true,
   )
   def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
@@ -35,7 +35,7 @@ class AveragePositive_WithoutRegularRatioTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^4[1-2]\.(\d+)/, /^4[4-5]\.(\d+)/, /^5[2-3]\.(\d+)/, /^5[2-3]\.(\d+)/]
+    def pricePatterns = [/^4[0-1]\.(\d+)/, /^4[1-2]\.(\d+)/, /^4[4-5]\.(\d+)/, /^4[4-5]\.(\d+)/]
     def quantities = [/75\.0/, /150\.0/, /225\.0/, /300\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

@@ -12,7 +12,7 @@ class _MinMax_Average_MaxCapEqualMinCapTest {
       includeDVOM: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "SimplePositive",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]

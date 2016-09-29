@@ -15,7 +15,7 @@ class AveragePositive_WithoutRatioShiftOptionFalseStartUpTrueTest {
       shiftPrices: false,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "SimplePositive",
       minUpTime: 12,
   )
   def startFuels = new StartFuelsIDs(

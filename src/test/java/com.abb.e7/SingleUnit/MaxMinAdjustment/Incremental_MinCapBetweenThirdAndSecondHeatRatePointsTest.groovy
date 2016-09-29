@@ -1,11 +1,11 @@
-package com.abb.e7.SingleUnit.Incremental
+package com.abb.e7.SingleUnit.MaxMinAdjustment
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class MinMax_Incremental_MaxCapAndMinCapChangedTest {
+class Incremental_MinCapBetweenThirdAndSecondHeatRatePointsTest {
 // 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationsParameters(
       shiftPrices: true,
@@ -28,8 +28,7 @@ class MinMax_Incremental_MaxCapAndMinCapChangedTest {
   def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
-      incMaxCap: 450,
-      incMinCap: 50,
+      incMinCap: 175,
   )
   def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
@@ -41,8 +40,8 @@ class MinMax_Incremental_MaxCapAndMinCapChangedTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[2-3]\.(\d+)/, /^5[4-6]\.(\d+)/, /^6[4-5]\.(\d+)/, /^6[4-5]\.(\d+)/]
-    def quantities = [/50\.0/, /150\.0/, /225\.0/, /450\.0/]
+    def pricePatterns = [/^5[4-6]\.(\d+)/, /^5[7-8]\.(\d+)/, /^5[7-8]\.(\d+)/]
+    def quantities = [/175\.0/, /225\.0/, /300\.0/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

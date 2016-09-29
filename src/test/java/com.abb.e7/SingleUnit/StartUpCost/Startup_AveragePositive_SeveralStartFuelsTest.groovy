@@ -13,7 +13,7 @@ class Startup_AveragePositive_SeveralStartFuelsTest {
       includeStartupShutdownCost: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "SimplePositive",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1", "Fuel N2"],
