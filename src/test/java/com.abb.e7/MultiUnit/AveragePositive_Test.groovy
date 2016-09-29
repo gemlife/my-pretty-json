@@ -14,7 +14,7 @@ class AveragePositive_Test {
       includeDVOM: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
   )

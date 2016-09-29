@@ -1,4 +1,4 @@
-package com.abb.e7.SingleUnit.FirstLastBids
+package com.abb.e7.SingleUnit.ShiftingPriceOption
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,10 +7,10 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class AveragePositive_SStrueTest {
+class AveragePositive_ShiftOptionFalseSStruePZFalseTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: true,
+      shiftPrices: false,
       includeDVOM: true,
       firstBidHeatRate: true,
       lastBidHeatRate: true,
@@ -63,9 +63,9 @@ class AveragePositive_SStrueTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"]
-    def pricePatternsThirdBlock = ["^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"]
+    def pricePatternsFistBlock = ["^50\\.9(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^51\\.1(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)"]
+    def pricePatternsThirdBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)"]
     def quantityPatternsFirstBlock = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
     def quantityPatternsSecondBlock = ["80\\.0", "150\\.0", "225\\.0", "300\\.0"]
     def quantityPatternsThirdBlock = ["150\\.0", "225\\.0", "300\\.0"]

@@ -1,4 +1,4 @@
-package com.abb.e7.SingleUnit.FirstLastBids
+package com.abb.e7.SingleUnit.BidSelfSchedule
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,42 +7,48 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
+class AveragePositive_RatioDefinedBidSSTrueGPzeroTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: true,
+      shiftPrices: false,
       includeDVOM: true,
-      firstBidHeatRate: true,
-      priceZero: true,
-      lastBidHeatRate: true,
+      bidTacticSelfScheduledMW: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1"]
+      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      startRatio: null,
   )
   def fuels = new FuelsInputData(
-      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       regularRatio: [0.5, 0.3, 0.2],
+      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       useMinCostFuel: false,
-      handlingCost: 2.0,
       dfcm: 1.1,
+      handlingCost: 2.02,
+
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      generationPoint: 0,
+      shutDownCost: 300,
+      startFuels: startFuels,
+      fuels: fuels,
+      isAverageHeatRate: true,
   )
   def secondPeriod = new PeriodsDataSecond(
-      incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      generationPoint: 0,
+      shutDownCost: 300,
+      startFuels: startFuels,
+      fuels: fuels,
+      isAverageHeatRate: true,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      generationPoint: 0,
+      shutDownCost: 300,
+      startFuels: startFuels,
+      fuels: fuels,
+      isAverageHeatRate: true,
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -58,8 +64,8 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
-    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
+    List<Pattern> pricePatterns = ["0\\.0"]
+    List<Pattern> quantityPatterns = ["0\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

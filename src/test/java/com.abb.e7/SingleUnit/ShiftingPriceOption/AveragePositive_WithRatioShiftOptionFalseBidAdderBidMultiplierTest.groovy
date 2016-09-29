@@ -15,7 +15,7 @@ class AveragePositive_WithRatioShiftOptionFalseBidAdderBidMultiplierTest {
       shiftPrices: false,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "SimplePositive",
+      incName: "Average",
       minUpTime: 12,
   )
   def startFuels = new StartFuelsIDs(

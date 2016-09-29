@@ -17,7 +17,7 @@ class AveragePositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
       lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "SimplePositive",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]

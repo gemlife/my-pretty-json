@@ -1,53 +1,47 @@
-package com.abb.e7.SingleUnit.FirstLastBids
+package com.abb.e7.SingleUnit.BidSelfSchedule
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-import java.util.regex.Pattern
-
-class AveragePositive_SStrueTest {
+class AveragePositive_StartUpCostAdderAndMultiplierBidSSTrueSecondPeriodOutageTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: true,
+      shiftPrices: false,
       includeDVOM: true,
-      firstBidHeatRate: true,
-      lastBidHeatRate: true,
+      bidTacticSelfScheduledMW: true,
       selfScheduledMW: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Average",
+      incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1"]
+      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      startRatio: null,
   )
   def fuels = new FuelsInputData(
+      regularRatio: null,
       fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      regularRatio: [0.5, 0.3, 0.2],
-      useMinCostFuel: false,
-      handlingCost: 2.0,
-      dfcm: 1.1,
+      useMinCostFuel: true,
   )
   def firstPeriod = new PeriodsDataFirst(
-      incMinCap: 50,
-      incMaxCap: 350,
+      generationPoint: 0,
+      startFuels: startFuels,
       fuels: fuels,
-      generationPoint: 50,
       isAverageHeatRate: true,
   )
   def secondPeriod = new PeriodsDataSecond(
-      incMinCap: 50,
-      incMaxCap: 350,
+      generationPoint: 250,
+      startFuels: startFuels,
       fuels: fuels,
-      generationPoint: 80,
+      fixedCommitmentType: "Outage",
       isAverageHeatRate: true,
   )
   def thirdPeriod = new PeriodsDataThird(
-      incMinCap: 50,
-      incMaxCap: 350,
+      generationPoint: 500,
+      startFuels: startFuels,
       fuels: fuels,
-      generationPoint: 150,
       isAverageHeatRate: true,
   )
 
@@ -58,65 +52,49 @@ class AveragePositive_SStrueTest {
       periodsDataSecond: secondPeriod,
       periodsDataThird: thirdPeriod,
   )
+
   def inputJson = json.buildSPInputJSON()
 
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"]
-    def pricePatternsThirdBlock = ["^57\\.8(\\d+)", "^68\\.1(\\d+)", "^68\\.1(\\d+)"]
-    def quantityPatternsFirstBlock = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
-    def quantityPatternsSecondBlock = ["80\\.0", "150\\.0", "225\\.0", "300\\.0"]
-    def quantityPatternsThirdBlock = ["150\\.0", "225\\.0", "300\\.0"]
+    def pricePatternsFirstBlock = ["^0\\.0"]
+    def pricePatternsSecondBlock = []
+    def pricePatternsThirdBlock = ["^0\\.0"]
+    def quantityPatternsFirstBlock = ["^0\\.0"]
+    def quantityPatternsThirdBlock = ["^500\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")
-    def priceArraySecondBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[1]")
+    def priceArraySecondBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0]")
     def priceArrayThirdBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[2]")
     def quantityArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Quantity[0]")
-    def quantityArraySecondBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Quantity[1]")
     def quantityArrayThirdBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Quantity[2]")
-
-    priceArrayFirstBlock = extractUnderlyingList(priceArrayFirstBlock)
-    priceArraySecondBlock = extractUnderlyingList(priceArraySecondBlock)
-    priceArrayThirdBlock = extractUnderlyingList(priceArrayThirdBlock)
-    quantityArrayFirstBlock = extractUnderlyingList(quantityArrayFirstBlock)
-    quantityArraySecondBlock = extractUnderlyingList(quantityArraySecondBlock)
-    quantityArrayThirdBlock = extractUnderlyingList(quantityArrayThirdBlock)
 
     println priceArrayFirstBlock
     println priceArraySecondBlock
     println priceArrayThirdBlock
     println quantityArrayFirstBlock
-    println quantityArraySecondBlock
     println quantityArrayThirdBlock
 
-    for (def j = 0; j < pricePatternsFistBlock.size(); j++) {
-      def appropriatePrice = pricePatternsFistBlock.get(j)
+    for (def j = 0; j < pricePatternsFirstBlock.size(); j++) {
+      def appropriatePrice = pricePatternsFirstBlock.get(j)
       def currentPrice = priceArrayFirstBlock.get(j).toString()
       assert currentPrice.matches(appropriatePrice)
     }
-
-    for (def i = 0; i < pricePatternsSecondBlock.size(); i++) {
-      def currentPrice = priceArraySecondBlock.get(i).toString()
-      def appropriateRegex = pricePatternsSecondBlock.get(i)
-      assert currentPrice.matches(appropriateRegex)
+    for (def j = 0; j < pricePatternsSecondBlock.size(); j++) {
+      def appropriatePrice = pricePatternsSecondBlock.get(j)
+      def currentPrice = priceArrayFirstBlock.get(j).toString()
+      assert currentPrice.matches(appropriatePrice)
     }
-
     for (def i = 0; i < priceArrayThirdBlock.size(); i++) {
       def currentPrice = priceArrayThirdBlock.get(i).toString()
       def appropriateRegex = pricePatternsThirdBlock.get(i)
       assert currentPrice.matches(appropriateRegex)
     }
     for (def i = 0; i < quantityPatternsFirstBlock.size(); i++) {
-      def currentQuantity = quantityArrayFirstBlock.get(i).toString()
+      def currentQuantity = quantityArrayFirstBlock.get(i)toString()
       def appropriateQuantity = quantityPatternsFirstBlock.get(i)
-      assert currentQuantity.matches(appropriateQuantity)
-    }
-    for (def i = 0; i < quantityPatternsSecondBlock.size(); i++) {
-      def currentQuantity = quantityArraySecondBlock.get(i).toString()
-      def appropriateQuantity = quantityPatternsSecondBlock.get(i)
       assert currentQuantity.matches(appropriateQuantity)
     }
     for (def i = 0; i < quantityPatternsThirdBlock.size(); i++) {
@@ -127,9 +105,11 @@ class AveragePositive_SStrueTest {
   }
 
   private static List<String> extractUnderlyingList(def price) {
-    while (price.size() == 0) {
+    while (price.size() == 1) {
       price = price.get(0)
     }
     return price
   }
+
+
 }

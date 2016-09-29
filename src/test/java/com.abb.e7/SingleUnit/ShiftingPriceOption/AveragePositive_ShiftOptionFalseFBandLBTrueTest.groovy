@@ -1,4 +1,4 @@
-package com.abb.e7.SingleUnit.FirstLastBids
+package com.abb.e7.SingleUnit.ShiftingPriceOption
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,17 +7,16 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
+class AveragePositive_ShiftOptionFalseFBandLBTrueTest {
 
   def calculationsParams = new CalculationsParameters(
-      shiftPrices: true,
+      shiftPrices: false,
       includeDVOM: true,
       firstBidHeatRate: true,
-      priceZero: true,
       lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]
@@ -31,18 +30,24 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
   )
   def firstPeriod = new PeriodsDataFirst(
       incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      incMaxCap: 250,
+      fuels: fuels,
+      generationPoint: 50,
+      isAverageHeatRate: true,
   )
   def secondPeriod = new PeriodsDataSecond(
       incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      incMaxCap: 250,
+      fuels: fuels,
+      generationPoint: 80,
+      isAverageHeatRate: true,
   )
   def thirdPeriod = new PeriodsDataThird(
       incMinCap: 100,
-      incMaxCap: 350,
-      fuels: fuels
+      incMaxCap: 250,
+      fuels: fuels,
+      generationPoint: 150,
+      isAverageHeatRate: true,
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -52,17 +57,16 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
       periodsDataSecond: secondPeriod,
       periodsDataThird: thirdPeriod,
   )
-
   def inputJson = json.buildSPInputJSON()
 
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^52\\.6(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^57\\.8(\\d+)"]
+    List<Pattern> pricePatterns = ["^50\\.9(\\d+)", "^54\\.3(\\d+)", "^57\\.8(\\d+)", "^68\\.1(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
+    List<?> priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
     List<?> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
     priceArray = extractUnderlyingList(priceArray)
     quantityArray = extractUnderlyingList(quantityArray)
@@ -93,6 +97,4 @@ class IncrementalPositive_FistBidLessMinCapLastBidLessMaxCapPZtrueTest {
     }
     return price
   }
-
-
 }

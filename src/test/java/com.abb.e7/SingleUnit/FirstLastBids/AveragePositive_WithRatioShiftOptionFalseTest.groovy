@@ -17,7 +17,7 @@ class AveragePositive_WithRatioShiftOptionFalseTest {
       lastBidHeatRate: true,
   )
   def unitCharacteristic = new UnitCharacteristic(
-      incName: "Incremental",
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
