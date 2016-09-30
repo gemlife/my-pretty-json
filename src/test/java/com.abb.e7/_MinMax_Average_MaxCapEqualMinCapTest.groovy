@@ -2,17 +2,19 @@ package com.abb.e7
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
+import com.abb.e7.model.PeriodsData.PeriodsDataFirst
+import com.abb.e7.model.Templates.InputJSONWithSinglePeriods
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
 class _MinMax_Average_MaxCapEqualMinCapTest {
 // 1 start fuel and several regular fuels with ratio
-  def calculationsParams = new CalculationsParameters(
+  def calculationsParams = new CalculationParameters(
       shiftPrices: true,
       includeDVOM: true,
   )
-  def unitCharacteristic = new UnitCharacteristic(
-      incName: "SimplePositive",
+  def unitCharacteristic = new UnitParameters(
+      incName: "Average",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]

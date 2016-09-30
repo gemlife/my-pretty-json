@@ -1,4 +1,4 @@
-package com.abb.e7.SingleUnit.MaxMinAdjustment
+package com.abb.e7.SingleUnit.SimplePositive
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,8 +7,8 @@ import com.abb.e7.model.Templates.InputJSONWithSinglePeriods
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class Incremental_MaxCapHigherThenLastHeatRatePointTest {
-// 1 start fuel and several regular fuels with ratio
+class Incremental_DecimalValuesWithDFCMAndHandlingCostTest {
+// with Handling cost and DFCM, using decimal values
   def calculationsParams = new CalculationParameters(
       shiftPrices: true,
       includeDVOM: true,
@@ -23,14 +23,14 @@ class Incremental_MaxCapHigherThenLastHeatRatePointTest {
       fuelIDs: ["Fuel N1","Fuel N2","Fuel N3"],
       regularRatio: [0.5,0.3,0.2],
       useMinCostFuel: false,
-      dfcm: 1.1,
-      handlingCost: 2.0,
-
+      handlingCost: 2.005,
+      dfcm: 1.103,
   )
   def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
-      incMaxCap: 350,
+      incMaxCap: 299.001,
+      incMinCap: 73.999,
   )
   def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
@@ -42,8 +42,8 @@ class Incremental_MaxCapHigherThenLastHeatRatePointTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[2-3]\.(\d+)/, /^5[4-6]\.(\d+)/, /^6[0-1]\.(\d+)/, /^6[0-1]\.(\d+)/]
-    def quantities = [/75\.0/, /150\.0/, /225\.0/, /350\.0/]
+    def pricePatterns = [/^5[2-3]\.(\d+)/, /^5[4-5]\.(\d+)/, /^5[7-8]\.(\d+)/, /^5[7-8]\.(\d+)/]
+    def quantities = [/73\.(\d+)/, /150\.0/, /225\.0/, /299\.(\d+)/]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
