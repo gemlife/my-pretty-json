@@ -3,11 +3,11 @@ package com.abb.e7.SingleUnit.EvaluationPeriod
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirstWithoutHR
-import com.abb.e7.model.PeriodsData.PeriodsDataSecondWithoutHR
-import com.abb.e7.model.PeriodsData.PeriodsDataThirdWithoutHR
+import com.abb.e7.model.PeriodsData.PeriodsDataFirst
+import com.abb.e7.model.PeriodsData.PeriodsDataSecond
+import com.abb.e7.model.PeriodsData.PeriodsDataThird
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithThreePeriodsWithoutHR
+import com.abb.e7.model.Templates.InputJSONWithThreePeriods
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -35,7 +35,9 @@ class Polynomial_MinUpTimeLessEvaluationPeriodTest {
       useMinCostFuel: false
 
   )
-  def firstPeriod = new PeriodsDataFirstWithoutHR(
+  def firstPeriod = new PeriodsDataFirst(
+      mw: [],
+      hr: [],
       startFuels: startFuels,
       fuels: fuels,
       isPolynomialCoefficients: true,
@@ -43,26 +45,30 @@ class Polynomial_MinUpTimeLessEvaluationPeriodTest {
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
   )
-  def secondPeriod = new PeriodsDataSecondWithoutHR(
+  def secondPeriod = new PeriodsDataSecond(
       dateOfPeriod: "2016-03-07T08:30:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
+      mw: [],
+      hr: [],
       isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
   )
-  def thirdPeriod = new PeriodsDataThirdWithoutHR(
+  def thirdPeriod = new PeriodsDataThird(
       dateOfPeriod: "2016-03-07T09:00:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
+      mw: [],
+      hr: [],
       isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
   )
 
-  def json = new InputJSONWithThreePeriodsWithoutHR(
+  def json = new InputJSONWithThreePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsDataFirst: firstPeriod,
@@ -87,7 +93,7 @@ class Polynomial_MinUpTimeLessEvaluationPeriodTest {
     println quantityArray
 //
     for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-      List<String> currentQuantityBlock = quantityArray.get(i)
+      List<String> currentQuantityBlock = quantityArray.get(i) as List<String>
       for (def j = 0; j < currentQuantityBlock.size(); j++) {
         def appropriateQuantity = quantityPatterns.get(j)
         def currentQuantity = currentQuantityBlock.get(j).toString()
@@ -95,7 +101,7 @@ class Polynomial_MinUpTimeLessEvaluationPeriodTest {
       }
     }
     for (def i = 0; i < pricePatterns.size() - 1; i++) {
-      List<String> currentPriceBlock = priceArray.get(i)
+      List<String> currentPriceBlock = priceArray.get(i) as List<String>
       for (def j = 0; j < currentPriceBlock.size(); j++) {
         def appropriatePrice = pricePatterns.get(j)
         def currentPrice = currentPriceBlock.get(j).toString()

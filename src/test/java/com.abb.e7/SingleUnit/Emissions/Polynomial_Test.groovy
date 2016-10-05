@@ -1,7 +1,9 @@
-package com.abb.e7.SingleUnit.ShiftingPriceOption
+package com.abb.e7.SingleUnit.Emissions
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
+import com.abb.e7.model.Emissions.FuelEmissions
+import com.abb.e7.model.Emissions.RegularFuelsDataWithEmissions
 import com.abb.e7.model.FuelsInputData
 import com.abb.e7.model.PeriodsData.PeriodsDataFirst
 import com.abb.e7.model.PeriodsData.PeriodsDataSecond
@@ -14,23 +16,44 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Polynomial_ShiftOptionFalseWithRatioBidAdderBidMultiplier2Test {
+class Polynomial_Test {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: false,
       includeDVOM: true,
+      includeStartupShutdownCost: true,
   )
   def unitCharacteristic = new UnitParameters(
       incName: "Polynomial",
+      minUpTime: 3.0,
   )
+  def emissionF1 = new FuelEmissions(
+      emissionPrice: 1,
+  )
+//  def emissionF2 = new FuelEmissions(
+//      emissionPrice: 2
+//  )
+//  def emissionF3 = new FuelEmissions(
+//      emissionPrice: 3
+//  )
+//  def emissionF4 = new FuelEmissions(
+//      emissionPrice: 4
+//  )
+  def regularFuels = new RegularFuelsDataWithEmissions(
+      fuelEmission: emissionF1,
+//      fuelEmission2: emissionF2,
+//      fuelEmission3: emissionF3,
+//      fuelEmission4: emissionF4,
+  )
+
   def startFuels = new StartFuelsIDs(
-      startFuelIDs: ["Fuel N1","Fuel N2"],
-      startRatio: [0.6, 0.4]
+      startFuelIDs: ["Fuel N1", "Fuel N2"],
+      startRatio: [0.3, 0.7],
   )
   def fuels = new FuelsInputData(
-      fuelIDs: ["Fuel N1","Fuel N2"],
-      regularRatio: [0.4, 0.6],
-      useMinCostFuel: false
+      fuelIDs: ["Fuel N1", "Fuel N2"],
+      regularRatio: [0.7, 0.3],
+      useMinCostFuel: false,
   )
   def firstPeriod = new PeriodsDataFirst(
       startFuels: startFuels,
@@ -41,10 +64,9 @@ class Polynomial_ShiftOptionFalseWithRatioBidAdderBidMultiplier2Test {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
   )
   def secondPeriod = new PeriodsDataSecond(
+      dateOfPeriod: "2016-03-07T08:30:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -53,10 +75,9 @@ class Polynomial_ShiftOptionFalseWithRatioBidAdderBidMultiplier2Test {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
   )
   def thirdPeriod = new PeriodsDataThird(
+      dateOfPeriod: "2016-03-07T09:00:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -65,9 +86,6 @@ class Polynomial_ShiftOptionFalseWithRatioBidAdderBidMultiplier2Test {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      bidAdder: 0.5,
-      bidMultiplier: 1.3,
-
   )
 
   def json = new InputJSONWithThreePeriods(
@@ -83,7 +101,7 @@ class Polynomial_ShiftOptionFalseWithRatioBidAdderBidMultiplier2Test {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^75\\.6(\\d+)", "^99\\.4(\\d+)", "^145\\.1(\\d+)", "^206\\.0(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^88\\.5(\\d+)", "^105\\.8(\\d+)", "^138\\.9(\\d+)", "^182\\.9(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
@@ -93,7 +111,7 @@ class Polynomial_ShiftOptionFalseWithRatioBidAdderBidMultiplier2Test {
     quantityArray = extractUnderlyingList(quantityArray)
     println priceArray
     println quantityArray
-
+//
     for (def i = 0; i < quantityPatterns.size() - 1; i++) {
       List<String> currentQuantityBlock = quantityArray.get(i) as List<String>
       for (def j = 0; j < currentQuantityBlock.size(); j++) {
@@ -118,4 +136,6 @@ class Polynomial_ShiftOptionFalseWithRatioBidAdderBidMultiplier2Test {
     }
     return price
   }
+
+
 }

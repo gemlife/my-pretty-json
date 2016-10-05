@@ -3,9 +3,9 @@ package com.abb.e7.SingleUnit.SimplePositive
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirstWithoutHR
+import com.abb.e7.model.PeriodsData.PeriodsDataFirst
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithSinglePeriodsWithoutHR
+import com.abb.e7.model.Templates.InputJSONWithSinglePeriods
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -28,16 +28,18 @@ class Exponential_AllCoefficientZeroTest {
       regularRatio: [0.4,0.6],
       useMinCostFuel: false
   )
-  def firstPeriod = new PeriodsDataFirstWithoutHR(
+  def firstPeriod = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
+      mw: [],
+      hr: [],
       isPolynomialCoefficients: false,
       incMinCap: 25.0,
       incMaxCap: 200.0,
       coefficients: [325.0, 0.0, 0.0, 0.0],
   )
 
-  def json = new InputJSONWithSinglePeriodsWithoutHR(
+  def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsData: firstPeriod,

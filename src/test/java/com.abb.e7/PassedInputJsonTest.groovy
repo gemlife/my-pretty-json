@@ -1,6 +1,7 @@
 package com.abb.e7
 
 import com.abb.e7.model.*
+import com.abb.e7.model.Emissions.RegularFuelsDataWithEmissions
 import com.abb.e7.model.PeriodsData.PeriodsDataFirst
 import com.abb.e7.model.Templates.InputJSONWithSinglePeriods
 import org.junit.Test
@@ -11,9 +12,9 @@ class PassedInputJsonTest {
   public void InputJson() {
 
 
-        def calculationsParams = new CalculationParameters(
+    def calculationsParams = new CalculationParameters(
     )
-        def unitCharacteristic = new UnitParameters(
+    def unitCharacteristic = new UnitParameters(
     )
     def startFuels = new StartFuelsIDs(
         startFuelIDs: ["Fuel N2"]
@@ -27,7 +28,6 @@ class PassedInputJsonTest {
 //        bidLibraryVolume: 150
 //    )
     def json = new InputJSONWithSinglePeriods(
-//        marketProduct: marketProduct,
         calculationsParameters: calculationsParams,
         unitCharacteristic: unitCharacteristic,
         periodsData: periodsData,

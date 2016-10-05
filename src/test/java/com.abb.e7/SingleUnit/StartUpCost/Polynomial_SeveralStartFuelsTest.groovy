@@ -3,11 +3,11 @@ package com.abb.e7.SingleUnit.StartUpCost
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirstWithoutHR
-import com.abb.e7.model.PeriodsData.PeriodsDataSecondWithoutHR
-import com.abb.e7.model.PeriodsData.PeriodsDataThirdWithoutHR
+import com.abb.e7.model.PeriodsData.PeriodsDataFirst
+import com.abb.e7.model.PeriodsData.PeriodsDataSecond
+import com.abb.e7.model.PeriodsData.PeriodsDataThird
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithThreePeriodsWithoutHR
+import com.abb.e7.model.Templates.InputJSONWithThreePeriods
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -30,32 +30,38 @@ class Polynomial_SeveralStartFuelsTest {
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1","Fuel N2"],
   )
-  def firstPeriod = new PeriodsDataFirstWithoutHR(
+  def firstPeriod = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
+      mw: [],
+      hr: [],
       isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221]
   )
-  def secondPeriod = new PeriodsDataSecondWithoutHR(
+  def secondPeriod = new PeriodsDataSecond(
       startFuels: startFuels,
       fuels: fuels,
+      mw: [],
+      hr: [],
       isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221]
   )
-  def thirdPeriod = new PeriodsDataThirdWithoutHR(
+  def thirdPeriod = new PeriodsDataThird(
       startFuels: startFuels,
       fuels: fuels,
+      mw: [],
+      hr: [],
       isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221]
   )
 
-  def json = new InputJSONWithThreePeriodsWithoutHR(
+  def json = new InputJSONWithThreePeriods(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
       periodsDataFirst: firstPeriod,

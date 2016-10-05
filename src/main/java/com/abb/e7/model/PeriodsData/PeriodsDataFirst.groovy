@@ -1,8 +1,7 @@
 package com.abb.e7.model.PeriodsData
 
+import com.abb.e7.model.Emissions.FuelEmissions
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.MWHeatRatePoints
-import com.abb.e7.model.RegularFuelsData
 import com.abb.e7.model.StartFuelsIDs
 import groovy.json.JsonBuilder
 
@@ -13,7 +12,8 @@ class PeriodsDataFirst {
   def incMinCap = 75.0
   def incMaxCap = 300.0
   def generationPoint = null
-  def mwHRPoints = new MWHeatRatePoints()
+  def mw = [75.0, 150.0, 225.0, 300.0]
+  def hr = [8000.0, 8300.0, 8600.0, 9200.0]
   def isAverageHeatRate = false
   def isPolynomialCoefficients = false
   def numberOfBlocks = 4
@@ -28,7 +28,8 @@ class PeriodsDataFirst {
   def vomCost = 3.0
   def dvom = 1.0
   def fuels = new FuelsInputData()
-  def fuelsData = new RegularFuelsData()
+  def priceArray = [4.5, 5.5, 6.5]
+  def fuelNameArray = ['Fuel N1', 'Fuel N2', 'Fuel N3']
 
   private def builder = new JsonBuilder()
 
@@ -39,7 +40,7 @@ class PeriodsDataFirst {
       'MinCapacity' incMinCap
       'MaxCapacity' incMaxCap
       'GenerationMWPoint' generationPoint
-      'MWHeatRatePairs' mwHRPoints.buildInputJSON()
+      'MWHeatRatePairs' ([mw, hr].transpose().collect { [MWPoint: it[0 as String], HeatRate: it[1 as String]] })
       'IsAverageHeatRate' isAverageHeatRate
       'IsPolynomialCoefficients' isPolynomialCoefficients
       'NumberOfBlocks' numberOfBlocks
@@ -54,7 +55,8 @@ class PeriodsDataFirst {
       'VomCost' vomCost
       'Dvom' dvom
       'Fuels' fuels.buildInputJSON()
-      'FuelsData' fuelsData.buildInputJSON()
+      'FuelsData'([fuelNameArray, priceArray].transpose().collect { [Id: it[0 as String], Price: it[1 as String]] })
+
     }
   }
 }

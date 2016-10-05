@@ -24,14 +24,10 @@ class _ud_it_IncrementalPositive_OneRegularFuelWithoutRatioTest {
 
       dfcm: 1.0,
   )
-  def regularFuelsData = new RegularFuelsData(
-//      fuelNameArray: "Fuel N1",
-//      priceArray: 4.5,
-  )
+
   def periodsData = new PeriodsDataFirst(
       startFuels: startFuels,
       fuels: fuels,
-      fuelsData: regularFuelsData,
   )
   def json = new InputJSONWithSinglePeriods(
       calculationsParameters: calculationsParams,
