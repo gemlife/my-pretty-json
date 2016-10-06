@@ -2,8 +2,6 @@ package com.abb.e7.SingleUnit.Emissions
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
-import com.abb.e7.model.Emissions.FuelEmissions
-import com.abb.e7.model.Emissions.RegularFuelsDataWithEmissions
 import com.abb.e7.model.FuelsInputData
 import com.abb.e7.model.PeriodsData.PeriodsDataFirst
 import com.abb.e7.model.PeriodsData.PeriodsDataSecond
@@ -26,24 +24,6 @@ class Polynomial_Test {
   def unitCharacteristic = new UnitParameters(
       incName: "Polynomial",
       minUpTime: 3.0,
-  )
-  def emissionF1 = new FuelEmissions(
-      emissionPrice: 1,
-  )
-//  def emissionF2 = new FuelEmissions(
-//      emissionPrice: 2
-//  )
-//  def emissionF3 = new FuelEmissions(
-//      emissionPrice: 3
-//  )
-//  def emissionF4 = new FuelEmissions(
-//      emissionPrice: 4
-//  )
-  def regularFuels = new RegularFuelsDataWithEmissions(
-      fuelEmission: emissionF1,
-//      fuelEmission2: emissionF2,
-//      fuelEmission3: emissionF3,
-//      fuelEmission4: emissionF4,
   )
 
   def startFuels = new StartFuelsIDs(

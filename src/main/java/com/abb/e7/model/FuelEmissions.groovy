@@ -1,10 +1,10 @@
-package com.abb.e7.model.Emissions
+package com.abb.e7.model
 
 import groovy.json.JsonBuilder
 
-class FuelEmissions2 {
+class FuelEmissions {
 
-  def emissionId
+  def emissionId =1
   def emissionPrice
   def emissionPriceAdder
   def emissionReleaseRate
