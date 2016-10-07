@@ -2,10 +2,8 @@ package com.abb.e7.SingleUnit.ShiftingPriceOption
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.PeriodsDataInput
+import com.abb.e7.model.InputJSON
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
@@ -31,7 +29,7 @@ class Incremental_WithRatioShiftOptionFalseBidAdderBidMultiplierTest {
       useMinCostFuel: false,
       dfcm: 1.1,
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       incMinCap: 75,
       incMaxCap: 300,
       fuels: fuels,
@@ -39,7 +37,8 @@ class Incremental_WithRatioShiftOptionFalseBidAdderBidMultiplierTest {
       bidMultiplier: 1.3,
       startFuels: startFuels,
   )
-  def secondPeriod = new PeriodsDataSecond(
+  def secondPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T09:00:00",
       incMinCap: 75,
       incMaxCap: 300,
       fuels: fuels,
@@ -47,7 +46,8 @@ class Incremental_WithRatioShiftOptionFalseBidAdderBidMultiplierTest {
       bidMultiplier: 1.3,
       startFuels: startFuels,
   )
-  def thirdPeriod = new PeriodsDataThird(
+  def thirdPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T10:00:00",
       incMinCap: 75,
       incMaxCap: 300,
       fuels: fuels,
@@ -56,12 +56,10 @@ class Incremental_WithRatioShiftOptionFalseBidAdderBidMultiplierTest {
       startFuels: startFuels,
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()

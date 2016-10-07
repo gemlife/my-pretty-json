@@ -3,11 +3,9 @@ package com.abb.e7.MultiUnit
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
+import com.abb.e7.model.PeriodsDataInput
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.InputJSON
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -29,7 +27,7 @@ class Exponential_Test {
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1"],
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -39,7 +37,8 @@ class Exponential_Test {
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
   )
-  def secondPeriod = new PeriodsDataSecond(
+  def secondPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T09:00:00",
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -49,7 +48,8 @@ class Exponential_Test {
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
   )
-  def thirdPeriod = new PeriodsDataThird(
+  def thirdPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T10:00:00",
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -60,12 +60,10 @@ class Exponential_Test {
       coefficients: [325.0, 0.493, 0.009, 0.05],
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()

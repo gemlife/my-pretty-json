@@ -3,11 +3,9 @@ package com.abb.e7.SingleUnit.EvaluationPeriod
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
+import com.abb.e7.model.PeriodsDataInput
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.InputJSON
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -34,27 +32,25 @@ class Incremental_MinUpTimeLessEvaluationPeriodTest {
       regularRatio: [0.5,0.3,0.2],
       useMinCostFuel: false,
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
   )
-  def secondPeriod = new PeriodsDataSecond(
+  def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T08:30:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
   )
-  def thirdPeriod = new PeriodsDataThird(
+  def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T09:00:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()

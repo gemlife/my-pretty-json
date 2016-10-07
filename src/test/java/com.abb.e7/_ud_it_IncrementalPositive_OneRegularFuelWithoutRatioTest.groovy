@@ -2,13 +2,14 @@ package com.abb.e7
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.Templates.InputJSONWithSinglePeriods
+import com.abb.e7.model.PeriodsDataInput
+import com.abb.e7.model.InputJSON
+
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
 class _ud_it_IncrementalPositive_OneRegularFuelWithoutRatioTest {
-// 1 start fuel and onel regular fuels without ratio
+// 1 start fuel and one regular fuels without ratio
   def calculationsParams = new CalculationParameters(
       shiftPrices: true,
       includeDVOM: true,
@@ -25,17 +26,17 @@ class _ud_it_IncrementalPositive_OneRegularFuelWithoutRatioTest {
       dfcm: 1.0,
   )
 
-  def periodsData = new PeriodsDataFirst(
+  def periodsData = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
   )
-  def json = new InputJSONWithSinglePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsData: periodsData,
+      periodsData: [periodsData.buildPRInputJSON()],
   )
 
-  def inputJson = json.buildInputJSON()
+  def inputJson = json.buildSPInputJSON()
 
   @Test
   public void post() {

@@ -2,10 +2,8 @@ package com.abb.e7.SingleUnit.BidSelfSchedule
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.PeriodsDataInput
+import com.abb.e7.model.InputJSON
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
@@ -30,7 +28,8 @@ class Incremental_RatioNullBidAdderMultiplierDefinedBidSSTrueTest {
       fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
       useMinCostFuel: true,
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T08:00:00",
       generationPoint: 150,
       shutDownCost: 300,
       startFuels: startFuels,
@@ -38,7 +37,8 @@ class Incremental_RatioNullBidAdderMultiplierDefinedBidSSTrueTest {
       bidMultiplier: 1.5,
       bidAdder: 0.5,
   )
-  def secondPeriod = new PeriodsDataSecond(
+  def secondPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T09:00:00",
       generationPoint: 250,
       shutDownCost: 300,
       startFuels: startFuels,
@@ -46,7 +46,8 @@ class Incremental_RatioNullBidAdderMultiplierDefinedBidSSTrueTest {
       bidMultiplier: 1.5,
       bidAdder: 0.5,
   )
-  def thirdPeriod = new PeriodsDataThird(
+  def thirdPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T10:00:00",
       generationPoint: 350,
       shutDownCost: 300,
       startFuels: startFuels,
@@ -54,12 +55,10 @@ class Incremental_RatioNullBidAdderMultiplierDefinedBidSSTrueTest {
       bidAdder: 0.5,
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()

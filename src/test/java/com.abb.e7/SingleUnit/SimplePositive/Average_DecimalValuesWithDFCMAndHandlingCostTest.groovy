@@ -3,9 +3,10 @@ package com.abb.e7.SingleUnit.SimplePositive
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
+import com.abb.e7.model.PeriodsDataInput
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithSinglePeriods
+import com.abb.e7.model.InputJSON
+
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -29,20 +30,20 @@ class Average_DecimalValuesWithDFCMAndHandlingCostTest {
       handlingCost: 2.005,
       dfcm: 1.103,
   )
-  def periodsData = new PeriodsDataFirst(
+  def periodsData = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
       incMaxCap: 299.001,
       incMinCap: 73.999,
       isAverageHeatRate: true,
   )
-  def json = new InputJSONWithSinglePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsData: periodsData,
+      periodsData: [periodsData.buildPRInputJSON()],
   )
 
-  def inputJson = json.buildInputJSON()
+  def inputJson = json.buildSPInputJSON()
 
   @Test
   public void post() {

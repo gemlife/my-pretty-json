@@ -2,8 +2,9 @@ package com.abb.e7
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.Templates.InputJSONWithSinglePeriods
+import com.abb.e7.model.PeriodsDataInput
+import com.abb.e7.model.InputJSON
+
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
@@ -27,20 +28,20 @@ class _MinMax_Average_MaxCapEqualMinCapTest {
       handlingCost: 2.0,
 
   )
-  def periodsData = new PeriodsDataFirst(
+  def periodsData = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
       incMaxCap: 75,
       incMinCap: 75,
       isAverageHeatRate: true,
   )
-  def json = new InputJSONWithSinglePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsData: periodsData,
+      periodsData: [periodsData.buildPRInputJSON()],
   )
 
-  def inputJson = json.buildInputJSON()
+  def inputJson = json.buildSPInputJSON()
 
   @Test
   public void post() {

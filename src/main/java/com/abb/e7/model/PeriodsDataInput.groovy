@@ -1,13 +1,13 @@
-package com.abb.e7.model.PeriodsData
+package com.abb.e7.model
 
 import com.abb.e7.model.FuelEmissions
 import com.abb.e7.model.FuelsInputData
 import com.abb.e7.model.StartFuelsIDs
 import groovy.json.JsonBuilder
 
-class PeriodsDataSecond {
+class PeriodsDataInput {
 
-  def dateOfPeriod = "2016-03-07T09:00:00.000Z"
+  def dateOfPeriod = "2016-07-28T08:00:00"
   def fixedCommitmentType = 'Economic'
   def incMinCap = 75.0
   def incMaxCap = 300.0
@@ -31,7 +31,7 @@ class PeriodsDataSecond {
   def priceArray = [4.5, 5.5, 6.5]
   def fuelNameArray = ['Fuel N1', 'Fuel N2', 'Fuel N3']
   def fuelEmissionsArray = [[], [], []]
-  def stationEmissionsArray = new FuelEmissions()
+  def stationEmissionsArray = []
 
   private def builder = new JsonBuilder()
 
@@ -42,7 +42,7 @@ class PeriodsDataSecond {
       'MinCapacity' incMinCap
       'MaxCapacity' incMaxCap
       'GenerationMWPoint' generationPoint
-      'MWHeatRatePairs' ([mw, hr].transpose().collect { [MWPoint: it[0], HeatRate: it[1]] })
+      'MWHeatRatePairs'([mw, hr].transpose().collect { [MWPoint: it[0], HeatRate: it[1]] })
       'IsAverageHeatRate' isAverageHeatRate
       'IsPolynomialCoefficients' isPolynomialCoefficients
       'NumberOfBlocks' numberOfBlocks
@@ -60,7 +60,7 @@ class PeriodsDataSecond {
       'FuelsData'([fuelNameArray, priceArray, fuelEmissionsArray].transpose().collect {
         [Id: it[0], Price: it[1], Emissions: it[2]]
       })
-      'Emissions' stationEmissionsArray = []
+      'Emissions' stationEmissionsArray
     }
   }
 }

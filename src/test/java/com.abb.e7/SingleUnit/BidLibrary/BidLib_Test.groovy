@@ -3,8 +3,9 @@ package com.abb.e7.SingleUnit.BidLibrary
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
 import com.abb.e7.model.BidLibraryPeriodsData.BidLibraryFirstPeriod
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.Templates.InputJSONWithSinglePeriodsWithBidLibrary
+import com.abb.e7.model.PeriodsDataInput
+import com.abb.e7.model.InputJSON
+
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
@@ -23,23 +24,22 @@ class BidLib_Test {
   )
   def fuels = new FuelsInputData(
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
   )
   def firstBidLibrary = new BidLibraryFirstPeriod(
-      volume: [100.0,200.0],
-      price: [10,20]
+      volumeBL: [100.0, 200.0],
+      priceBL: [10, 20]
   )
 
-  def json = new InputJSONWithSinglePeriodsWithBidLibrary(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsData: firstPeriod,
-      bidLibrary: firstBidLibrary
+      periodsData: [firstPeriod.buildPRInputJSON()],
   )
 
-  def inputJson = json.buildInputJSON()
+  def inputJson = json.buildSPInputJSON()
 
   @Test
   public void post() {

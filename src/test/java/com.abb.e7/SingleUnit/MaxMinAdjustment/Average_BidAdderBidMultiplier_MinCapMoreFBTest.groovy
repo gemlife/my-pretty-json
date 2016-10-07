@@ -2,10 +2,8 @@ package com.abb.e7.SingleUnit.MaxMinAdjustment
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.PeriodsDataInput
+import com.abb.e7.model.InputJSON
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
@@ -25,7 +23,7 @@ class Average_BidAdderBidMultiplier_MinCapMoreFBTest {
   def fuels = new FuelsInputData(
       fuelIDs: ["Fuel N1"],
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
@@ -33,7 +31,8 @@ class Average_BidAdderBidMultiplier_MinCapMoreFBTest {
       bidAdder: 0.5,
       bidMultiplier: 1.3,
   )
-  def secondPeriod = new PeriodsDataSecond(
+  def secondPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T09:00:00",
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
@@ -41,7 +40,8 @@ class Average_BidAdderBidMultiplier_MinCapMoreFBTest {
       bidAdder: 0.5,
       bidMultiplier: 1.3,
   )
-  def thirdPeriod = new PeriodsDataThird(
+  def thirdPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T10:00:00",
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
@@ -50,12 +50,10 @@ class Average_BidAdderBidMultiplier_MinCapMoreFBTest {
       bidMultiplier: 1.3,
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()

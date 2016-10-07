@@ -3,11 +3,9 @@ package com.abb.e7.SingleUnit.EvaluationPeriod
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
+import com.abb.e7.model.PeriodsDataInput
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.InputJSON
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -34,33 +32,31 @@ class Average_EvaluationPeriod2hoursShutdownIncludedTest {
       regularRatio: [0.5,0.3,0.2],
       useMinCostFuel: false,
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
       shutDownCost: 300,
   )
-  def secondPeriod = new PeriodsDataSecond(
-      dateOfPeriod: "2016-03-07T10:00:00.000Z",
+  def secondPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T10:00:00",
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
       shutDownCost: 300,
   )
-  def thirdPeriod = new PeriodsDataThird(
-      dateOfPeriod: "2016-03-07T12:00:00.000Z",
+  def thirdPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T12:00:00",
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
       shutDownCost: 300,
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()

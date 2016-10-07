@@ -2,10 +2,8 @@ package com.abb.e7.SingleUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.PeriodsDataInput
+import com.abb.e7.model.InputJSON
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
@@ -32,7 +30,7 @@ class Incremental_FirstAndLastBidTest {
       dfcm: 1.1,
       handlingCost: 2.0,
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       incMaxCap: 350,
       incMinCap: 50,
       bidAdder: 0.5,
@@ -43,7 +41,8 @@ class Incremental_FirstAndLastBidTest {
       fuels: fuels,
       startFuels: startFuels,
   )
-  def secondPeriod = new PeriodsDataSecond(
+  def secondPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T09:00:00",
       incMaxCap: 350,
       incMinCap: 50,
       bidAdder: 0.5,
@@ -54,7 +53,8 @@ class Incremental_FirstAndLastBidTest {
       fuels: fuels,
       startFuels: startFuels,
   )
-  def thirdPeriod = new PeriodsDataThird(
+  def thirdPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T10:00:00",
       incMaxCap: 350,
       incMinCap: 50,
       bidAdder: 0.5,
@@ -66,12 +66,10 @@ class Incremental_FirstAndLastBidTest {
       startFuels: startFuels,
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()

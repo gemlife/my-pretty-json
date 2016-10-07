@@ -3,11 +3,9 @@ package com.abb.e7.SingleUnit.EvaluationPeriod
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.CalculationParameters
 import com.abb.e7.model.FuelsInputData
-import com.abb.e7.model.PeriodsData.PeriodsDataFirst
-import com.abb.e7.model.PeriodsData.PeriodsDataSecond
-import com.abb.e7.model.PeriodsData.PeriodsDataThird
+import com.abb.e7.model.PeriodsDataInput
 import com.abb.e7.model.StartFuelsIDs
-import com.abb.e7.model.Templates.InputJSONWithThreePeriods
+import com.abb.e7.model.InputJSON
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -35,7 +33,7 @@ class Exponential_MinUpTimeMoreEvaluationPeriodTest {
       useMinCostFuel: false
 
   )
-  def firstPeriod = new PeriodsDataFirst(
+  def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -45,8 +43,8 @@ class Exponential_MinUpTimeMoreEvaluationPeriodTest {
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
   )
-  def secondPeriod = new PeriodsDataSecond(
-      dateOfPeriod: "2016-03-07T08:30:00.000Z",
+  def secondPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T08:30:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -56,8 +54,8 @@ class Exponential_MinUpTimeMoreEvaluationPeriodTest {
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
   )
-  def thirdPeriod = new PeriodsDataThird(
-      dateOfPeriod: "2016-03-07T09:00:00.000Z",
+  def thirdPeriod = new PeriodsDataInput(
+      dateOfPeriod: "2016-07-28T09:00:00.000Z",
       startFuels: startFuels,
       fuels: fuels,
       mw: [],
@@ -68,12 +66,10 @@ class Exponential_MinUpTimeMoreEvaluationPeriodTest {
       coefficients: [325.0, 0.493, 0.009, 0.05],
   )
 
-  def json = new InputJSONWithThreePeriods(
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsDataFirst: firstPeriod,
-      periodsDataSecond: secondPeriod,
-      periodsDataThird: thirdPeriod,
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()
