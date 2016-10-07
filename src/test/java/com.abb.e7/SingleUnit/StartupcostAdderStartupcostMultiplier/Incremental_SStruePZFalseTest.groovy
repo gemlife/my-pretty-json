@@ -2,14 +2,12 @@ package com.abb.e7.SingleUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsDataInput
-import com.abb.e7.model.InputJSON
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Average_SStruePZFalseTest {
+class Incremental_SStruePZFalseTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: true,
@@ -18,7 +16,7 @@ class Average_SStruePZFalseTest {
       priceZero: false,
   )
   def unitCharacteristic = new UnitParameters(
-      incName: "Average",
+      incName: "Incremental",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]
@@ -41,7 +39,6 @@ class Average_SStruePZFalseTest {
       fuels: fuels,
       startFuels: startFuels,
       generationPoint: 50,
-      isAverageHeatRate: true,
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T09:00:00",
@@ -55,7 +52,6 @@ class Average_SStruePZFalseTest {
       fuels: fuels,
       startFuels: startFuels,
       generationPoint: 300,
-      isAverageHeatRate: true,
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T10:00:00",
@@ -69,7 +65,6 @@ class Average_SStruePZFalseTest {
       fuels: fuels,
       startFuels: startFuels,
       generationPoint: 400,
-      isAverageHeatRate: true,
   )
 
   def json = new InputJSON(
@@ -83,9 +78,9 @@ class Average_SStruePZFalseTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["85\\.9(\\d+)", "^90\\.4(\\d+)", "^112\\.7(\\d+)", "^112\\.7(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^112\\.7(\\d+)", "^112\\.7(\\d+)"]
-    def pricePatternsThirdBlock = ["^112\\.7(\\d+)"]
+    def pricePatternsFistBlock = ["83\\.7(\\d+)", "^85\\.9(\\d+)", "^93\\.3(\\d+)", "^93\\.3(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^93\\.3(\\d+)", "^93\\.3(\\d+)"]
+    def pricePatternsThirdBlock = ["^^93\\.3(\\d+)"]
     def quantityPatternsFirstBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
     def quantityPatternsSecondBlock = ["300\\.0", "350\\.0"]
     def quantityPatternsThirdBlock = ["350\\.0"]

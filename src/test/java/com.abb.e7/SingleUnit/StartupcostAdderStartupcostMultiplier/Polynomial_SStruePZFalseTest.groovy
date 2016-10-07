@@ -2,14 +2,12 @@ package com.abb.e7.SingleUnit.StartupcostAdderStartupcostMultiplier
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.PeriodsDataInput
-import com.abb.e7.model.InputJSON
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Average_SStruePZFalseTest {
+class Polynomial_SStruePZFalseTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: true,
@@ -18,21 +16,21 @@ class Average_SStruePZFalseTest {
       priceZero: false,
   )
   def unitCharacteristic = new UnitParameters(
-      incName: "Average",
+      incName: "Polynomial",
   )
   def startFuels = new StartFuelsIDs(
       startFuelIDs: ["Fuel N1"]
   )
   def fuels = new FuelsInputData(
-      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
-      regularRatio: [0.5, 0.3, 0.2],
+      fuelIDs: ["Fuel N1", "Fuel N2"],
+      regularRatio: [0.7, 0.3],
       useMinCostFuel: false,
       handlingCost: 2.0,
       dfcm: 1.1,
   )
   def firstPeriod = new PeriodsDataInput(
-      incMaxCap: 350,
-      incMinCap: 50,
+      incMaxCap: 200,
+      incMinCap: 25,
       bidAdder: 0.5,
       bidMultiplier: 1.3,
       startupCostAdder: 100,
@@ -40,13 +38,16 @@ class Average_SStruePZFalseTest {
       shutDownCost: 300,
       fuels: fuels,
       startFuels: startFuels,
-      generationPoint: 50,
-      isAverageHeatRate: true,
+      generationPoint: 20.0,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      mw: [],
+      hr: [],
+      isPolynomialCoefficients: true,
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T09:00:00",
-      incMaxCap: 350,
-      incMinCap: 50,
+      incMaxCap: 200,
+      incMinCap: 25,
       bidAdder: 0.5,
       bidMultiplier: 1.3,
       startupCostAdder: 100,
@@ -54,13 +55,16 @@ class Average_SStruePZFalseTest {
       shutDownCost: 300,
       fuels: fuels,
       startFuels: startFuels,
-      generationPoint: 300,
-      isAverageHeatRate: true,
+      generationPoint: 100.0,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      mw: [],
+      hr: [],
+      isPolynomialCoefficients: true,
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T10:00:00",
-      incMaxCap: 350,
-      incMinCap: 50,
+      incMaxCap: 200,
+      incMinCap: 25,
       bidAdder: 0.5,
       bidMultiplier: 1.3,
       startupCostAdder: 100,
@@ -68,14 +72,17 @@ class Average_SStruePZFalseTest {
       shutDownCost: 300,
       fuels: fuels,
       startFuels: startFuels,
-      generationPoint: 400,
-      isAverageHeatRate: true,
+      generationPoint: 200.0,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      mw: [],
+      hr: [],
+      isPolynomialCoefficients: true,
   )
 
   def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      periodsData: [firstPeriod.buildPRInputJSON(), secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()
@@ -83,12 +90,12 @@ class Average_SStruePZFalseTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["85\\.9(\\d+)", "^90\\.4(\\d+)", "^112\\.7(\\d+)", "^112\\.7(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^112\\.7(\\d+)", "^112\\.7(\\d+)"]
-    def pricePatternsThirdBlock = ["^112\\.7(\\d+)"]
-    def quantityPatternsFirstBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
-    def quantityPatternsSecondBlock = ["300\\.0", "350\\.0"]
-    def quantityPatternsThirdBlock = ["350\\.0"]
+    def pricePatternsFistBlock = ["131\\.4(\\d+)", "^178\\.7(\\d+)", "^241\\.7(\\d+)", "^241\\.7(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^186\\.4(\\d+)", "^241\\.7(\\d+)", "^241\\.7(\\d+)"]
+    def pricePatternsThirdBlock = ["^174\\.3(\\d+)"]
+    def quantityPatternsFirstBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
+    def quantityPatternsSecondBlock = ["100\\.0", "141\\.(\\d+)", "200\\.0"]
+    def quantityPatternsThirdBlock = ["200\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")
