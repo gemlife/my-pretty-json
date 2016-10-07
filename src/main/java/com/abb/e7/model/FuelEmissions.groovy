@@ -9,6 +9,7 @@ class FuelEmissions {
   def emissionPriceAdder
   def emissionReleaseRate
   def emissionRemovalRate
+  def emissionBasis = "lb/MMBtu"
 
   private def builder = new JsonBuilder()
 
@@ -19,6 +20,7 @@ class FuelEmissions {
       'PriceAdder' emissionPriceAdder
       'ReleaseRate' emissionReleaseRate
       'RemovalRate' emissionRemovalRate
+      'EmissionBasis' emissionBasis
     }
   }
 }
