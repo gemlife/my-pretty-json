@@ -1,4 +1,4 @@
-package com.abb.e7
+package com.abb.e7.SingleUnit.MaxMinAdjustment
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -8,7 +8,7 @@ import com.abb.e7.model.InputJSON
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
-class _MinMax_Average_MaxCapEqualMinCapTest {
+class Average_MaxCapEqualMinCapTest {
 // 1 start fuel and several regular fuels with ratio
   def calculationsParams = new CalculationParameters(
       shiftPrices: true,
@@ -45,16 +45,14 @@ class _MinMax_Average_MaxCapEqualMinCapTest {
 
   @Test
   public void post() {
-    def pricePatterns = [/^5[0-1]\.(\d+)/]
-    def quantities = [/75\.0/]
+    def pricePatterns = ["^50\\.9(\\d+)"]
+    def quantities = ["75\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
-    def quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
+    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")
+    def quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Quantity[0]")
     println priceArray
     println quantityArray
-    priceArray = extractUnderlyingList(priceArray)
-    quantityArray = extractUnderlyingList(quantityArray)
 
     for (def i = 0; i < priceArray.size(); i++) {
       def currentPrice = priceArray.get(i).toString()

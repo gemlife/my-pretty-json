@@ -1,7 +1,7 @@
 package com.abb.e7
 
 import com.abb.e7.model.*
-import com.abb.e7.model.BidLibraryPeriodsData.BidLibraryFirstPeriod
+import com.abb.e7.model.BidLibraryFirstPeriod
 import com.abb.e7.model.FuelEmissions
 
 import com.abb.e7.model.PeriodsDataInput

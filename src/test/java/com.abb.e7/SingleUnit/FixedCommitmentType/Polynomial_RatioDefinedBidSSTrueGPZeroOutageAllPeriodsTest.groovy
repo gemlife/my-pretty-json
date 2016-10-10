@@ -1,42 +1,75 @@
-package com.abb.e7.SingleUnit.BidLibrary
+package com.abb.e7.SingleUnit.FixedCommitmentType
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
-import com.abb.e7.model.BidLibraryPeriodsData.BidLibraryFirstPeriod
-import com.abb.e7.model.PeriodsDataInput
-import com.abb.e7.model.InputJSON
-
 import io.restassured.path.json.JsonPath
 import org.junit.Test
 
 import java.util.regex.Pattern
 
-class BidLib_Test {
+class Polynomial_RatioDefinedBidSSTrueGPZeroOutageAllPeriodsTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: false,
       includeDVOM: true,
+      bidTacticSelfScheduledMW: true,
   )
   def unitCharacteristic = new UnitParameters(
-      incName: "Average",
+      incName: "Polynomial",
   )
   def startFuels = new StartFuelsIDs(
+      startFuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      startRatio: null,
   )
   def fuels = new FuelsInputData(
+      regularRatio: [0.5, 0.3, 0.2],
+      fuelIDs: ["Fuel N1", "Fuel N2", "Fuel N3"],
+      useMinCostFuel: false,
+      dfcm: 1.1,
+      handlingCost: 2.02,
+
   )
   def firstPeriod = new PeriodsDataInput(
+      fixedCommitmentType: "Outage",
+      dateOfPeriod: "2016-07-28T08:00:00",
+      generationPoint: 0,
+      shutDownCost: 300,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      mw: [],
+      hr: [],
+      isPolynomialCoefficients: true,
       startFuels: startFuels,
       fuels: fuels,
   )
-  def firstBidLibrary = new BidLibraryFirstPeriod(
-      volumeBL: [100.0, 200.0],
-      priceBL: [10, 20]
+  def secondPeriod = new PeriodsDataInput(
+      fixedCommitmentType: "Outage",
+      dateOfPeriod: "2016-07-28T09:00:00",
+      generationPoint: 0,
+      shutDownCost: 300,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      mw: [],
+      hr: [],
+      isPolynomialCoefficients: true,
+      startFuels: startFuels,
+      fuels: fuels,
+  )
+  def thirdPeriod = new PeriodsDataInput(
+      fixedCommitmentType: "Outage",
+      dateOfPeriod: "2016-07-28T10:00:00",
+      generationPoint: 0,
+      shutDownCost: 300,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      mw: [],
+      hr: [],
+      isPolynomialCoefficients: true,
+      startFuels: startFuels,
+      fuels: fuels,
   )
 
   def json = new InputJSON(
       calculationsParameters: calculationsParams,
       unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON()],
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
   )
 
   def inputJson = json.buildSPInputJSON()
@@ -44,14 +77,14 @@ class BidLib_Test {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^53\\.4(\\d+)", "^56\\.4(\\d+)", "^59\\.4(\\d+)", "^68\\.3(\\d+)"] as List<Pattern>
-    List<Pattern> quantityPatterns = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"] as List<Pattern>
+    List<Pattern> pricePatterns = []
+    List<Pattern> quantityPatterns = []
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    List<?> priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
+    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
     List<?> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
-//    priceArray = extractUnderlyingList(priceArray)
-//    quantityArray = extractUnderlyingList(quantityArray)
+    priceArray = extractUnderlyingList(priceArray)
+    quantityArray = extractUnderlyingList(quantityArray)
     println priceArray
     println quantityArray
 
@@ -79,4 +112,6 @@ class BidLib_Test {
     }
     return price
   }
+
+
 }
