@@ -1,4 +1,4 @@
-package com.abb.e7.SingleUnit.SelfShceduleMW
+package com.abb.e7.SingleUnit.MarketProduct
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,7 +7,7 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Exponential_Test {
+class Exponential_MarketProduceValuesTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: false,
@@ -66,41 +66,37 @@ class Exponential_Test {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^27\\.8(\\d+)", "^28\\.0(\\d+)", "^29\\.6(\\d+)", "^49\\.1(\\d+)"] as List<Pattern>
-    List<Pattern> quantityPatterns = ["50\\.0", "100\\.0", "150\\.0", "200\\.0"] as List<Pattern>
+    def marketCode = "CAISO"
+    def marketTypeCode = "DAM"
+    def participantId = "036123294152"
+    def marketProductType = "MP type"
+    def marketSelfScheduleType = "M SS type"
+    def marketId = "03245443124542523"
+    def status = "New"
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
-    List<?> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
-//    priceArray = extractUnderlyingList(priceArray)
-//    quantityArray = extractUnderlyingList(quantityArray)
-    println priceArray
-    println quantityArray
+    def marketCodeCurrent = JsonPath.from(body).get("MarketCode")
+    def statusCurrent = JsonPath.from(body).get("Status")
+    def marketTypeCodeCurrent = JsonPath.from(body).get("MarketTypeCode")
+    def participantIdCurrent = JsonPath.from(body).get("ParticipantId")
+    def marketIdCurrent = JsonPath.from(body).get("Results.Unit.MarketId[0]")
+    def marketProductTypeCurrent = JsonPath.from(body).get("Results.Unit.MarketProductType[0]")
+    def marketSelfScheduleTypeCurrent = JsonPath.from(body).get("Results.Unit.MarketSelfScheduleType[0]")
 
-//    for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-//      List<String> currentQuantityBlock = quantityArray.get(i)
-//      for (def j = 0; j < currentQuantityBlock.size(); j++) {
-//        def appropriateQuantity = quantityPatterns.get(j)
-//        def currentQuantity = currentQuantityBlock.get(j).toString()
-//        assert currentQuantity.matches(appropriateQuantity)
-//      }
-//    }
-//    for (def i = 0; i < pricePatterns.size() - 1; i++) {
-//      List<String> currentPriceBlock = priceArray.get(i)
-//      for (def j = 0; j < currentPriceBlock.size(); j++) {
-//        def appropriatePrice = pricePatterns.get(j)
-//        def currentPrice = currentPriceBlock.get(j).toString()
-//        assert currentPrice.matches(appropriatePrice)
-//      }
-//    }
-//  }
-//
-//  private static List<String> extractUnderlyingList(def price) {
-//    while (price.size() == 1) {
-//      price = price.get(0)
-//    }
-//    return price
+    println marketCodeCurrent
+    println statusCurrent
+    println marketTypeCodeCurrent
+    println participantIdCurrent
+    println marketIdCurrent
+    println marketProductTypeCurrent
+    println marketSelfScheduleTypeCurrent
+
+    assert marketCode.matches(marketCodeCurrent as String)
+    assert marketTypeCode.matches(marketTypeCodeCurrent as String)
+    assert participantId.matches(participantIdCurrent as String)
+    assert marketProductType.matches(marketProductTypeCurrent as String)
+    assert marketSelfScheduleType.matches(marketSelfScheduleTypeCurrent as String)
+    assert status.matches(statusCurrent as String)
+    assert marketId.matches(marketIdCurrent as String)
   }
-
-
 }

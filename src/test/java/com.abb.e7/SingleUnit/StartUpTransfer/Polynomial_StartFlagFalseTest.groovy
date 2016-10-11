@@ -1,4 +1,4 @@
-package com.abb.e7.SingleUnit.SelfShceduleMW
+package com.abb.e7.SingleUnit.StartUpTransfer
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.model.*
@@ -7,12 +7,12 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Polynomial_Test {
+class Polynomial_StartFlagFalseTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: false,
       includeDVOM: true,
-      includeStartupShutdownCost: true,
+      includeStartupShutdownCost: false,
   )
   def unitCharacteristic = new UnitParameters(
       incName: "Polynomial",
@@ -66,41 +66,27 @@ class Polynomial_Test {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^93\\.6(\\d+)", "^121\\.5(\\d+)", "^159\\.4(\\d+)", "^207\\.0(\\d+)"] as List<Pattern>
-    List<Pattern> quantityPatterns = ["50\\.0", "100\\.0", "150\\.0", "200\\.0"] as List<Pattern>
+    def startCostValue = [null, null, null]
+    def startHoursValue = [null, null, null]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
-    def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")
-    List<?> quantityArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Quantity")
-//    priceArray = extractUnderlyingList(priceArray)
-//    quantityArray = extractUnderlyingList(quantityArray)
-    println priceArray
-    println quantityArray
-//
-//    for (def i = 0; i < quantityPatterns.size() - 1; i++) {
-//      List<String> currentQuantityBlock = quantityArray.get(i)
-//      for (def j = 0; j < currentQuantityBlock.size(); j++) {
-//        def appropriateQuantity = quantityPatterns.get(j)
-//        def currentQuantity = currentQuantityBlock.get(j).toString()
-//        assert currentQuantity.matches(appropriateQuantity)
-//      }
-//    }
-//    for (def i = 0; i < pricePatterns.size() - 1; i++) {
-//      List<String> currentPriceBlock = priceArray.get(i)
-//      for (def j = 0; j < currentPriceBlock.size(); j++) {
-//        def appropriatePrice = pricePatterns.get(j)
-//        def currentPrice = currentPriceBlock.get(j).toString()
-//        assert currentPrice.matches(appropriatePrice)
-//      }
-//    }
-//  }
-//
-//  private static List<String> extractUnderlyingList(def price) {
-//    while (price.size() == 1) {
-//      price = price.get(0)
-//    }
-//    return price
+    def currentStartCost = JsonPath.from(body).get("Results.PQPairs.StartupCost")
+    def currentStartHour = JsonPath.from(body).get("Results.PQPairs.StartHour")
+
+    currentStartCost = extractUnderlyingList(currentStartCost)
+    currentStartHour = extractUnderlyingList(currentStartHour)
+
+    println currentStartCost
+    println currentStartHour
+
+    assert startHoursValue == currentStartHour
+    assert startCostValue == currentStartCost
+
   }
-
-
+  private static List<String> extractUnderlyingList(def price) {
+    while (price.size() == 1) {
+      price = price.get(0)
+    }
+    return price
+  }
 }

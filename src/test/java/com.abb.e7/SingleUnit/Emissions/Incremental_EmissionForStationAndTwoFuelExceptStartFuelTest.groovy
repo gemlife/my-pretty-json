@@ -55,7 +55,7 @@ class Incremental_EmissionForStationAndTwoFuelExceptStartFuelTest {
       incMaxCap: 350,
       incMinCap: 100,
       stationEmissionsArray: [EM1.buildEMInputJSON()],
-      fuelEmissionsArray: [[EM2.buildEMInputJSON()],[EM3.buildEMInputJSON()],[]]
+      fuelEmissionsArray: [[],[EM2.buildEMInputJSON()],[EM3.buildEMInputJSON()]]
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T09:00:00",
@@ -64,7 +64,7 @@ class Incremental_EmissionForStationAndTwoFuelExceptStartFuelTest {
       incMaxCap: 350,
       incMinCap: 100,
       stationEmissionsArray: [EM1.buildEMInputJSON()],
-      fuelEmissionsArray: [[EM2.buildEMInputJSON()],[EM3.buildEMInputJSON()],[]]
+      fuelEmissionsArray: [[],[EM2.buildEMInputJSON()],[EM3.buildEMInputJSON()]]
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T10:00:00",
@@ -73,7 +73,7 @@ class Incremental_EmissionForStationAndTwoFuelExceptStartFuelTest {
       incMaxCap: 350,
       incMinCap: 100,
       stationEmissionsArray: [EM1.buildEMInputJSON()],
-      fuelEmissionsArray: [[EM2.buildEMInputJSON()],[EM3.buildEMInputJSON()],[]]
+      fuelEmissionsArray: [[],[EM2.buildEMInputJSON()],[EM3.buildEMInputJSON()]]
   )
 
   def json = new InputJSON(
@@ -88,7 +88,7 @@ class Incremental_EmissionForStationAndTwoFuelExceptStartFuelTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^55\\.8(\\d+)", "^56\\.9(\\d+)", "^58\\.5(\\d+)", "^63\\.9(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^56\\.1(\\d+)", "^57\\.2(\\d+)", "^58\\.8(\\d+)", "^64\\.2(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["100\\.0", "150\\.0", "225\\.0","350\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

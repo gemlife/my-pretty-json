@@ -24,6 +24,7 @@ class PeriodsDataInput {
   def startupCostAdder = 0.0
   def startupCostMultiplier = 1.0
   def shutDownCost = 0.0
+  def startHours = null
   def startFuels = new StartFuelsIDs()
   def vomCost = 3.0
   def dvom = 1.0
@@ -53,6 +54,7 @@ class PeriodsDataInput {
       'StartupCostAdder' startupCostAdder
       'StartupCostMultiplier' startupCostMultiplier
       'ShutDownCost' shutDownCost
+      'StartHour' startHours
       'StartFuels' startFuels.buildInputJSON()
       'VomCost' vomCost
       'Dvom' dvom
