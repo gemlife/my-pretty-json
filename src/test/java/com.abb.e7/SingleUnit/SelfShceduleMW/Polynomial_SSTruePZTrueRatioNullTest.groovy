@@ -7,22 +7,36 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Polynomial_SSTruePZFalseWithRegularRatioTest {
+class Polynomial_SSTruePZTrueRatioNullTest {
 
   def calculationsParams = new CalculationParameters(
-      shiftPrices: false,
+      shiftPrices: true,
       includeDVOM: true,
-      priceZero: false,
+      priceZero: true,
       selfScheduledMW: true,
+      includeEmissionCost: true,
+  )
+  def EM1 = new FuelEmissions(
+      emissionId: "EM1",
+      emissionPrice: 0.0017,
+      emissionPriceAdder: 0,
+      emissionReleaseRate: 108,
+      emissionRemovalRate: 0,
+  )
+  def EM2 = new FuelEmissions(
+      emissionId: "EM2",
+      emissionPrice: 0.01,
+      emissionPriceAdder: 0,
+      emissionReleaseRate: 0.2,
+      emissionRemovalRate: 0.589,
   )
   def unitCharacteristic = new UnitParameters(
       incName: "Polynomial",
+      minUpTime: 1
   )
   def startFuels = new StartFuelsIDs(
   )
   def fuels = new FuelsInputData(
-      regularRatio: [0.5,0.3,0.2],
-      useMinCostFuel: false,
   )
   def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
@@ -34,6 +48,8 @@ class Polynomial_SSTruePZFalseWithRegularRatioTest {
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
       generationPoint: 20,
+      stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
+      fuelEmissionsArray: [[],[],[]],
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T09:00:00",
@@ -46,6 +62,8 @@ class Polynomial_SSTruePZFalseWithRegularRatioTest {
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
       generationPoint: 100,
+      stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
+      fuelEmissionsArray: [[],[],[]],
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T10:00:00",
@@ -57,7 +75,9 @@ class Polynomial_SSTruePZFalseWithRegularRatioTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      generationPoint: 200,
+      generationPoint: 150,
+      stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
+      fuelEmissionsArray: [[],[],[]],
   )
 
   def json = new InputJSON(
@@ -71,12 +91,12 @@ class Polynomial_SSTruePZFalseWithRegularRatioTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^58\\.8(\\d+)", "^77\\.5(\\d+)", "^113\\.4(\\d+)", "^161\\.1(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^76\\.4(\\d+)", "^119\\.2(\\d+)", "^161\\.1(\\d+)"]
-    def pricePatternsThirdBlock = ["^110\\.0(\\d+)"]
+    def pricePatternsFistBlock = ["^70\\.1(\\d+)", "^102\\.4(\\d+)", "^145\\.4(\\d+)", "^145\\.4(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["0\\.0", "^145\\.4(\\d+)", "^145\\.4(\\d+)"]
+    def pricePatternsThirdBlock = ["0\\.0","^148\\.8(\\d+)"]
     def quantityPatternsFirstBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsSecondBlock = ["100\\.0", "141\\.(\\d+)", "200\\.0"]
-    def quantityPatternsThirdBlock = [ "200\\.0"]
+    def quantityPatternsThirdBlock = ["150\\.0", "200\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")

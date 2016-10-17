@@ -57,7 +57,7 @@ class Exponential_SSTruePZFalseWithRegularRatioTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
-      generationPoint: 150,
+      generationPoint: 200,
   )
 
   def json = new InputJSON(
@@ -73,10 +73,10 @@ class Exponential_SSTruePZFalseWithRegularRatioTest {
 
     def pricePatternsFistBlock = ["^5\\.5(\\d+)", "^5\\.6(\\d+)", "^6\\.4(\\d+)", "^22\\.2(\\d+)"] as List<Pattern>
     def pricePatternsSecondBlock = ["^5\\.6(\\d+)", "^6\\.7(\\d+)", "^22\\.2(\\d+)"]
-    def pricePatternsThirdBlock = ["^6\\.1(\\d+)","^24\\.4(\\d+)"]
+    def pricePatternsThirdBlock = ["^10\\.7(\\d+)"]
     def quantityPatternsFirstBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsSecondBlock = ["100\\.0", "141\\.(\\d+)", "200\\.0"]
-    def quantityPatternsThirdBlock = ["150\\.0", "200\\.0"]
+    def quantityPatternsThirdBlock = [ "200\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")
