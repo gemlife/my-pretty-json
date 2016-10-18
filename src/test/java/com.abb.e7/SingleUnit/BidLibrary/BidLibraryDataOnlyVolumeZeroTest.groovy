@@ -44,13 +44,17 @@ class BidLibraryDataOnlyVolumeZeroTest {
       bidAdderLib: 0.5,
       bidMultiplierLib: 1.3,
   )
-  def json = new InputJSON(
-      calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
       periodsData: [],
       bidLibraryArray: [bidLibraryFirst.buildBLInputJSON(), bidLibrarySecond.buildBLInputJSON(), bidLibraryThird.buildBLInputJSON()]
   )
 
+  def json = new InputJSON (
+      calculationsParameters: calculationsParams,
+      inputData: [singleUnit.buildSPInputJSON()]
+  )
+  
   def inputJson = json.buildSPInputJSON()
 
   @Test

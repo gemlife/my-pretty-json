@@ -53,10 +53,15 @@ class Exponential_SSTruePZTrueGPEqualToLastBidPointTest {
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[],[],[]],
   )
-  def json = new InputJSON(
-      calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
       periodsData: [firstPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
+      calculationsParameters: calculationsParams,
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

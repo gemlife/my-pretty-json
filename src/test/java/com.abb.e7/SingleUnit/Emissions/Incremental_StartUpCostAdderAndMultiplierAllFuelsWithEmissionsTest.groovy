@@ -89,11 +89,15 @@ class Incremental_StartUpCostAdderAndMultiplierAllFuelsWithEmissionsTest {
       startupCostMultiplier: 1.4,
   )
 
-  def json = new InputJSON(
-      calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
 
+  def json = new InputJSON (
+      calculationsParameters: calculationsParams,
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

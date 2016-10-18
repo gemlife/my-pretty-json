@@ -32,10 +32,15 @@ class Incremental_SeveralStartFuelsTest {
       startFuels: startFuels,
       fuels: fuels,
   )
-  def json = new InputJSON(
-      calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
       periodsData: [periodsData.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
+      calculationsParameters: calculationsParams,
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

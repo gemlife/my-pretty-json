@@ -56,10 +56,15 @@ class Average_RatioDefinedBidSSTrueGPzeroTest {
       isAverageHeatRate: true,
   )
 
-  def json = new InputJSON(
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()
@@ -67,8 +72,8 @@ class Average_RatioDefinedBidSSTrueGPzeroTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["0\\.0"] as List<Pattern>
-    List<Pattern> quantityPatterns = ["0\\.0"] as List<Pattern>
+    List<Pattern> pricePatterns = ["null"] as List<Pattern>
+    List<Pattern> quantityPatterns = ["null"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

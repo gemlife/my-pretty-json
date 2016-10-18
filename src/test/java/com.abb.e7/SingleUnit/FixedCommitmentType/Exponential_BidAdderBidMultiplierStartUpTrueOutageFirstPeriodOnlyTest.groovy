@@ -61,10 +61,15 @@ class Exponential_BidAdderBidMultiplierStartUpTrueOutageFirstPeriodOnlyTest {
       coefficients: [325.0, 0.493, 0.009, 0.05]
   )
 
-  def json = new InputJSON(
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

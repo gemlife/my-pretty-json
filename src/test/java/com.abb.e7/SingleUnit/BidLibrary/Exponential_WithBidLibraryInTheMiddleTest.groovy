@@ -54,11 +54,15 @@ class Exponential_WithBidLibraryInTheMiddleTest {
       priceBL: [30],
       volumeBL: [200],
   )
-  def json = new InputJSON(
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: [bidLibraryFirst.buildBLInputJSON(), bidLibrarySecond.buildBLInputJSON()]
+  )
+
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
-      bidLibraryArray: [bidLibrarySecond.buildBLInputJSON(), bidLibraryFirst.buildBLInputJSON()]
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

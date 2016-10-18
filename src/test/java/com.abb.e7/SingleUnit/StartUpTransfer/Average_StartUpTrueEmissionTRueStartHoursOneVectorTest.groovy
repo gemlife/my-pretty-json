@@ -47,11 +47,15 @@ class Average_StartUpTrueEmissionTRueStartHoursOneVectorTest {
       startupCostMultiplier: 1.5,
       startupCostAdder: 100.0,
   )
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
 
-  def json = new InputJSON(
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

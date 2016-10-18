@@ -14,9 +14,9 @@ class InputJSON {
   def calculationsParameters = new CalculationParameters()
   def marketParameters = new MarketData()
   def unitCharacteristic = new UnitParameters()
-  def inputData
+  def inputData = []
   def periodsData = []
-  def firstPeriod, secondPeriod, thirdPeriod
+//  def firstPeriod, secondPeriod, thirdPeriod
   def bidLibraryArray = []
 
   private def builder = new JsonBuilder()
@@ -32,14 +32,12 @@ class InputJSON {
              'CalculationsParameters' flags
              def market = marketParameters.buildMPInputJSON()
              'MarketParameters' market
-
-             "InputData" inputData =
-                 [{
-                    def units = unitCharacteristic.buildUCInputJSON()
-                    'UnitCharacteristic' units
-                    'PeriodsData' periodsData
-                    'BidLibraryPeriodsData' bidLibraryArray
-                  }]
+             'InputData' inputData
+//                 {[
+//                 'UnitCharacteristic': unitCharacteristic,
+//                 'PeriodsData': periodsData,
+//                 'BidLibraryPeriodsData': bidLibraryArray
+//             ]}
            }]
     } as JsonBuilder
   }

@@ -47,10 +47,15 @@ class Incremental_StartUpCostAdderAndMultiplierBidSSTrueSecondPeriodOutageTest {
       fuels: fuels,
   )
 
-  def json = new InputJSON(
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()
@@ -58,15 +63,15 @@ class Incremental_StartUpCostAdderAndMultiplierBidSSTrueSecondPeriodOutageTest {
   @Test
   public void post() {
 
-    def pricePatternsFirstBlock = ["^0\\.0"]
+    def pricePatternsFirstBlock = ["null"]
     def pricePatternsSecondBlock = []
-    def pricePatternsThirdBlock = ["^0\\.0"]
-    def quantityPatternsFirstBlock = ["^0\\.0"]
+    def pricePatternsThirdBlock = ["null"]
+    def quantityPatternsFirstBlock = ["null"]
     def quantityPatternsThirdBlock = ["^500\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[0]")
-    def priceArraySecondBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0]")
+    def priceArraySecondBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[2]")
     def priceArrayThirdBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Price[2]")
     def quantityArrayFirstBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Quantity[0]")
     def quantityArrayThirdBlock = JsonPath.from(body).get("Results.PQPairs.Blocks[0].Quantity[2]")

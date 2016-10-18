@@ -9,81 +9,86 @@ import java.util.regex.Pattern
 
 class Exponential_SSTruePZTrueRatioNullTest {
 
-  def calculationsParams = new CalculationParameters(
-      shiftPrices: true,
-      includeDVOM: true,
-      priceZero: true,
-      selfScheduledMW: true,
-      includeEmissionCost: true,
-  )
-  def EM1 = new FuelEmissions(
-      emissionId: "EM1",
-      emissionPrice: 0.0017,
-      emissionPriceAdder: 0,
-      emissionReleaseRate: 108,
-      emissionRemovalRate: 0,
-  )
-  def EM2 = new FuelEmissions(
-      emissionId: "EM2",
-      emissionPrice: 0.01,
-      emissionPriceAdder: 0,
-      emissionReleaseRate: 0.2,
-      emissionRemovalRate: 0.589,
-  )
-  def unitCharacteristic = new UnitParameters(
-      incName: "Exponential",
-      minUpTime: 1
-  )
-  def startFuels = new StartFuelsIDs(
-  )
-  def fuels = new FuelsInputData(
-  )
-  def firstPeriod = new PeriodsDataInput(
-      startFuels: startFuels,
-      fuels: fuels,
-      mw: [],
-      hr: [],
-      isPolynomialCoefficients: false,
-      incMinCap: 25,
-      incMaxCap: 200,
-      coefficients: [325.0, 0.493, 0.009, 0.05],
-      generationPoint: 20,
-      stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
-      fuelEmissionsArray: [[],[],[]],
-  )
-  def secondPeriod = new PeriodsDataInput(
-      dateOfPeriod: "2016-07-28T09:00:00",
-      startFuels: startFuels,
-      fuels: fuels,
-      mw: [],
-      hr: [],
-      isPolynomialCoefficients: false,
-      incMinCap: 25,
-      incMaxCap: 200,
-      coefficients: [325.0, 0.493, 0.009, 0.05],
-      generationPoint: 100,
-      stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
-      fuelEmissionsArray: [[],[],[]],
-  )
-  def thirdPeriod = new PeriodsDataInput(
-      dateOfPeriod: "2016-07-28T10:00:00",
-      startFuels: startFuels,
-      fuels: fuels,
-      mw: [],
-      hr: [],
-      isPolynomialCoefficients: false,
-      incMinCap: 25,
-      incMaxCap: 200,
-      coefficients: [325.0, 0.493, 0.009, 0.05],
-      generationPoint: 150,
-      stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
-      fuelEmissionsArray: [[],[],[]],
+    def calculationsParams = new CalculationParameters(
+        shiftPrices: true,
+        includeDVOM: true,
+        priceZero: true,
+        selfScheduledMW: true,
+        includeEmissionCost: true,
+    )
+    def EM1 = new FuelEmissions(
+        emissionId: "EM1",
+        emissionPrice: 0.0017,
+        emissionPriceAdder: 0,
+        emissionReleaseRate: 108,
+        emissionRemovalRate: 0,
+    )
+    def EM2 = new FuelEmissions(
+        emissionId: "EM2",
+        emissionPrice: 0.01,
+        emissionPriceAdder: 0,
+        emissionReleaseRate: 0.2,
+        emissionRemovalRate: 0.589,
+    )
+    def unitCharacteristic = new UnitParameters(
+        incName: "Exponential",
+        minUpTime: 1
+    )
+    def startFuels = new StartFuelsIDs(
+    )
+    def fuels = new FuelsInputData(
+    )
+    def firstPeriod = new PeriodsDataInput(
+        startFuels: startFuels,
+        fuels: fuels,
+        mw: [],
+        hr: [],
+        isPolynomialCoefficients: false,
+        incMinCap: 25,
+        incMaxCap: 200,
+        coefficients: [325.0, 0.493, 0.009, 0.05],
+        generationPoint: 20,
+        stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
+        fuelEmissionsArray: [[],[],[]],
+    )
+    def secondPeriod = new PeriodsDataInput(
+        dateOfPeriod: "2016-07-28T09:00:00",
+        startFuels: startFuels,
+        fuels: fuels,
+        mw: [],
+        hr: [],
+        isPolynomialCoefficients: false,
+        incMinCap: 25,
+        incMaxCap: 200,
+        coefficients: [325.0, 0.493, 0.009, 0.05],
+        generationPoint: 100,
+        stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
+        fuelEmissionsArray: [[],[],[]],
+    )
+    def thirdPeriod = new PeriodsDataInput(
+        dateOfPeriod: "2016-07-28T10:00:00",
+        startFuels: startFuels,
+        fuels: fuels,
+        mw: [],
+        hr: [],
+        isPolynomialCoefficients: false,
+        incMinCap: 25,
+        incMaxCap: 200,
+        coefficients: [325.0, 0.493, 0.009, 0.05],
+        generationPoint: 150,
+        stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
+        fuelEmissionsArray: [[],[],[]],
+    )
+
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
   )
 
-  def json = new InputJSON(
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

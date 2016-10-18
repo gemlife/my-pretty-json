@@ -58,10 +58,15 @@ class Average_RatioNullBidAdderMultiplierDefinedBidSSTrueTest {
       isAverageHeatRate: true,
   )
 
-  def json = new InputJSON(
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()
@@ -69,7 +74,7 @@ class Average_RatioNullBidAdderMultiplierDefinedBidSSTrueTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^0\\.0"] as List<Pattern>
+    List<Pattern> pricePatterns = ["null"] as List<Pattern>
     def quantityPatternsFirstBlock = ["^150\\.0"]
     def quantityPatternsSecondBlock = ["^250\\.0"]
     def quantityPatternsThirdBlock = ["^350\\.0"]

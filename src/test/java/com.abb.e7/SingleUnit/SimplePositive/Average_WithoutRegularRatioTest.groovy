@@ -6,7 +6,7 @@ import com.abb.e7.model.FuelsInputData
 import com.abb.e7.model.PeriodsDataInput
 import com.abb.e7.model.StartFuelsIDs
 import com.abb.e7.model.InputJSON
-
+import com.abb.e7.model.UnitData
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -31,10 +31,15 @@ class Average_WithoutRegularRatioTest {
       fuels: fuels,
       isAverageHeatRate: true,
   )
-  def json = new InputJSON(
-      calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
       periodsData: [periodsData.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
+      calculationsParameters: calculationsParams,
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

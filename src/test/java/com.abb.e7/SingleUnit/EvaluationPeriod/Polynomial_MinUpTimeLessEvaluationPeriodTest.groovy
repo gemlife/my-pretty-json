@@ -6,6 +6,7 @@ import com.abb.e7.model.FuelsInputData
 import com.abb.e7.model.PeriodsDataInput
 import com.abb.e7.model.StartFuelsIDs
 import com.abb.e7.model.InputJSON
+import com.abb.e7.model.UnitData
 import com.abb.e7.model.UnitParameters
 import io.restassured.path.json.JsonPath
 import org.junit.Test
@@ -66,10 +67,15 @@ class Polynomial_MinUpTimeLessEvaluationPeriodTest {
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
   )
 
-  def json = new InputJSON(
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
+      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
+  )
+
+  def json = new InputJSON (
       calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(),thirdPeriod.buildPRInputJSON()],
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()

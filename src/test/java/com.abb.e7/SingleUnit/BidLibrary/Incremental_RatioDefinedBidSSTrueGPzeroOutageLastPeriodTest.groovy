@@ -52,11 +52,15 @@ class Incremental_RatioDefinedBidSSTrueGPzeroOutageLastPeriodTest {
       bidMultiplierLib: 1.3,
   )
 
-  def json = new InputJSON(
-      calculationsParameters: calculationsParams,
-      unitCharacteristic: unitCharacteristic,
+  def singleUnit = new UnitData(
+      unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
       periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON()],
       bidLibraryArray: [bidLibraryThird.buildBLInputJSON()]
+  )
+
+  def json = new InputJSON (
+      calculationsParameters: calculationsParams,
+      inputData: [singleUnit.buildSPInputJSON()]
   )
 
   def inputJson = json.buildSPInputJSON()
@@ -64,11 +68,11 @@ class Incremental_RatioDefinedBidSSTrueGPzeroOutageLastPeriodTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["0\\.0"] as List<Pattern>
-    def pricePatternsSecondBlock = ["0\\.0"]
+    def pricePatternsFistBlock = ["null"] as List<Pattern>
+    def pricePatternsSecondBlock = ["null"]
     def pricePatternsThirdBlock = ["^26\\.5","^39\\.5","^52\\.5"]
-    def quantityPatternsFirstBlock = ["0\\.0"]
-    def quantityPatternsSecondBlock = ["0\\.0"]
+    def quantityPatternsFirstBlock = ["null"]
+    def quantityPatternsSecondBlock = ["null"]
     def quantityPatternsThirdBlock = ["150\\.0","200\\.0","250\\.0"]
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
