@@ -4,7 +4,7 @@ import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.modelJSON.*
 import org.junit.Test
 
-class Average_WithoutRatioTest {
+class Average_WithoutFuelIDsTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: false,
@@ -64,7 +64,7 @@ class Average_WithoutRatioTest {
   @Test
   public void post() {
 
-    def errorMessage = "Number of Fuels Ratios elements is different than Fuels Ids elements"
+    def errorMessage = "Fuels must have Ids"
     
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
 
