@@ -8,7 +8,7 @@ class InputXML {
   def type = "IREGEN"
   def action = "INSERT"
   def rowID = 1
-  def name = "Generator_Olga"
+  def name = "Generator_IRE1"
   def isoID = "GU_000001"
   def startDate = "01/01/2015"
   def parentType = "MKT"
@@ -23,12 +23,11 @@ class InputXML {
   def writer = new StringWriter()
 
   def xml = new MarkupBuilder(writer).CROSS_MARKET () {
-
-    MKT_CD(marketCode) {
+    MKT_CD(marketCode)
       TRANSACTION_POINTS() {
         TRANSACTION_POINT() {
           TYPE(type)
-          ORIG_ISO_ID() {
+          ORIG_ISO_ID()
             ACTION(action)
             ROW_ID(rowID)
             INTERVALS() {
@@ -65,8 +64,6 @@ class InputXML {
             }
           }
         }
-      }
-    }
     return writer.toString ()
   }
 }
