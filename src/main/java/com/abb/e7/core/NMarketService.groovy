@@ -15,7 +15,7 @@ class NMarketService {
                 .contentType("application/xml")
                 .body(builder.toString())
                 .when()
-                .post(config.getXmlUrl() + "nmarket-core/rest/inbound/IRELAND/IRETXPTAPI?username=nmarket&password=nmarket&timeZone=CPT&sourceType=FILE")
+                .post(config.getXmlUrl() + "nmarket-core/rest/inbound/MC/MCAPIGEN?cluster=DEV&timeZone=EST&env=Production&sourceType=FILE&username=nmarket&password=nmarket")
         println response.getStatusCode()
         return response.getBody().asString()
 
