@@ -1,14 +1,18 @@
 package com.abb.e7.modelXML
 
-import groovy.xml.MarkupBuilder
+import groovy.xml.*
 
 class InputXML {
   def genOfferData = new GenOfferData()
 
-  def writer = new StringWriter()
-  def xml = new MarkupBuilder(writer).GEN_OFFERS() {
-    GEN_OFFER (genOfferData.xmlBuilder())
+  def builder = new StreamingMarkupBuilder()
+  def xml = builder.bind() {
+    GEN_OFFERS() {
+      GEN_OFFER(genOfferData.xmlBuilder())
+    }
   }
 }
+
+
 
 

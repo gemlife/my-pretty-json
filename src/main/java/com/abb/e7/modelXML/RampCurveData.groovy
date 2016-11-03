@@ -3,19 +3,22 @@ package com.abb.e7.modelXML
 import groovy.xml.MarkupBuilder
 
 class RampCurveData {
+  def segmentNumber
+  def rampMW = "1"
+  def rampRateUp = "21"
+  def rampRateDown = "22"
+  def rampRateBiDirectional = "2"
 
-
-  def writer = new StringWriter()
-  def builder = new MarkupBuilder(writer)
+  def builder = new MarkupBuilder()
 
   def xmlBuilder() {
     return {
          SEGMENT() {
-          SEG_NUM("2")
-          RAMP_MW("1")
-          RAMP_RATE_UP("21")
-          RAMP_RATE_DOWN("22")
-          RAMP_RATE_BIDIRECTIONAL("2")
+          SEG_NUM(segmentNumber)
+          RAMP_MW(rampMW)
+          RAMP_RATE_UP(rampRateUp)
+          RAMP_RATE_DOWN(rampRateDown)
+          RAMP_RATE_BIDIRECTIONAL(rampRateBiDirectional)
         }
       }
   }

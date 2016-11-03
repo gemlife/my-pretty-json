@@ -22,8 +22,7 @@ class DailiesData {
   def userComments = "Daily comment"
 
 
-  def writer = new StringWriter()
-  def builder = new MarkupBuilder(writer)
+  def builder = new MarkupBuilder()
 
   def xmlBuilder() {
     return {

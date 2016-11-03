@@ -4,8 +4,8 @@ import groovy.xml.MarkupBuilder
 
 class AsOfferData {
 
-  def writer = new StringWriter()
-  def builder = new MarkupBuilder(writer)
+//  def writer = new StringWriter()
+  def builder = new MarkupBuilder()
 
   def xmlBuilder() {
     return {
