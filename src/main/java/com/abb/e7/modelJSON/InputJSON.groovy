@@ -30,11 +30,6 @@ class InputJSON {
              def market = marketParameters.buildMPInputJSON()
              'MarketParameters' market
              'InputData' inputData
-//                 {[
-//                 'UnitCharacteristic': unitCharacteristic,
-//                 'PeriodsData': periodsData,
-//                 'BidLibraryPeriodsData': bidLibraryArray
-//             ]}
            }]
     } as JsonBuilder
   }

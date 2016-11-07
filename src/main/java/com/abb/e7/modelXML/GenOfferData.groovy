@@ -9,19 +9,19 @@ class GenOfferData {
   def operatingDay = "2014-01-01"
   def clearingCode = "BOTH"
   def dailiesData = new DailiesData()
-  def hourliesData = new HourliesData()
+  def hourliesData = [new HourliesData()]
 
   def xml = new MarkupBuilder()
 
   def xmlBuilder() {
     xml = {
-        ACTION (action)
-        PTCPT_CD(participantCode)
-        TX_PT(asset)
-        OPERATING_DAY(operatingDay)
-        CLRG_CD(clearingCode)
-        DAILIES(dailiesData.xmlBuilder())
-        HOURLIES(hourliesData.xmlBuilder())
-      }
+      ACTION(action)
+      PTCPT_CD(participantCode)
+      TX_PT(asset)
+      OPERATING_DAY(operatingDay)
+      CLRG_CD(clearingCode)
+      DAILIES([dailiesData.xmlBuilder()])
+      hoursData (hourliesData.builder)
     }
   }
+}

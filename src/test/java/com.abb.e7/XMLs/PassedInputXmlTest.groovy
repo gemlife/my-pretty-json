@@ -1,25 +1,55 @@
 import com.abb.e7.core.NMarketService
+import com.abb.e7.modelXML.AsOfferData
+import com.abb.e7.modelXML.DailiesData
+import com.abb.e7.modelXML.EnergyOfferData
 import com.abb.e7.modelXML.GenOfferData
 import com.abb.e7.modelXML.HourliesData
 import com.abb.e7.modelXML.InputXML
-import groovy.xml.XmlUtil
+import com.abb.e7.modelXML.RampCurveData
 import io.restassured.path.xml.XmlPath
 import org.junit.Test
 
 class PassedInputXmlTest {
+  def energyOffers = new EnergyOfferData(
+      mw: ["50", "100", "150", "300"],
+      sn: ["1", "2", "3", "4"],
+      pr: ["20", "22", "25", "30"]
+  )
+  def asOfferData = new AsOfferData()
+  def rampCurveData = new RampCurveData()
+  def dailiesData = new DailiesData()
 
-  def hourFirst = new HourliesData(
+  def firstHour = new HourliesData(
       operatingHour: "2014-01-01T02:00:00-05:00",
       commitmentStatus: "ECONOMIC",
-      userComment: "NOT DEFAult Comment"
+      userComment: "NOT Default Comment",
+      energyOffersData: energyOffers,
+      asOfferData: asOfferData,
+      rampCurveData: rampCurveData,
+  )
+  def secondHour = new HourliesData(
+      operatingHour: "2014-01-01T03:00:00-05:00",
+      commitmentStatus: "ECONOMIC",
+      userComment: "NOT Comment",
+      energyOffersData: energyOffers,
+      asOfferData: asOfferData,
+      rampCurveData: rampCurveData,
+  )
+  def thirdHour = new HourliesData(
+      operatingHour: "2014-01-01T04:00:00-05:00",
+      commitmentStatus: "ECONOMIC",
+      userComment: "NOT Comment",
+      energyOffersData: energyOffers,
+      asOfferData: asOfferData,
+      rampCurveData: rampCurveData,
   )
   def offerFirst = new GenOfferData(
-      hourliesData: (hourFirst.xmlBuilder()),
-      action: ("INSERT")
+      hourliesData: [(firstHour.xmlBuilder()), (secondHour.xmlBuilder()), (thirdHour.xmlBuilder())],
+      dailiesData: dailiesData.xmlBuilder(),
+      action: "INSERT",
   )
   def genOffers = new InputXML(
       genOfferData: offerFirst.xmlBuilder(),
-//      hourliesData: hourFirst.xmlBuilder()
   )
   def xmlResult = genOffers.xml
 

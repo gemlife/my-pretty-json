@@ -5,7 +5,6 @@ import groovy.json.JsonBuilder
 class UnitData {
 
   def unitCharacteristic = new UnitParameters()
-//  def inputData
   def periodsData = []
   def bidLibraryArray = []
 

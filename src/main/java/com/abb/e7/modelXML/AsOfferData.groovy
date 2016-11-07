@@ -4,35 +4,19 @@ import groovy.xml.MarkupBuilder
 
 class AsOfferData {
 
-//  def writer = new StringWriter()
+  def tp = ["SPIN", "SUPP_ON", "SUPP_OFF"]
+  def pr = ["10.1", "11.1", "12.3", "15.0"]
+  def smw = ["15.1", "15.1", "16.1", "17.1"]
+  def ds = ["ECONOMIC", "SELFSCHEDULE", "EMERGENCY", "NOTQUALIFIED"]
+
   def builder = new MarkupBuilder()
 
   def xmlBuilder() {
     return {
       AS_OFFER() {
-        TYPE("REG")
-        PRICE("10.1")
-        MILEAGE_PRICE("100.11")
-        SELF_SCHEDULE_MW("15.1")
-        DISPATCH_STATUS("ECONOMIC")
-      }
-      AS_OFFER() {
-        TYPE("SPIN")
-        PRICE("11.1")
-        SELF_SCHEDULE_MW("15.1")
-        DISPATCH_STATUS("SELFSCHEDULE")
-      }
-      AS_OFFER() {
-        TYPE("SUPP_ON")
-        PRICE("12.1")
-        SELF_SCHEDULE_MW("16.1")
-        DISPATCH_STATUS("EMERGENCY")
-      }
-      AS_OFFER() {
-        TYPE("SUPP_OFF")
-        PRICE("13.1")
-        SELF_SCHEDULE_MW("17.1")
-        DISPATCH_STATUS("NOTQUALIFIED")
+        [ tp, pr, smw, ds].transpose().collect {
+          [TYPE(it[0]), PRICE(it[1]), SELF_SCHEDULE_MW(it[2]), DISPATCH_STATUS(it[3])]
+        }
       }
     }
   }

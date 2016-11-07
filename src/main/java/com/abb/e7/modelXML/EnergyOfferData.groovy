@@ -4,8 +4,10 @@ import groovy.xml.MarkupBuilder
 
 class EnergyOfferData {
 
-//  def writer = new StringWriter()
   def builder = new MarkupBuilder()
+  def mw = ["50", "100", "150", "300"]
+  def sn = ["1", "2", "3", "4"]
+  def pr = ["20", "22", "25", "30"]
 
   def xmlBuilder() {
     return {
@@ -14,14 +16,7 @@ class EnergyOfferData {
       SELF_SCHEDULE_MW("66.6")
       ENERGY_CURVE() {
         ENERGY_SEGMENT() {
-          SEG_NUM("1")
-          OFFER_MW("2")
-          PRICE("3")
-        }
-        ENERGY_SEGMENT() {
-          SEG_NUM("2")
-          OFFER_MW("3")
-          PRICE("4")
+          [sn, mw, pr].transpose().collect{[SEG_NUM(it[0]), OFFER_MW(it[1]), PRICE(it[2]) ]}
         }
       }
     }

@@ -1,11 +1,14 @@
 package com.abb.e7.modelXML
 
 import groovy.xml.MarkupBuilder
+import groovy.xml.StreamingMarkupBuilder
 
 class HourliesData {
   def energyOffersData = new EnergyOfferData()
   def asOfferData = new AsOfferData()
   def rampCurveData = new RampCurveData()
+  def firstHour, secondHour, thirdHour
+
   def operatingHour = "2014-01-01T01:00:00-05:00"
   def commitmentStatus = "ECONOMIC"
   def coldStartupTime = "120"
@@ -32,38 +35,40 @@ class HourliesData {
   def extID = "0001"
   def userComment = "Default Comment for Test"
 
-  def builder = new MarkupBuilder()
+  def builder = new StreamingMarkupBuilder()
 
   def xmlBuilder() {
-    return {
-      OPERATING_HOUR(operatingHour)
-      COMMITMENT_STATUS(commitmentStatus)
-      COLD_STARTUP_TIME(coldStartupTime)
-      INTER_STARTUP_TIME(interStartupTime)
-      HOT_STARTUP_TIME(hotStartupTime)
-      COLD_NOTIF_TIME(coldNotIfTime)
-      INTER_NOTIF_TIME(interNotIfTime)
-      HOT_NOTIF_TIME(hotNotIfTime)
-      MIN_EMERGENCY_LIMIT(minEmergencyLimit)
-      MAX_EMERGENCY_LIMIT(maxEmergencyLimit)
-      MIN_ECONOMIC_LIMIT(minEconomicLimit)
-      MAX_ECONOMIC_LIMIT(maxEconomicLimit)
-      MIN_REGULATION_LIMIT(minRegulationLimit)
-      MAX_REGULATION_LIMIT(maxRegulationLimit)
-      OFFLINE_RESOURCE_LIMIT(offlineResourceLimit)
-      RAMP_RATE(rampRate)
-      RAMP_RATE_BIDIRECTIONAL(rampRateBiDirectional)
-      RAMP_RATE_UP(rampRateUp)
-      RAMP_RATE_DOWN(rampRateDown)
-      RAMP_RATE_ENABLE_CURVE_FLG(rampRateEnableCurveFlg)
-      MAX_OFFLINE_SUPP_LIMIT(maxOfflineSuppLimit)
-      USE_SLOPE_FLG(useSlopeFlg)
-      ENERGY_OFFER(energyOffersData.xmlBuilder())
-      AS_OFFERS(asOfferData.xmlBuilder())
-      RAMP_CURVE(rampCurveData.xmlBuilder())
-      ROW_ID(rowID)
-      EXT_ID(extID)
-      USER_COMMENTS(userComment)
+    builder = {
+      HOURLIES() {
+        OPERATING_HOUR(operatingHour)
+        COMMITMENT_STATUS(commitmentStatus)
+        COLD_STARTUP_TIME(coldStartupTime)
+        INTER_STARTUP_TIME(interStartupTime)
+        HOT_STARTUP_TIME(hotStartupTime)
+        COLD_NOTIF_TIME(coldNotIfTime)
+        INTER_NOTIF_TIME(interNotIfTime)
+        HOT_NOTIF_TIME(hotNotIfTime)
+        MIN_EMERGENCY_LIMIT(minEmergencyLimit)
+        MAX_EMERGENCY_LIMIT(maxEmergencyLimit)
+        MIN_ECONOMIC_LIMIT(minEconomicLimit)
+        MAX_ECONOMIC_LIMIT(maxEconomicLimit)
+        MIN_REGULATION_LIMIT(minRegulationLimit)
+        MAX_REGULATION_LIMIT(maxRegulationLimit)
+        OFFLINE_RESOURCE_LIMIT(offlineResourceLimit)
+        RAMP_RATE(rampRate)
+        RAMP_RATE_BIDIRECTIONAL(rampRateBiDirectional)
+        RAMP_RATE_UP(rampRateUp)
+        RAMP_RATE_DOWN(rampRateDown)
+        RAMP_RATE_ENABLE_CURVE_FLG(rampRateEnableCurveFlg)
+        MAX_OFFLINE_SUPP_LIMIT(maxOfflineSuppLimit)
+        USE_SLOPE_FLG(useSlopeFlg)
+        ENERGY_OFFER(energyOffersData.xmlBuilder())
+        AS_OFFERS(asOfferData.xmlBuilder())
+        RAMP_CURVE(rampCurveData.xmlBuilder())
+        ROW_ID(rowID)
+        EXT_ID(extID)
+        USER_COMMENTS(userComment)
+      }
     }
   }
 }
