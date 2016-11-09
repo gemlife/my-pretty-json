@@ -1,6 +1,7 @@
 package com.abb.e7.modelXML
 
 import groovy.xml.MarkupBuilder
+import groovy.xml.StreamingMarkupBuilder
 
 class RampCurveData {
   def sn = ["1"]
@@ -9,13 +10,17 @@ class RampCurveData {
   def rrdown = ["22"]
   def rrbd = ["2"]
 
-  def builder = new MarkupBuilder()
+  def builder = new StreamingMarkupBuilder()
 
   def xmlBuilder() {
-    return {
-      SEGMENT() {
-        [sn, rmw, rrup, rrdown, rrbd].transpose().collect {
-          [SEG_NUM(it[0]), RAMP_MW(it[1]), RAMP_RATE_UP(it[2]), RAMP_RATE_DOWN(it[3]), RAMP_RATE_BIDIRECTIONAL(it[4])]
+    builder = {
+        [sn, rmw, rrup, rrdown, rrbd].transpose().collect { offer ->
+          SEGMENT {
+            SEG_NUM(offer[0])
+            RAMP_MW(offer[1])
+            RAMP_RATE_UP(offer[2])
+            RAMP_RATE_DOWN(offer[3])
+            RAMP_RATE_BIDIRECTIONAL(offer[4])
         }
       }
     }

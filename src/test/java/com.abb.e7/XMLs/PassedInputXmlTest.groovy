@@ -39,9 +39,9 @@ class PassedInputXmlTest {
       operatingHour: "2014-01-01T04:00:00-05:00",
       commitmentStatus: "ECONOMIC",
       userComment: "NOT Comment",
-      energyOffersData: energyOffers,
-      asOfferData: asOfferData,
-      rampCurveData: rampCurveData,
+      energyOffersData: energyOffers.xmlBuilder(),
+      asOfferData: asOfferData.xmlBuilder(),
+      rampCurveData: rampCurveData.xmlBuilder(),
   )
   def offerFirst = new GenOfferData(
       hourliesData: [(firstHour.xmlBuilder()), (secondHour.xmlBuilder()), (thirdHour.xmlBuilder())],

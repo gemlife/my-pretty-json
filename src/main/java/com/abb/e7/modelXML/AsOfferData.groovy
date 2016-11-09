@@ -1,6 +1,6 @@
 package com.abb.e7.modelXML
 
-import groovy.xml.MarkupBuilder
+import groovy.xml.StreamingMarkupBuilder
 
 class AsOfferData {
 
@@ -9,13 +9,16 @@ class AsOfferData {
   def smw = ["15.1", "15.1", "16.1", "17.1"]
   def ds = ["ECONOMIC", "SELFSCHEDULE", "EMERGENCY", "NOTQUALIFIED"]
 
-  def builder = new MarkupBuilder()
+  def builder = new StreamingMarkupBuilder()
 
   def xmlBuilder() {
-    return {
-      AS_OFFER() {
-        [ tp, pr, smw, ds].transpose().collect {
-          [TYPE(it[0]), PRICE(it[1]), SELF_SCHEDULE_MW(it[2]), DISPATCH_STATUS(it[3])]
+    builder = {
+      [tp, pr, smw, ds].transpose().collect() { offer ->
+        AS_OFFER {
+          TYPE(offer[0])
+          PRICE(offer[1])
+          SELF_SCHEDULE_MW(offer[2])
+          DISPATCH_STATUS(offer[3])
         }
       }
     }

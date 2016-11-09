@@ -1,5 +1,6 @@
 package com.abb.e7.core
 
+import groovy.xml.XmlUtil
 import io.restassured.RestAssured
 import io.restassured.response.Response
 import ru.qatools.properties.PropertyLoader
@@ -22,7 +23,10 @@ class NMarketService {
     }
 
     static def postWithLogging(builder) {
-        println builder
+        def xmlFormat = new XmlUtil().serialize(builder)
+        println xmlFormat
+//        grails.converters.default.pretty.print (builder)
+//        grails.converters.default.pretty.print (Boolean)
         post(builder)
 
     }

@@ -1,13 +1,11 @@
 package com.abb.e7.modelXML
 
-import groovy.xml.MarkupBuilder
 import groovy.xml.StreamingMarkupBuilder
 
 class HourliesData {
   def energyOffersData = new EnergyOfferData()
-  def asOfferData = new AsOfferData()
+  def asOfferData = [new AsOfferData()]
   def rampCurveData = new RampCurveData()
-  def firstHour, secondHour, thirdHour
 
   def operatingHour = "2014-01-01T01:00:00-05:00"
   def commitmentStatus = "ECONOMIC"
@@ -62,9 +60,9 @@ class HourliesData {
         RAMP_RATE_ENABLE_CURVE_FLG(rampRateEnableCurveFlg)
         MAX_OFFLINE_SUPP_LIMIT(maxOfflineSuppLimit)
         USE_SLOPE_FLG(useSlopeFlg)
-        ENERGY_OFFER(energyOffersData.xmlBuilder())
-        AS_OFFERS(asOfferData.xmlBuilder())
-        RAMP_CURVE(rampCurveData.xmlBuilder())
+        ENERGY_OFFER(energyOffersData.builder)
+        AS_OFFERS(asOfferData.builder)
+        RAMP_CURVE(rampCurveData.builder)
         ROW_ID(rowID)
         EXT_ID(extID)
         USER_COMMENTS(userComment)

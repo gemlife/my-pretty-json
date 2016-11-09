@@ -1,4 +1,4 @@
-package com.abb.e7.JSONs.SingleUnit.StartUpCost
+package SingleUnit.StartUpCost
 
 import com.abb.e7.core.SupplyCurveCalculationService
 import com.abb.e7.modelJSON.*
