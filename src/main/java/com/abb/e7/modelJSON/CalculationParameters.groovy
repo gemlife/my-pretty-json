@@ -17,6 +17,7 @@ class CalculationParameters {
   def shiftPrices = true
   def bidTacticSelfScheduledMW = false
 
+
   private def builder = new JsonBuilder()
 
   def buildCPInputJSON() {
@@ -33,6 +34,6 @@ class CalculationParameters {
       'PriceZero' priceZero
       'BidTacticSelfScheduledMW' bidTacticSelfScheduledMW
       'ShiftPrices' shiftPrices
-    }
+     }
   }
 }
