@@ -67,7 +67,7 @@ class Polynomial_WithStartUpCostTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -81,7 +81,7 @@ class Polynomial_WithStartUpCostTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -95,7 +95,7 @@ class Polynomial_WithStartUpCostTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -115,7 +115,7 @@ class Polynomial_WithStartUpCostTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^170\\.3(\\d+)",  "^215\\.6(\\d+)", "^275\\.9(\\d+)", "^275\\.9(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^131\\.3(\\d+)",  "^176\\.6(\\d+)", "^236\\.9(\\d+)", "^236\\.9(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["25\\.0", "83\\.3(\\d+)", "141\\.6(\\d+)", "200\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

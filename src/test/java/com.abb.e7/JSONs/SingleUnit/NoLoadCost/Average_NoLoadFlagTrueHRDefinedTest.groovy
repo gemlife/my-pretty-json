@@ -28,7 +28,7 @@ class Average_NoLoadFlagTrueHRDefinedTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
   )
@@ -37,7 +37,7 @@ class Average_NoLoadFlagTrueHRDefinedTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
 
@@ -47,7 +47,7 @@ class Average_NoLoadFlagTrueHRDefinedTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
   )
@@ -68,7 +68,7 @@ class Average_NoLoadFlagTrueHRDefinedTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^85\\.1(\\d+)", "^89\\.3(\\d+)", "^92\\.4(\\d+)", "^108\\.0(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^50\\.2(\\d+)", "^54\\.4(\\d+)", "^57\\.5(\\d+)", "^73\\.1(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

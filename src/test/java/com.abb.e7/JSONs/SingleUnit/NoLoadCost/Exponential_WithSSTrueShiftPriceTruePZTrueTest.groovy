@@ -7,7 +7,7 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Exponential_WithSSTrueShiftPriceTrueTest {
+class Exponential_WithSSTrueShiftPriceTruePZTrueTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: true,
@@ -15,6 +15,7 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       includeEmissionCost: true,
       includeStartupShutdownCost: true,
       selfScheduledMW: true,
+      priceZero: true,
   )
   def unitCharacteristic = new UnitParameters(
       incName: "Exponential",
@@ -70,7 +71,7 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       noLoadHeatRate: 450.0,
       generationPoint: 50.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
-      fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
+      fuelEmissionsArray: [[EM2.buildEMInputJSON(), EM3.buildEMInputJSON()], [EM3.buildEMInputJSON()], [EM1.buildEMInputJSON(), EM4.buildEMInputJSON()]],
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T09:00:00.000Z",
@@ -85,7 +86,7 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       coefficients: [325.0, 0.493, 0.009, 0.05],
       noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
-      fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
+      fuelEmissionsArray: [[EM2.buildEMInputJSON(), EM3.buildEMInputJSON()], [EM3.buildEMInputJSON()], [EM1.buildEMInputJSON(), EM4.buildEMInputJSON()]],
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T10:00:00.000Z",
@@ -100,15 +101,15 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       coefficients: [325.0, 0.493, 0.009, 0.05],
       noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
-      fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
+      fuelEmissionsArray: [[EM2.buildEMInputJSON(), EM3.buildEMInputJSON()], [EM3.buildEMInputJSON()], [EM1.buildEMInputJSON(), EM4.buildEMInputJSON()]],
   )
 
   def singleUnit = new UnitData(
       unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
-      periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      periodsData: [firstPeriod.buildPRInputJSON(), secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
   )
 
-  def json = new InputJSON (
+  def json = new InputJSON(
       calculationsParameters: calculationsParams,
       inputData: [singleUnit.buildSPInputJSON()]
   )
@@ -118,9 +119,9 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^37\\.0(\\d+)", "^38\\.0(\\d+)", "^58\\.0(\\d+)","^58\\.0(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^37\\.0(\\d+)", "^38\\.0(\\d+)", "^58\\.0(\\d+)","^58\\.0(\\d+)"]
-    def pricePatternsThirdBlock = ["^37\\.0(\\d+)", "^38\\.0(\\d+)", "^58\\.0(\\d+)","^58\\.0(\\d+)"]
+    def pricePatternsFistBlock = ["0.0", "^38\\.0(\\d+)", "^58\\.0(\\d+)", "^58\\.0(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["0.0", "^38\\.0(\\d+)", "^58\\.0(\\d+)", "^58\\.0(\\d+)"]
+    def pricePatternsThirdBlock = ["0.0", "^38\\.0(\\d+)", "^58\\.0(\\d+)", "^58\\.0(\\d+)"]
     def quantityPatternsFirstBlock = ["50\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsSecondBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsThirdBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]

@@ -63,9 +63,9 @@ class Incremental_WithSSTrueLastFirstBidTrueShiftPriceTrueTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: false,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
-      incMinCap: 50.0,
+      incMinCap: 100.0,
       generationPoint: 120.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
@@ -75,9 +75,9 @@ class Incremental_WithSSTrueLastFirstBidTrueShiftPriceTrueTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: false,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
-      incMinCap: 50.0,
+      incMinCap: 100.0,
       generationPoint: 0.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
@@ -88,9 +88,9 @@ class Incremental_WithSSTrueLastFirstBidTrueShiftPriceTrueTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: false,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
-      incMinCap: 50.0,
+      incMinCap: 100.0,
       generationPoint: 0.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
@@ -113,9 +113,9 @@ class Incremental_WithSSTrueLastFirstBidTrueShiftPriceTrueTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^120\\.5(\\d+)", "^122\\.5(\\d+)", "^126\\.4(\\d+)","^126\\.4(\\d+)"]as List<Pattern>
-    def pricePatternsSecondBlock = ["^120\\.3(\\d+)", "^122\\.3(\\d+)", "^126\\.2(\\d+)","^126\\.2(\\d+)"]
-    def pricePatternsThirdBlock = ["^120\\.3(\\d+)", "^122\\.3(\\d+)", "^126\\.2(\\d+)","^126\\.2(\\d+)"]
+    def pricePatternsFistBlock = ["^77\\.5(\\d+)", "^79\\.5(\\d+)", "^83\\.4(\\d+)","^83\\.4(\\d+)"]as List<Pattern>
+    def pricePatternsSecondBlock = ["^77\\.5(\\d+)", "^79\\.5(\\d+)", "^83\\.4(\\d+)","^83\\.4(\\d+)"]
+    def pricePatternsThirdBlock = ["^77\\.5(\\d+)", "^79\\.5(\\d+)", "^83\\.4(\\d+)","^83\\.4(\\d+)"]
     def quantityPatternsFirstBlock = ["120\\.0", "150\\.0", "225\\.0", "300\\.0"]
     def quantityPatternsSecondBlock = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]
     def quantityPatternsThirdBlock = ["75\\.0", "150\\.0", "225\\.0", "300\\.0"]

@@ -67,7 +67,7 @@ class Exponential_WithNoLoadAdderAndMultiplierTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       noLoadCostAdder: 100.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
@@ -82,7 +82,7 @@ class Exponential_WithNoLoadAdderAndMultiplierTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       noLoadCostMultiplier: 1.5,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
@@ -97,7 +97,7 @@ class Exponential_WithNoLoadAdderAndMultiplierTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       noLoadCostAdder: 100.0,
       noLoadCostMultiplier: 1.5,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
@@ -119,9 +119,9 @@ class Exponential_WithNoLoadAdderAndMultiplierTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^67\\.8(\\d+)", "^67\\.8(\\d+)", "^68\\.9(\\d+)", "^88\\.9(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^88\\.3(\\d+)", "^88\\.4(\\d+)", "^89\\.5(\\d+)", "^109\\.4(\\d+)"]
-    def pricePatternsThirdBlock = ["^88\\.8(\\d+)", "^88\\.9(\\d+)", "^90\\.0(\\d+)", "^110\\.0(\\d+)"]
+    def pricePatternsFistBlock = ["^39\\.5(\\d+)", "^39\\.6(\\d+)", "^40\\.7(\\d+)", "^60\\.7(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^42\\.8(\\d+)", "^42\\.9(\\d+)", "^44\\.0(\\d+)", "^64\\.0(\\d+)"]
+    def pricePatternsThirdBlock = ["^45\\.5(\\d+)", "^45\\.5(\\d+)", "^46\\.6(\\d+)", "^66\\.6(\\d+)"]
     def quantityPatternsFirstBlock = ["25\\.0", "83\\.3(\\d+)", "141\\.6(\\d+)", "200\\.0"] as List<Pattern>
     def quantityPatternsSecondBlock = ["25\\.0", "83\\.3(\\d+)", "141\\.6(\\d+)", "200\\.0"] as List<Pattern>
     def quantityPatternsThirdBlock = ["25\\.0", "83\\.3(\\d+)", "141\\.6(\\d+)", "200\\.0"] as List<Pattern>

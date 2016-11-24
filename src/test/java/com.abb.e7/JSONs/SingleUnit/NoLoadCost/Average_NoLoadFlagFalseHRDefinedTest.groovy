@@ -27,21 +27,21 @@ class Average_NoLoadFlagFalseHRDefinedTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T09:00:00",
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-07-28T10:00:00",
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def singleUnit = new UnitData(
       unitCharacteristic: unitCharacteristic.buildUCInputJSON(),

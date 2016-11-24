@@ -33,7 +33,7 @@ class Polynomial_NoLoadFlagFalseHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T09:00:00.000Z",
@@ -45,7 +45,7 @@ class Polynomial_NoLoadFlagFalseHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T10:00:00.000Z",
@@ -57,7 +57,7 @@ class Polynomial_NoLoadFlagFalseHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def singleUnit = new UnitData(
       unitCharacteristic: unitCharacteristic.buildUCInputJSON(),

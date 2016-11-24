@@ -7,7 +7,7 @@ import org.junit.Test
 
 import java.util.regex.Pattern
 
-class Exponential_WithSSTrueShiftPriceTrueTest {
+class Polynomial_WithSSTrueShiftPriceTruePZTrueTest {
 
   def calculationsParams = new CalculationParameters(
       shiftPrices: true,
@@ -15,9 +15,10 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       includeEmissionCost: true,
       includeStartupShutdownCost: true,
       selfScheduledMW: true,
+      priceZero: true,
   )
   def unitCharacteristic = new UnitParameters(
-      incName: "Exponential",
+      incName: "Polynomial",
   )
   def EM1 = new FuelEmissions(
       emissionId: "EM1",
@@ -59,15 +60,15 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       handlingCost: 2.0,
   )
   def firstPeriod = new PeriodsDataInput(
-      startFuels: startFuels,
-      fuels: fuels,
       mw: [],
       hr: [],
-      isPolynomialCoefficients: false,
+      startFuels: startFuels,
+      fuels: fuels,
+      isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
-      coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 450.0,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      noLoadHeatRate: 8000.0,
       generationPoint: 50.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
@@ -78,12 +79,12 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       fuels: fuels,
       mw: [],
       hr: [],
-      isPolynomialCoefficients: false,
+      isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
       generationPoint: 0.0,
-      coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 450.0,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      noLoadHeatRate: 8000.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -93,19 +94,19 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
       fuels: fuels,
       mw: [],
       hr: [],
-      isPolynomialCoefficients: false,
+      isPolynomialCoefficients: true,
       incMinCap: 25,
       incMaxCap: 200,
       generationPoint: 0.0,
-      coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 450.0,
+      coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
+      noLoadHeatRate: 8000.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
-
   def singleUnit = new UnitData(
       unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
       periodsData: [firstPeriod.buildPRInputJSON(),secondPeriod.buildPRInputJSON(), thirdPeriod.buildPRInputJSON()],
+      bidLibraryArray: []
   )
 
   def json = new InputJSON (
@@ -118,9 +119,9 @@ class Exponential_WithSSTrueShiftPriceTrueTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^37\\.0(\\d+)", "^38\\.0(\\d+)", "^58\\.0(\\d+)","^58\\.0(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^37\\.0(\\d+)", "^38\\.0(\\d+)", "^58\\.0(\\d+)","^58\\.0(\\d+)"]
-    def pricePatternsThirdBlock = ["^37\\.0(\\d+)", "^38\\.0(\\d+)", "^58\\.0(\\d+)","^58\\.0(\\d+)"]
+    def pricePatternsFistBlock = ["0.0)", "^176\\.9(\\d+)", "^237\\.2(\\d+)","^237\\.2(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["0.0", "^176\\.6(\\d+)", "^236\\.9(\\d+)","^236\\.9(\\d+)"]
+    def pricePatternsThirdBlock = ["0.0", "^176\\.6(\\d+)", "^236\\.9(\\d+)","^236\\.9(\\d+)"]
     def quantityPatternsFirstBlock = ["50\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsSecondBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsThirdBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]

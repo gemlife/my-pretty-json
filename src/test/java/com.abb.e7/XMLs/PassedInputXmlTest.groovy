@@ -1,3 +1,5 @@
+package com.abb.e7.XMLs
+
 import com.abb.e7.core.NMarketService
 import com.abb.e7.modelXML.AsOfferData
 import com.abb.e7.modelXML.DailiesData
@@ -15,6 +17,7 @@ class PassedInputXmlTest {
       sn: ["1", "2", "3", "4"],
       pr: ["20", "22", "25", "30"]
   )
+
   def asOfferData = new AsOfferData()
   def rampCurveData = new RampCurveData()
   def dailiesData = new DailiesData()

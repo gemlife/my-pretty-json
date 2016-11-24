@@ -60,7 +60,7 @@ class Average_WithNoLoadAdderAndMultiplierTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       noLoadCostAdder: 100.0,
@@ -72,7 +72,7 @@ class Average_WithNoLoadAdderAndMultiplierTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       noLoadCostMultiplier: 1.5,
@@ -85,7 +85,7 @@ class Average_WithNoLoadAdderAndMultiplierTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       noLoadCostAdder: 100.0,
@@ -110,9 +110,9 @@ class Average_WithNoLoadAdderAndMultiplierTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^117\\.4(\\d+)", "^122\\.7(\\d+)", "^126\\.6(\\d+)", "^146\\.3(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^142\\.2(\\d+)", "^147\\.4(\\d+)", "^151\\.4(\\d+)", "^171\\.1(\\d+)"]
-    def pricePatternsThirdBlock = ["^142\\.8(\\d+)", "^148\\.1(\\d+)", "^152\\.0(\\d+)", "^171\\.7(\\d+)"]
+    def pricePatternsFistBlock = ["^76\\.0(\\d+)", "^81\\.2(\\d+)", "^85\\.2(\\d+)", "^104\\.9(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^78\\.2(\\d+)", "^83\\.6(\\d+)", "^87\\.4(\\d+)", "^107\\.2(\\d+)"]
+    def pricePatternsThirdBlock = ["^80\\.1(\\d+)", "^85\\.3(\\d+)", "^89\\.3(\\d+)", "^109\\.0(\\d+)"]
     def quantityPatternsFirstBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
     def quantityPatternsSecondBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
     def quantityPatternsThirdBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]

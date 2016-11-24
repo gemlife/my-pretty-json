@@ -34,7 +34,7 @@ class Exponential_NoLoadFlagTrueHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T09:00:00.000Z",
@@ -46,7 +46,7 @@ class Exponential_NoLoadFlagTrueHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T10:00:00.000Z",
@@ -58,7 +58,7 @@ class Exponential_NoLoadFlagTrueHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 0.493, 0.009, 0.05],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
 
   def singleUnit = new UnitData(
@@ -76,7 +76,7 @@ class Exponential_NoLoadFlagTrueHRDefinedTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^47\\.1(\\d+)", "^47\\.2(\\d+)", "^48\\.0(\\d+)", "^63\\.8(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^17\\.2(\\d+)", "^17\\.3(\\d+)", "^18\\.1(\\d+)", "^33\\.9(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

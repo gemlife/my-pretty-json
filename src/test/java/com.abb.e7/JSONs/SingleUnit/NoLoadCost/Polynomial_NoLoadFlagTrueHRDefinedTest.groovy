@@ -34,7 +34,7 @@ class Polynomial_NoLoadFlagTrueHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def secondPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T09:00:00.000Z",
@@ -46,7 +46,7 @@ class Polynomial_NoLoadFlagTrueHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def thirdPeriod = new PeriodsDataInput(
       dateOfPeriod: "2016-03-07T10:00:00.000Z",
@@ -58,7 +58,7 @@ class Polynomial_NoLoadFlagTrueHRDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
   )
   def singleUnit = new UnitData(
       unitCharacteristic: unitCharacteristic.buildUCInputJSON(),
@@ -76,7 +76,7 @@ class Polynomial_NoLoadFlagTrueHRDefinedTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^100\\.4(\\d+)", "^119\\.1(\\d+)", "^155\\.0(\\d+)", "^202\\.7(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^70\\.5(\\d+)", "^89\\.2(\\d+)", "^125\\.1(\\d+)", "^172\\.8(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["25\\.0", "83\\.3(\\d+)", "141\\.6(\\d+)", "200\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

@@ -59,7 +59,7 @@ class Incremental_WithNoLoadAdderAndMultiplierTest {
   def firstPeriod = new PeriodsDataInput(
       startFuels: startFuels,
       fuels: fuels,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       noLoadCostAdder: 100.0,
@@ -70,7 +70,7 @@ class Incremental_WithNoLoadAdderAndMultiplierTest {
       dateOfPeriod: "2016-07-28T09:00:00",
       startFuels: startFuels,
       fuels: fuels,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       noLoadCostMultiplier: 1.5,
@@ -82,7 +82,7 @@ class Incremental_WithNoLoadAdderAndMultiplierTest {
       dateOfPeriod: "2016-07-28T10:00:00",
       startFuels: startFuels,
       fuels: fuels,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       noLoadCostAdder: 100.0,
@@ -107,9 +107,9 @@ class Incremental_WithNoLoadAdderAndMultiplierTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^118\\.2(\\d+)", "^120\\.8(\\d+)", "^122\\.8(\\d+)", "^129\\.4(\\d+)"] as List<Pattern>
-    def pricePatternsSecondBlock = ["^143\\.0(\\d+)", "^145\\.6(\\d+)", "^147\\.6(\\d+)", "^154\\.2(\\d+)"]
-    def pricePatternsThirdBlock = ["^143\\.6(\\d+)", "^146\\.3(\\d+)", "^148\\.2(\\d+)", "^154\\.8(\\d+)"]
+    def pricePatternsFistBlock = ["^76\\.7(\\d+)", "^79\\.3(\\d+)", "^81\\.3(\\d+)", "^87\\.8(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^78\\.9(\\d+)", "^81\\.6(\\d+)", "^83\\.5(\\d+)", "^90\\.1(\\d+)"]
+    def pricePatternsThirdBlock = ["^80\\.7(\\d+)", "^83\\.4(\\d+)", "^85\\.3(\\d+)", "^91\\.9(\\d+)"]
     def quantityPatternsFirstBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
     def quantityPatternsSecondBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]
     def quantityPatternsThirdBlock = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"]

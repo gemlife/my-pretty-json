@@ -118,9 +118,9 @@ class Polynomial_WithSSTrueShiftPriceTrueTest {
   @Test
   public void post() {
 
-    def pricePatternsFistBlock = ["^179\\.5(\\d+)", "^216\\.7(\\d+)", "^277\\.0(\\d+)","^277\\.0(\\d+)"]as List<Pattern>
-    def pricePatternsSecondBlock = ["^170\\.3(\\d+)", "^215\\.6(\\d+)", "^275\\.9(\\d+)","^275\\.9(\\d+)"]
-    def pricePatternsThirdBlock = ["^170\\.3(\\d+)", "^215\\.6(\\d+)", "^275\\.9(\\d+)","^275\\.9(\\d+)"]
+    def pricePatternsFistBlock = ["^139\\.6(\\d+)", "^176\\.9(\\d+)", "^237\\.2(\\d+)","^237\\.2(\\d+)"] as List<Pattern>
+    def pricePatternsSecondBlock = ["^131\\.3(\\d+)", "^176\\.6(\\d+)", "^236\\.9(\\d+)","^236\\.9(\\d+)"]
+    def pricePatternsThirdBlock = ["^131\\.3(\\d+)", "^176\\.6(\\d+)", "^236\\.9(\\d+)","^236\\.9(\\d+)"]
     def quantityPatternsFirstBlock = ["50\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsSecondBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]
     def quantityPatternsThirdBlock = ["25\\.0", "83\\.(\\d+)", "141\\.(\\d+)", "200\\.0"]

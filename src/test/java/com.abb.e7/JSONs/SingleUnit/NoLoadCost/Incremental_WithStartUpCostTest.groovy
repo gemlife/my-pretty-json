@@ -60,9 +60,9 @@ class Incremental_WithStartUpCostTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: false,
-      noLoadHeatRate: 8000.0,
-      incMaxCap: 350.0,
-      incMinCap: 50.0,
+      noLoadHeatRate: 450.0,
+      incMaxCap: 250.0,
+      incMinCap: 100.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -71,9 +71,9 @@ class Incremental_WithStartUpCostTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: false,
-      noLoadHeatRate: 8000.0,
-      incMaxCap: 350.0,
-      incMinCap: 50.0,
+      noLoadHeatRate: 450.0,
+      incMaxCap: 250.0,
+      incMinCap: 100.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
 
@@ -83,9 +83,9 @@ class Incremental_WithStartUpCostTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: false,
-      noLoadHeatRate: 8000.0,
-      incMaxCap: 350.0,
-      incMinCap: 50.0,
+      noLoadHeatRate: 450.0,
+      incMaxCap: 250.0,
+      incMinCap: 100.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
 
@@ -107,8 +107,8 @@ class Incremental_WithStartUpCostTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^119\\.2(\\d+)", "^121\\.8(\\d+)", "^123\\.8(\\d+)","^130\\.3(\\d+)"] as List<Pattern>
-    List<Pattern> quantityPatterns = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^83\\.2(\\d+)", "^84\\.6(\\d+)", "^86\\.5(\\d+)","^87\\.8(\\d+)"] as List<Pattern>
+    List<Pattern> quantityPatterns = ["100\\.0", "150\\.0", "225\\.0", "250\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
     def priceArray = JsonPath.from(body).get("Results.PQPairs.Blocks.Price")

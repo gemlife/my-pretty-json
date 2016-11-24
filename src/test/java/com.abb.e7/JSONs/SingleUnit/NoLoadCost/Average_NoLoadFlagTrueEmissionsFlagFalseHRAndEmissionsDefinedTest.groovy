@@ -58,7 +58,7 @@ class Average_NoLoadFlagTrueEmissionsFlagFalseHRAndEmissionsDefinedTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
@@ -69,7 +69,7 @@ class Average_NoLoadFlagTrueEmissionsFlagFalseHRAndEmissionsDefinedTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
@@ -81,7 +81,7 @@ class Average_NoLoadFlagTrueEmissionsFlagFalseHRAndEmissionsDefinedTest {
       startFuels: startFuels,
       fuels: fuels,
       isAverageHeatRate: true,
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       incMaxCap: 350.0,
       incMinCap: 50.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
@@ -104,7 +104,7 @@ class Average_NoLoadFlagTrueEmissionsFlagFalseHRAndEmissionsDefinedTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^95\\.6(\\d+)", "^100\\.6(\\d+)", "^104\\.4(\\d+)", "^123\\.1(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^60\\.7(\\d+)", "^65\\.7(\\d+)", "^69\\.4(\\d+)", "^88\\.2(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["50\\.0", "150\\.0", "225\\.0", "350\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)

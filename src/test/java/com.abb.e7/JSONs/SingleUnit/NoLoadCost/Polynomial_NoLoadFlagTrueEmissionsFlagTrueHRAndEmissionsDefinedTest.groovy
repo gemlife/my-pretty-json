@@ -65,7 +65,7 @@ class Polynomial_NoLoadFlagTrueEmissionsFlagTrueHRAndEmissionsDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -79,7 +79,7 @@ class Polynomial_NoLoadFlagTrueEmissionsFlagTrueHRAndEmissionsDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -93,7 +93,7 @@ class Polynomial_NoLoadFlagTrueEmissionsFlagTrueHRAndEmissionsDefinedTest {
       incMinCap: 25,
       incMaxCap: 200,
       coefficients: [325.0, 9.902258853, 0.030989779, 0.000112221],
-      noLoadHeatRate: 8000.0,
+      noLoadHeatRate: 450.0,
       stationEmissionsArray: [EM1.buildEMInputJSON(), EM2.buildEMInputJSON()],
       fuelEmissionsArray: [[EM2.buildEMInputJSON(),EM3.buildEMInputJSON()],[EM3.buildEMInputJSON()],[EM1.buildEMInputJSON(),EM4.buildEMInputJSON()]],
   )
@@ -113,7 +113,7 @@ class Polynomial_NoLoadFlagTrueEmissionsFlagTrueHRAndEmissionsDefinedTest {
   @Test
   public void post() {
 
-    List<Pattern> pricePatterns = ["^130\\.2(\\d+)", "^153\\.8(\\d+)", "^199\\.1(\\d+)", "^259\\.4(\\d+)"] as List<Pattern>
+    List<Pattern> pricePatterns = ["^91\\.2(\\d+)", "^114\\.9(\\d+)", "^160\\.1(\\d+)", "^220\\.4(\\d+)"] as List<Pattern>
     List<Pattern> quantityPatterns = ["25\\.0", "83\\.3(\\d+)", "141\\.6(\\d+)", "200\\.0"] as List<Pattern>
 
     String body = SupplyCurveCalculationService.postWithLogging(inputJson)
